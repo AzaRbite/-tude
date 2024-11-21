@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>État d'Esprit - Questionnaire</title>
+    <title>État d'Esprit - Questionnaire Dynamique</title>
 </head>
 <body>
     <header>
@@ -12,44 +12,34 @@
     </header>
     <main>
         <div class="content">
-            <h2>Associez la couleur à l'état d'esprit :</h2>
+            <h2>Répondez aux questions suivantes :</h2>
             <div id="quiz">
-                <!-- Question 1: Couleur à l'état d'esprit -->
+                <!-- Question 1: Couleur au Nom -->
                 <div class="question">
-                    <p>Quel est l'état d'esprit associé à la couleur <strong>Blanc</strong> ?</p>
-                    <select id="q1">
-                        <option value="">Sélectionnez une réponse</option>
-                        <option value="Inconscience du danger">Inconscience du danger</option>
-                        <option value="Lutte">Lutte</option>
-                        <option value="Panique">Panique</option>
-                    </select>
+                    <p>Quelle couleur correspond à <strong>Inconscience du danger</strong>?</p>
+                    <div>
+                        <label><input type="checkbox" name="q1" value="Blanc"> Blanc</label>
+                        <label><input type="checkbox" name="q1" value="Jaune"> Jaune</label>
+                        <label><input type="checkbox" name="q1" value="Rouge"> Rouge</label>
+                    </div>
+                    <button onclick="checkAnswer('q1', 'Blanc')">Vérifier</button>
+                    <div class="result" id="result-q1"></div>
                 </div>
 
-                <!-- Question 2: État d'esprit à la couleur -->
+                <!-- Question 2: Nom à la Couleur -->
                 <div class="question">
-                    <p>Quelle couleur est associée à <strong>Lutte</strong> ?</p>
-                    <select id="q2">
-                        <option value="">Sélectionnez une réponse</option>
-                        <option value="Blanc">Blanc</option>
-                        <option value="Rouge">Rouge</option>
-                        <option value="Noir">Noir</option>
-                    </select>
+                    <p>Quel état d'esprit est associé à la couleur <strong>Noir</strong>?</p>
+                    <div>
+                        <label><input type="checkbox" name="q2" value="Panique"> Panique</label>
+                        <label><input type="checkbox" name="q2" value="Préparation au danger"> Préparation au danger</label>
+                        <label><input type="checkbox" name="q2" value="Détente"> Détente</label>
+                    </div>
+                    <button onclick="checkAnswer('q2', 'Panique')">Vérifier</button>
+                    <div class="result" id="result-q2"></div>
                 </div>
 
-                <!-- Question 3: Définition et choix de réponse -->
-                <div class="question">
-                    <p>Quel est l'état d'esprit : Réaction en vue de maîtriser la menace de danger immédiat ?</p>
-                    <select id="q3">
-                        <option value="">Sélectionnez une réponse</option>
-                        <option value="Jaune">Jaune</option>
-                        <option value="Rouge">Rouge</option>
-                        <option value="Orange">Orange</option>
-                    </select>
-                </div>
-
-                <button onclick="checkAnswers()">Vérifier les réponses</button>
+                <!-- Ajoutez d'autres questions ici selon les besoins --!>
             </div>
-            <div id="results"></div>
         </div>
     </main>
     <script src="script.js"></script>
