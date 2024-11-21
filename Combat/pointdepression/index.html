@@ -8,27 +8,33 @@
 </head>
 <body>
     <header>
-        <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combats</button>
-        <h1>Test de l'Interactivité du Point Infra-orbital</h1>
-        <span id="question-counter">Question 1/10</span>
+        <button class="back-button" onclick="window.location.href='/combats';">Retour à Combats</button>
+        <h1>Test de l'Interactivité des Points</h1>
+        <span id="question-counter">Question 1/2</span>
     </header>
     <main>
         <div class="content">
-            <div class="question">
+            <div id="question1" class="question">
                 <p>Où se trouve le point Infra-orbital ?</p>
+                <div class="choice-container">
+                    <label>
+                        <input type="radio" name="choice1" value="point1">
+                        Option 1
+                    </label>
+                    <label>
+                        <input type="radio" name="choice1" value="point2">
+                        Option 2
+                    </label>
+                </div>
+                <button onclick="checkAnswer('choice1', 'Infra-orbital')">Valider</button>
             </div>
-            <div class="choice-container">
-                <label>
-                    <input type="radio" name="choice" value="1">
-                    Option 1
-                </label>
-                <label>
-                    <input type="radio" name="choice" value="2">
-                    Option 2
-                </label>
+
+            <div id="question2" class="question" style="display: none;">
+                <p>Identifiez le point affiché (nom ID du point) :</p>
+                <input type="text" id="answerInput" placeholder="Entrez le nom du point">
+                <button onclick="checkTextAnswer('answerInput', 'Infra-orbital')">Valider</button>
             </div>
         </div>
-        <!-- Utilisation de la balise <embed> pour afficher le SVG -->
         <embed id="svgImg" src="Body2.svg" type="image/svg+xml"></embed>
     </main>
     <script src="script.js"></script>
