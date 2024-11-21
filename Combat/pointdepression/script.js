@@ -8,198 +8,177 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const compteur = document.getElementById("compteur");
-        if (!compteur) {
-            console.error("Élément 'compteur' introuvable dans le DOM.");
-            return;
-        }
-
-        const container = document.getElementById("questionnaire");
-        if (!container) {
-            console.error("Élément 'questionnaire' introuvable dans le DOM.");
-            return;
-        }
-
         const pointsDePression = [
             { nom: "Infra-orbital", ids: ["Infra-orbital"] },
+            { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
             { nom: "Jugulaire", ids: ["Jugulaire"] },
+            { nom: "Médian", ids: ["Median", "Median2"] },
             { nom: "Fémoral", ids: ["Femoral", "Femoral2"] },
             { nom: "Tibial", ids: ["Tibial", "Tibial2"] },
+            { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"] },
+            { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"] },
+            { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"] },
+            { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"] },
+            { nom: "Radial", ids: ["Radial", "Radial2"] },
             { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
+            { nom: "Sciatique", ids: ["Sciatique", "Sciatique2"] },
+            { nom: "Derrière le lobe d'oreille", ids: ["LobeOreille", "LobeOreille2"] },
+            { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
 
-        const templatesDeQuestions = [
-            {
-                texte: (point) => `Cliquez sur le point ${point.nom}.`,
-                type: "nommer",
-            },
-            {
-                texte: () => "Identifiez le point rouge visible.",
-                type: "identifier",
-            },
-            {
-                texte: () => "Quel est ce point ?",
-                type: "choix",
-            },
-        ];
-
-        let questions = [];
         let currentQuestionIndex = 0;
+        const maxQuestions = 10;
 
-        function genererQuestionsAleatoires(nombre) {
-            questions = [];
-            for (let i = 0; i < nombre; i++) {
-                const point = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
-                const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
-
-                const question = {
-                    texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
-                    type: template.type,
-                    ids: point.ids,
-                };
-
-                if (template.type === "choix") {
-                    question.options = pointsDePression
-                        .map((p) => p.nom)
-                        .sort(() => Math.random() - 0.5)
-                        .slice(0, 3);
-                    if (!question.options.includes(point.nom)) {
-                        question.options.push(point.nom);
+        function cacherTousLesPoints() {
+            pointsDePression.forEach(point => {
+                point.ids.forEach(id => {
+                    const element = svgDoc.getElementById(id);
+                    if (element) {
+                        element.style.fillOpacity = 0;
+                        element.style.cursor = "default";
                     }
-                    question.options.sort(() => Math.random() - 0.5);
-                }
-
-                questions.push(question);
-            }
+                });
+            });
         }
 
         function manipulerPoint(pointId, estActif) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
                 point.style.fillOpacity = estActif ? 1 : 0;
-                point.style.fill = estActif ? "red" : "none";
-                point.style.cursor = estActif ? "pointer" : "";
-            } else {
-                console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
+                point.style.fill = "red";
+                point.style.cursor = estActif ? "pointer" : "default";
             }
-        }
-
-        function cacherTousLesPoints() {
-            pointsDePression.forEach((point) => {
-                point.ids.forEach((id) => manipulerPoint(id, false));
-            });
         }
 
         function afficherQuestion(index) {
-            cacherTousLesPoints();
-
-            if (index >= questions.length) {
-                container.innerHTML = "Quiz terminé ! Félicitations !";
-                return;
-            }
-
-            const question = questions[index];
-            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
-            container.innerHTML = "";
-
-            const questionDiv = document.createElement("div");
-            questionDiv.textContent = question.texte;
-            container.appendChild(questionDiv);
+            const container = document.getElementById("questionnaire");
+            container.innerHTML = ""; // Réinitialiser le conteneur
 
             const feedbackDiv = document.createElement("div");
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
+            const questionCounter = document.getElementById("question-counter");
+            questionCounter.textContent = `Question ${index + 1}/${maxQuestions}`;
+
+            const question = genererQuestionAleatoire();
+            const questionDiv = document.createElement("div");
+            questionDiv.textContent = question.texte;
+            container.appendChild(questionDiv);
+
+            cacherTousLesPoints();
+
             if (question.type === "nommer") {
                 svgDoc.addEventListener("click", gererCliqueNommer);
             } else if (question.type === "identifier") {
-                question.ids.forEach((id) => manipulerPoint(id, true));
-                afficherChampDeSaisie(question);
+                question.ids.forEach(id => manipulerPoint(id, true));
+                svgDoc.addEventListener("click", gererCliqueIdentifier);
             } else if (question.type === "choix") {
-                question.ids.forEach((id) => manipulerPoint(id, true));
+                question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChoix(question);
             }
+
+            // Sauvegarder la question active
+            container.dataset.question = JSON.stringify(question);
         }
 
         function gererCliqueNommer(e) {
-            const question = questions[currentQuestionIndex];
+            const question = JSON.parse(document.getElementById("questionnaire").dataset.question);
             if (question.ids.includes(e.target.id)) {
-                donnerFeedback("Bonne réponse !", "#4caf50");
+                donnerFeedback("Bonne réponse !", "#4caf50");
                 avancerQuestion();
             } else {
-                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                donnerFeedback("Mauvaise réponse, essayez encore !", "#ff4c4c");
             }
         }
 
-        function afficherChampDeSaisie(question) {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Entrez votre réponse...";
-
-            const button = document.createElement("button");
-            button.textContent = "Valider";
-
-            button.onclick = () => {
-                const reponseCorrecte = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-
-                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
-                    avancerQuestion();
-                } else {
-                    donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
-                }
-            };
-
-            container.appendChild(input);
-            container.appendChild(button);
-        }
-
-      function afficherChoix(question) {
-    const feedbackDiv = document.getElementById("feedback");
-    feedbackDiv.innerHTML = ""; // Réinitialiser le feedback
-
-    // Créer la liste des choix
-    const ul = document.createElement("ul");
-    ul.className = "choix-liste"; // Appliquer le style de la liste
-
-    question.options.forEach(option => {
-        const li = document.createElement("li");
-        li.textContent = option;
-
-        li.onclick = () => {
-            if (option.toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
-                li.classList.add("correct"); // Style pour la bonne réponse
+        function gererCliqueIdentifier(e) {
+            const question = JSON.parse(document.getElementById("questionnaire").dataset.question);
+            if (question.ids.includes(e.target.id)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
-                setTimeout(() => avancerQuestion(), 1500); // Passer à la question suivante après un délai
+                question.ids.forEach(id => manipulerPoint(id, true)); // Afficher le point correctement
+                avancerQuestion();
             } else {
-                li.classList.add("wrong"); // Style pour la mauvaise réponse
-                donnerFeedback("Mauvaise réponse. Essayez encore !", "#ff4c4c");
+                donnerFeedback("Mauvaise réponse, essayez encore !", "#ff4c4c");
             }
-        };
+        }
 
-        ul.appendChild(li);
-    });
+        function afficherChoix(question) {
+            const feedbackDiv = document.getElementById("feedback");
+            feedbackDiv.innerHTML = "";
 
-    feedbackDiv.appendChild(ul); // Ajouter la liste au DOM
-}
+            const ul = document.createElement("ul");
+            ul.className = "choix-liste";
 
+            question.options.forEach(option => {
+                const li = document.createElement("li");
+                li.textContent = option;
+
+                li.onclick = () => {
+                    if (option.toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
+                        li.classList.add("correct");
+                        donnerFeedback("Bonne réponse !", "#4caf50");
+                        setTimeout(() => avancerQuestion(), 1500);
+                    } else {
+                        li.classList.add("wrong");
+                        donnerFeedback("Mauvaise réponse. Essayez encore !", "#ff4c4c");
+                    }
+                };
+
+                ul.appendChild(li);
+            });
+
+            feedbackDiv.appendChild(ul);
+        }
 
         function donnerFeedback(message, couleur) {
-            const feedback = document.getElementById("feedback");
-            if (feedback) {
-                feedback.textContent = message;
-                feedback.style.color = couleur;
-            }
+            const feedbackDiv = document.getElementById("feedback");
+            feedbackDiv.textContent = message;
+            feedbackDiv.style.color = couleur;
         }
 
         function avancerQuestion() {
             currentQuestionIndex++;
-            afficherQuestion(currentQuestionIndex);
+            if (currentQuestionIndex < maxQuestions) {
+                afficherQuestion(currentQuestionIndex);
+            } else {
+                alert("Test terminé ! Bravo pour votre participation.");
+            }
         }
 
-        genererQuestionsAleatoires(10);
+        function genererQuestionAleatoire() {
+            const types = ["nommer", "identifier", "choix"];
+            const type = types[Math.floor(Math.random() * types.length)];
+
+            const point = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
+            const options = pointsDePression.map(p => p.nom);
+
+            if (type === "nommer") {
+                return {
+                    texte: `Cliquez sur le point ${point.nom}.`,
+                    type: "nommer",
+                    ids: point.ids,
+                };
+            } else if (type === "identifier") {
+                return {
+                    texte: `Identifiez le point de pression rouge visible.`,
+                    type: "identifier",
+                    ids: point.ids,
+                };
+            } else if (type === "choix") {
+                return {
+                    texte: `Quel est ce point ?`,
+                    type: "choix",
+                    ids: point.ids,
+                    options: melangerArray([point.nom, ...options.filter(o => o !== point.nom).slice(0, 3)]),
+                };
+            }
+        }
+
+        function melangerArray(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
         afficherQuestion(currentQuestionIndex);
     });
 });
