@@ -42,13 +42,24 @@ const questions = [
 
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
-let questionOrder = generateRandomOrder(questions.length).slice(0, 10);
+let questionOrder = generateNonRepeatingOrder(questions, 10);
 
-function generateRandomOrder(length) {
-    let order = Array.from(Array(length).keys());
-    for (let i = order.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [order[i], order[j]] = [order[j], order[i]];
+function generateNonRepeatingOrder(questions, length) {
+    const order = [];
+    const usedColors = new Set();
+    while (order.length < length) {
+        const randomIndex = Math.floor(Math.random() * questions.length);
+        const question = questions[randomIndex];
+        const color = question.question.match(/Blanc|Jaune|Orange|Rouge|Noir/)[0]; // Trouver la couleur mentionnée dans la question
+
+        if (!usedColors.has(color)) {
+            order.push(randomIndex);
+            usedColors.add(color);
+        }
+
+        if (usedColors.size >= 5) { // Limite pour éviter des boucles infinies si toutes les couleurs ont été utilisées
+            usedColors.clear();
+        }
     }
     return order;
 }
@@ -120,7 +131,7 @@ function endQuiz() {
 function restartQuiz() {
     currentQuestionIndex = 0;
     correctAnswers = 0;
-    questionOrder = generateRandomOrder(questions.length).slice(0, 10);
+    questionOrder = generateNonRepeatingOrder(questions, 10);
     showQuestion(currentQuestionIndex);
     document.querySelector('.navigation').style.display = 'flex';
     document.getElementById('results').innerHTML = '';
@@ -131,12 +142,12 @@ window.onload = () => {
     const counterDiv = document.createElement('div');
     counterDiv.id = 'question-counter';
     counterDiv.style.position = 'absolute';
-    counterDiv.style.top = '20px';
+    counterDiv.style.top = '50%';
+    counterDiv.style.transform = 'translateY(-50%)'; // Aligner avec le header
     counterDiv.style.right = '20px';
     counterDiv.style.color = '#ffffff';
-    counterDiv.style.fontSize = '1.2em';  // Ajuster la taille de la police
+    counterDiv.style.fontSize = '1.2em';  // Taille de la police
     counterDiv.style.fontWeight = 'bold'; // Mettre en gras
-    counterDiv.style.transform = 'translateY(-50%)'; // Pour aligner avec le header
     header.appendChild(counterDiv);
     
     showQuestion(currentQuestionIndex);
