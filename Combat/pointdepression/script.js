@@ -1,49 +1,42 @@
-document.addEventListener("DOMContentLoaded", function() {
-    var svgObject = document.getElementById("svgImg");
+// Liste des points de pression et leurs IDs
+const pointsDePression = [
+    { nom: "Infra-orbital", ids: ["Infra-orbital"] },
+    { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
+    { nom: "Jugulaire", ids: ["Jugulaire"] },
+    { nom: "Médian", ids: ["Median", "Median2"] },
+    { nom: "Fémoral", ids: ["Femoral", "Femoral2"] },
+    { nom: "Tibial", ids: ["Tibial", "Tibial2"] },
+    { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"] },
+    { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"] },
+    { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"] },
+    { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"] },
+    { nom: "Radial", ids: ["Radial", "Radial2"] },
+    { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
+    { nom: "Sciatique", ids: ["Sciatique", "Sciatique"] },
+    { nom: "Derrière le lobe d'oreille", ids: ["LobeOreille", "LobeOreille2"] },
+    { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] }
+];
 
-    svgObject.addEventListener("load", function() {
-        var svgDoc = svgObject.getSVGDocument();
-        var infraOrbitalPoint = svgDoc.getElementById("Infra-orbital");
-
-        // S'assurer que le point commence caché
-        infraOrbitalPoint.style.fillOpacity = 0;
-
-        function activatePoint() {
-            infraOrbitalPoint.style.fillOpacity = 1;
-            infraOrbitalPoint.style.fill = 'red'; // S'assurer que le point est rouge
-        }
-
-        var feedback1Element = document.getElementById("feedback1");
-
-        svgDoc.addEventListener("click", function(e) {
-            if (e.target === infraOrbitalPoint) {
-                feedback1Element.textContent = "Bonne réponse !";
-                feedback1Element.style.color = "#4caf50"; // Vert pour bonne réponse
-                activatePoint();
-                setTimeout(function() {
-                    document.getElementById("question1").style.display = "none";
-                    document.getElementById("question2").style.display = "block";
-                    feedback1Element.textContent = ""; // Réinitialiser le feedback
-                }, 4000); // Attendre 4 secondes avant de passer à la question suivante
-            } else {
-                feedback1Element.textContent = "Mauvaise réponse, réessayez !";
-                feedback1Element.style.color = "#ff4c4c"; // Rouge pour mauvaise réponse
-            }
-        });
-
-        // Assurez-vous que le point est visible pour la deuxième question
-        document.getElementById("question2").addEventListener('click', activatePoint);
-    });
-});
-
-function checkTextAnswer(inputId, correctAnswer) {
-    var answerInput = document.getElementById(inputId);
-    var feedbackElement = document.getElementById("question2-feedback");
-    if (answerInput.value.trim() === correctAnswer) {
-        feedbackElement.textContent = "Bonne réponse !";
-        feedbackElement.style.color = "#4caf50";
-    } else {
-        feedbackElement.textContent = "Mauvaise réponse, réessayez !";
-        feedbackElement.style.color = "#ff4c4c";
+// Fonction pour générer une question aléatoire
+function genererQuestionAleatoire() {
+    const typeQuestion = Math.floor(Math.random() * 3);
+    const pointAleatoire = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
+    
+    switch(typeQuestion) {
+        case 0: // Nommer le Point
+            console.log(`Nommez le point ${pointAleatoire.nom}.`);
+            // Logique pour cliquer sur le point dans le SVG
+            break;
+        case 1: // Identifier un Point
+            console.log(`Identifiez ce point de pression.`);
+            // Logique pour mettre en évidence le point dans le SVG et demander la saisie
+            break;
+        case 2: // Choix de Réponse
+            console.log(`Quel est ce point ?`);
+            // Logique pour mettre en évidence le point et proposer des choix
+            break;
     }
 }
+
+// Appel de la fonction pour tester
+genererQuestionAleatoire();
