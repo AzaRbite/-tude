@@ -13,21 +13,21 @@ document.addEventListener("DOMContentLoaded", function() {
             infraOrbitalPoint.style.fill = 'red'; // S'assurer que le point est rouge
         }
 
-        var feedbackElement = document.getElementById("feedback");
+        var feedback1Element = document.getElementById("feedback1");
 
         svgDoc.addEventListener("click", function(e) {
             if (e.target === infraOrbitalPoint) {
-                feedbackElement.textContent = "Bonne réponse !";
-                feedbackElement.style.color = "#4caf50"; // Vert pour bonne réponse
+                feedback1Element.textContent = "Bonne réponse !";
+                feedback1Element.style.color = "#4caf50"; // Vert pour bonne réponse
                 activatePoint();
                 setTimeout(function() {
                     document.getElementById("question1").style.display = "none";
                     document.getElementById("question2").style.display = "block";
-                    feedbackElement.textContent = ""; // Réinitialiser le feedback
+                    feedback1Element.textContent = ""; // Réinitialiser le feedback
                 }, 4000); // Attendre 4 secondes avant de passer à la question suivante
             } else {
-                feedbackElement.textContent = "Mauvaise réponse, réessayez !";
-                feedbackElement.style.color = "#ff4c4c"; // Rouge pour mauvaise réponse
+                feedback1Element.textContent = "Mauvaise réponse, réessayez !";
+                feedback1Element.style.color = "#ff4c4c"; // Rouge pour mauvaise réponse
             }
         });
 
