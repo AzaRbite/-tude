@@ -52,7 +52,7 @@ const questions = [
 ];
 
 let currentQuestionIndex = 0;
-const questionOrder = generateRandomOrder(questions.length);
+let questionOrder = generateRandomOrder(questions.length);
 
 function generateRandomOrder(length) {
     let order = Array.from(Array(length).keys());
@@ -77,36 +77,26 @@ function showQuestion(index) {
     questionData.choices.forEach(choice => {
         const choiceLabel = document.createElement('label');
         choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
+        choiceLabel.onclick = () => checkAnswer(questionOrder[index], choice);
         choiceContainer.appendChild(choiceLabel);
     });
-
-    const checkButton = document.createElement('button');
-    checkButton.textContent = 'Vérifier';
-    checkButton.onclick = () => checkAnswer(questionOrder[index]);
-    questionEl.appendChild(checkButton);
 
     quizDiv.appendChild(questionEl);
 }
 
-function checkAnswer(index) {
-    const selected = document.querySelector('input[name="question"]:checked');
+function checkAnswer(index, selectedValue) {
     const resultDiv = document.getElementById('results');
+    const isCorrect = selectedValue === questions[index].correct;
+    resultDiv.innerHTML = isCorrect ? '<p style="color: green;">Bonne réponse!</p>' : '<p style="color: red;">Mauvaise réponse, essayez encore.</p>';
     
-    if (selected) {
-        const isCorrect = selected.value === questions[index].correct;
-        resultDiv.innerHTML = isCorrect ? '<p style="color: green;">Bonne réponse!</p>' : '<p style="color: red;">Mauvaise réponse, essayez encore.</p>';
-        
-        if (isCorrect) {
-            setTimeout(() => {
-                if (currentQuestionIndex < questions.length - 1) {
-                    nextQuestion();
-                } else {
-                    endQuiz();
-                }
-            }, 2000);
-        }
-    } else {
-        resultDiv.innerHTML = '<p style="color: red;">Veuillez sélectionner une réponse.</p>';
+    if (isCorrect) {
+        setTimeout(() => {
+            if (currentQuestionIndex < questions.length - 1) {
+                nextQuestion();
+            } else {
+                endQuiz();
+            }
+        }, 2000);
     }
 }
 
@@ -114,15 +104,7 @@ function nextQuestion() {
     if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
-        document.getElementById('results').innerHTML = ''; // Clear results
-    }
-}
-
-function prevQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        showQuestion(currentQuestionIndex);
-        document.getElementById('results').innerHTML = ''; // Clear results
+        document.getElementById('results').innerHTML = ''; // Efface le résultat
     }
 }
 
@@ -131,7 +113,7 @@ function endQuiz() {
     quizDiv.innerHTML = `
         <p>Toutes les questions ont été posées!</p>
         <button onclick="restartQuiz()">Recommencer</button>
-        <button onclick="window.location.href='../index.html'">Retour au Cours de Combat</button>
+        <button onclick="window.location.href='../index.html'">Retour à Combats</button>
     `;
     document.querySelector('.navigation').style.display = 'none';
 }
@@ -141,11 +123,9 @@ function restartQuiz() {
     questionOrder = generateRandomOrder(questions.length);
     showQuestion(currentQuestionIndex);
     document.querySelector('.navigation').style.display = 'flex';
-    document.getElementById('results').innerHTML = ''; // Clear results
+    document.getElementById('results').innerHTML = '';
 }
 
 window.onload = () => {
     showQuestion(currentQuestionIndex);
 };
-
-
