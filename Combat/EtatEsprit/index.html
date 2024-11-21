@@ -12,34 +12,14 @@
     </header>
     <main>
         <div class="content">
-            <h2>Répondez aux questions suivantes :</h2>
             <div id="quiz">
-                <!-- Question 1: Couleur au Nom -->
-                <div class="question">
-                    <p>Quelle couleur correspond à <strong>Inconscience du danger</strong>?</p>
-                    <div>
-                        <label><input type="checkbox" name="q1" value="Blanc"> Blanc</label>
-                        <label><input type="checkbox" name="q1" value="Jaune"> Jaune</label>
-                        <label><input type="checkbox" name="q1" value="Rouge"> Rouge</label>
-                    </div>
-                    <button onclick="checkAnswer('q1', 'Blanc')">Vérifier</button>
-                    <div class="result" id="result-q1"></div>
-                </div>
-
-                <!-- Question 2: Nom à la Couleur -->
-                <div class="question">
-                    <p>Quel état d'esprit est associé à la couleur <strong>Noir</strong>?</p>
-                    <div>
-                        <label><input type="checkbox" name="q2" value="Panique"> Panique</label>
-                        <label><input type="checkbox" name="q2" value="Préparation au danger"> Préparation au danger</label>
-                        <label><input type="checkbox" name="q2" value="Détente"> Détente</label>
-                    </div>
-                    <button onclick="checkAnswer('q2', 'Panique')">Vérifier</button>
-                    <div class="result" id="result-q2"></div>
-                </div>
-
-                <!-- Ajoutez d'autres questions ici selon les besoins --!>
+                <!-- Questions générées dynamiquement -->
             </div>
+            <div class="navigation">
+                <button id="prevBtn" onclick="prevQuestion()">Précédent</button>
+                <button id="nextBtn" onclick="nextQuestion()">Suivant</button>
+            </div>
+            <div id="results"></div>
         </div>
     </main>
     <script src="script.js"></script>
