@@ -71,10 +71,13 @@ function showQuestion(index) {
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
     questionEl.innerHTML = `<p>${questionData.question}</p>`;
+    questionEl.innerHTML += `<div class="choice-container"></div>`;
+    const choiceContainer = questionEl.querySelector('.choice-container');
+
     questionData.choices.forEach(choice => {
         const choiceLabel = document.createElement('label');
         choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
-        questionEl.appendChild(choiceLabel);
+        choiceContainer.appendChild(choiceLabel);
     });
 
     const checkButton = document.createElement('button');
@@ -92,6 +95,16 @@ function checkAnswer(index) {
     if (selected) {
         const isCorrect = selected.value === questions[index].correct;
         resultDiv.innerHTML = isCorrect ? '<p style="color: green;">Bonne réponse!</p>' : '<p style="color: red;">Mauvaise réponse, essayez encore.</p>';
+        
+        if (isCorrect) {
+            setTimeout(() => {
+                if (currentQuestionIndex < questions.length - 1) {
+                    nextQuestion();
+                } else {
+                    endQuiz();
+                }
+            }, 2000);
+        }
     } else {
         resultDiv.innerHTML = '<p style="color: red;">Veuillez sélectionner une réponse.</p>';
     }
@@ -102,8 +115,6 @@ function nextQuestion() {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
         document.getElementById('results').innerHTML = ''; // Clear results
-    } else {
-        document.getElementById('quiz').innerHTML = '<p>Toutes les questions ont été posées!</p>';
     }
 }
 
@@ -115,7 +126,26 @@ function prevQuestion() {
     }
 }
 
+function endQuiz() {
+    const quizDiv = document.getElementById('quiz');
+    quizDiv.innerHTML = `
+        <p>Toutes les questions ont été posées!</p>
+        <button onclick="restartQuiz()">Recommencer</button>
+        <button onclick="window.location.href='../index.html'">Retour au Cours de Combat</button>
+    `;
+    document.querySelector('.navigation').style.display = 'none';
+}
+
+function restartQuiz() {
+    currentQuestionIndex = 0;
+    questionOrder = generateRandomOrder(questions.length);
+    showQuestion(currentQuestionIndex);
+    document.querySelector('.navigation').style.display = 'flex';
+    document.getElementById('results').innerHTML = ''; // Clear results
+}
+
 window.onload = () => {
     showQuestion(currentQuestionIndex);
 };
+
 
