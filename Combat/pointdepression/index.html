@@ -7,7 +7,28 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Test de l'Interactivité du Point Infra-orbital</h1>
+    <header>
+        <button class="back-button" onclick="window.location.href='/combats';">Retour à Combats</button>
+        <h1>Test de l'Interactivité du Point Infra-orbital</h1>
+        <span id="question-counter">Question 1/10</span>
+    </header>
+    <main>
+        <div class="content">
+            <div class="question">
+                <p>Où se trouve le point Infra-orbital ?</p>
+            </div>
+            <div class="choice-container">
+                <label>
+                    <input type="radio" name="choice" value="1">
+                    Option 1
+                </label>
+                <label>
+                    <input type="radio" name="choice" value="2">
+                    Option 2
+                </label>
+            </div>
+        </div>
+    </main>
     <object id="svgImg" type="image/svg+xml" data="body2.svg"></object>
     <script src="script.js"></script>
 </body>
