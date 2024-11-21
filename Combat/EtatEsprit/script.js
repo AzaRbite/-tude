@@ -73,6 +73,56 @@ const questions = [
         question: "Quel état d'esprit devez-vous éviter dans une situation de crise?",
         choices: ["Noir", "Jaune", "Orange", "Blanc", "Rouge"],
         correct: "Noir"
+    },
+    {
+        question: "Quel est l'état d'esprit pour 'Approche stratégique'?",
+        choices: ["Orange", "Rouge", "Noir", "Jaune", "Blanc"],
+        correct: "Orange"
+    },
+    {
+        question: "Quelle couleur représente 'Détente' dans une situation de stress?",
+        choices: ["Blanc", "Noir", "Jaune", "Rouge", "Orange"],
+        correct: "Blanc"
+    },
+    {
+        question: "Quel état d'esprit traduit une 'Alerte silencieuse'?",
+        choices: ["Jaune", "Noir", "Orange", "Rouge", "Blanc"],
+        correct: "Jaune"
+    },
+    {
+        question: "Que signifie la couleur 'Rouge' dans un environnement d'apprentissage?",
+        choices: ["Lutte", "Surveillance", "Relâchement", "Méditation", "Préparation"],
+        correct: "Lutte"
+    },
+    {
+        question: "Quel état d'esprit est évoqué par une 'Alerte rouge'?",
+        choices: ["Rouge", "Orange", "Jaune", "Noir", "Blanc"],
+        correct: "Rouge"
+    },
+    {
+        question: "Quelle couleur est un symbole de 'Préparation intense'?",
+        choices: ["Orange", "Rouge", "Jaune", "Blanc", "Noir"],
+        correct: "Orange"
+    },
+    {
+        question: "Quel état d'esprit est associé à la 'Réaction instinctive'?",
+        choices: ["Rouge", "Jaune", "Orange", "Blanc", "Noir"],
+        correct: "Rouge"
+    },
+    {
+        question: "Quelle couleur représente un 'État méditatif'?",
+        choices: ["Blanc", "Noir", "Jaune", "Rouge", "Orange"],
+        correct: "Blanc"
+    },
+    {
+        question: "Quel état d'esprit est lié à une 'Préparation mentale'?",
+        choices: ["Orange", "Rouge", "Jaune", "Noir", "Blanc"],
+        correct: "Orange"
+    },
+    {
+        question: "Quelle couleur incarne une 'Alerte élevée'?",
+        choices: ["Jaune", "Noir", "Orange", "Rouge", "Blanc"],
+        correct: "Jaune"
     }
 ];
 
@@ -111,7 +161,7 @@ function showQuestion(index) {
 
     // Afficher le compteur de question
     const counterDiv = document.getElementById('question-counter');
-    counterDiv.textContent = `Question ${index + 1} sur ${questionOrder.length}`;
+    counterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
 }
 
 function checkAnswer(index, selectedValue) {
@@ -170,7 +220,10 @@ window.onload = () => {
     counterDiv.style.top = '20px';
     counterDiv.style.right = '20px';
     counterDiv.style.color = '#ffffff';
+    counterDiv.style.fontSize = '1.2em';  // Ajuster la taille de la police
+    counterDiv.style.fontWeight = 'bold'; // Mettre en gras
     header.appendChild(counterDiv);
     
     showQuestion(currentQuestionIndex);
 };
+
