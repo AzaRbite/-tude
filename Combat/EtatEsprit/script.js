@@ -43,29 +43,21 @@ const questions = [
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
-let questionOrder = generateNonRepeatingOrder(questions, 10);
+let questionOrder = generateRandomOrderByColor(questions);
 
-function generateNonRepeatingOrder(questions, length) {
-    const order = [];
-    const usedColors = new Set();
-    while (order.length < length) {
-        const randomIndex = Math.floor(Math.random() * questions.length);
-        const question = questions[randomIndex];
-        const colorMatch = question.question.match(/Blanc|Jaune|Orange|Rouge|Noir/);
+function generateRandomOrderByColor(questions) {
+    const colors = ['Blanc', 'Jaune', 'Orange', 'Rouge', 'Noir'];
+    const selectedQuestions = [];
 
-        if (colorMatch) {
-            const color = colorMatch[0];
-            if (!usedColors.has(color)) {
-                order.push(randomIndex);
-                usedColors.add(color);
-            }
-    
-            if (usedColors.size >= 5) {
-                usedColors.clear();
-            }
+    colors.forEach(color => {
+        const questionsByColor = questions.filter(q => q.question.includes(color));
+        if (questionsByColor.length > 0) {
+            const randomIndex = Math.floor(Math.random() * questionsByColor.length);
+            selectedQuestions.push(questionsByColor[randomIndex]);
         }
-    }
-    return order;
+    });
+
+    return shuffleArray(selectedQuestions);
 }
 
 function shuffleArray(array) {
@@ -76,7 +68,7 @@ function shuffleArray(array) {
 function showQuestion(index) {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
-    const questionData = questions[questionOrder[index]];
+    const questionData = questionOrder[index];
 
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
@@ -101,7 +93,7 @@ function showQuestion(index) {
 
 function checkAnswer(index, selectedValue) {
     const resultDiv = document.getElementById('results');
-    const questionData = questions[questionOrder[index]];
+    const questionData = questionOrder[index];
     const isCorrect = selectedValue === questionData.correct;
     
     if (isCorrect) {
@@ -118,9 +110,8 @@ function checkAnswer(index, selectedValue) {
 }
 
 function nextQuestion() {
-    // Vérifier s'il reste des questions dans la série
     if (currentQuestionIndex < questionOrder.length - 1) {
-        currentQuestionIndex++;  // Incrémenter seulement après le traitement de la réponse
+        currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
     } else {
         endQuiz();
@@ -143,7 +134,7 @@ function restartQuiz() {
     currentQuestionIndex = 0;
     correctAnswers = 0;
     incorrectAnswers = 0;
-    questionOrder = generateNonRepeatingOrder(questions, 10);
+    questionOrder = generateRandomOrderByColor(questions);
     showQuestion(currentQuestionIndex);
 }
 
