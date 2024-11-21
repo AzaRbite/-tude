@@ -33,17 +33,17 @@ document.addEventListener("DOMContentLoaded", function() {
             { 
                 texte: "Cliquez sur le point Fémoral.",
                 type: "nommer",
-                id: "Femoral"
+                ids: ["Femoral", "Femoral2"]
             },
             { 
-                texte: "Identifiez ce point et donnez son nom.",
+                texte: "Identifiez le point rouge visible.",
                 type: "identifier",
-                id: "Tibial"
+                ids: ["Tibial", "Tibial2"]
             },
             { 
                 texte: "Quel est ce point ?",
                 type: "choix",
-                id: "Jugulaire",
+                ids: ["Jugulaire"],
                 options: ["Infra-orbital", "Jugulaire", "Femoral", "Cubital"]
             }
         ];
@@ -64,22 +64,24 @@ document.addEventListener("DOMContentLoaded", function() {
             const questionCounter = document.getElementById("question-counter");
             questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
 
+            cacherTousLesPoints(); // Cache tous les points avant d'afficher la question
+
             if (question.type === "nommer" || question.type === "identifier") {
-                cacherTousLesPoints(); // Cache tous les points avant d'afficher la question
+                question.ids.forEach(id => manipulerPoint(id, true)); // Affiche les points pour la question actuelle
             } else if (question.type === "choix") {
-                cacherTousLesPoints();
+                question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChoix(question);
             }
         }
 
         svgDoc.addEventListener("click", function(e) {
             const question = questions[currentQuestionIndex];
-            if (question.type === "nommer" && e.target.id === question.id) {
-                manipulerPoint(question.id, true); // Affiche le point seulement après le bon clic
+            if (question.ids.includes(e.target.id)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
+                if (question.type === "nommer") {
+                    question.ids.forEach(id => manipulerPoint(id, true)); // Affiche le point seulement après le bon clic
+                }
                 avancerQuestion();
-            } else if (question.type === "identifier" && e.target.id === question.id) {
-                demanderNom(question);
             } else {
                 donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
             }
@@ -107,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 const button = document.createElement("button");
                 button.textContent = option;
                 button.onclick = () => {
-                    if (option === pointsDePression.find(p => p.ids.includes(question.id)).nom) {
+                    if (option === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom) {
                         donnerFeedback("Bonne réponse !", "#4caf50");
                         avancerQuestion();
                     } else {
@@ -129,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
-                const correctNom = pointsDePression.find(p => p.ids.includes(question.id)).nom;
+                const correctNom = pointsDePression.find(p => question.ids.includes(p.ids[0])).nom;
                 if (input.value.trim().toLowerCase() === correctNom.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
