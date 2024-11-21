@@ -120,8 +120,10 @@ function gererCliqueNommer(e) {
     const question = questions[currentQuestionIndex];
     const cibleId = e.target.id; // Assurez-vous que l'ID correct est récupéré
 
+    console.log("Élément cliqué avec ID:", cibleId); // Debug
+
     // Vérifiez si le clic est sur l'un des identifiants corrects
-    if (cibleId && question.ids.some(id => id === cibleId)) {
+    if (cibleId && question.ids.includes(cibleId)) {
         donnerFeedback("Bonne réponse !", "#4caf50");
         avancerQuestion();
     } else {
