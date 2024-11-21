@@ -78,12 +78,21 @@ function afficherQuestion(index) {
     const question = questionnaire[index];
     const questionDiv = document.createElement("div");
     questionDiv.textContent = `Question ${index + 1}: ${question.texte}`;
-
     container.appendChild(questionDiv);
 
     if (question.type === "choix") {
         const optionsDiv = document.createElement("div");
-        optionsDiv.textContent = `Options: ${question.options.join(", ")}`;
+        question.options.forEach((option, i) => {
+            const label = document.createElement("label");
+            label.style.display = "block";
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = "options";
+            input.value = option;
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(option));
+            optionsDiv.appendChild(label);
+        });
         container.appendChild(optionsDiv);
     }
 
@@ -104,10 +113,16 @@ function mettreAJourSVG(ids) {
     const svg = document.querySelector('embed#svgImg');
     svg.onload = function() {
         const svgDocument = svg.getSVGDocument();
+        // Masquer tous les points
+        const allElements = svgDocument.querySelectorAll('*');
+        allElements.forEach(el => el.style.opacity = '0.2');
+
+        // Montrer les points pour la question actuelle
         ids.forEach(id => {
             const element = svgDocument.getElementById(id);
             if (element) {
-                element.style.stroke = 'red'; // Par exemple, mettre en surbrillance l'élément
+                element.style.opacity = '1.0'; // Remettre la visibilité normale
+                element.style.stroke = 'red'; // Mettre en surbrillance l'élément
                 element.style.strokeWidth = '2px';
             }
         });
