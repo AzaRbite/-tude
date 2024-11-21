@@ -1,16 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var svgObject = document.getElementById("svgImg");
+    const svgObject = document.getElementById("svgImg");
 
     svgObject.addEventListener("load", function() {
-        var svgDoc = svgObject.getSVGDocument();
+        const svgDoc = svgObject.getSVGDocument();
+        if (!svgDoc) {
+            console.error("Impossible de charger le document SVG.");
+            return;
+        }
 
-        // Fonction pour gérer l'activation des points
+        // Fonction pour manipuler l'activation des points
         function manipulerPoint(pointId, estActif) {
-            var point = svgDoc.getElementById(pointId);
+            const point = svgDoc.getElementById(pointId);
             if (point) {
                 point.style.fillOpacity = estActif ? 1 : 0; // Affiche ou cache le point
                 point.style.fill = estActif ? 'red' : ''; // Change la couleur si actif
                 point.style.cursor = estActif ? 'pointer' : ''; // Change le curseur si actif
+            } else {
+                console.error(`ID de point non trouvé: ${pointId}`);
             }
         }
 
@@ -45,6 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("feedback").style.color = "#ff4c4c";
             }
         });
+
     });
 
     // Liste des points de pression et leurs IDs
@@ -61,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
         { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"] },
         { nom: "Radial", ids: ["Radial", "Radial2"] },
         { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
-        { nom: "Sciatique", ids: ["Sciatique", "Sciatique"] },
+        { nom: "Sciatique", ids: ["Sciatique", "Sciatique2"] },
         { nom: "Derrière le lobe d'oreille", ids: ["LobeOreille", "LobeOreille2"] },
         { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] }
     ];
