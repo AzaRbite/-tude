@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentQuestionIndex = 0;
 
         function genererQuestionsAleatoires(nombre) {
+            questions = [];
             for (let i = 0; i < nombre; i++) {
                 const point = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
                 const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const point = svgDoc.getElementById(pointId);
             if (point) {
                 point.style.fillOpacity = estActif ? 1 : 0;
-                point.style.fill = 'red';
+                point.style.fill = estActif ? 'red' : 'none';
                 point.style.cursor = estActif ? 'pointer' : '';
             } else {
                 console.error(`ID de point non trouvé: ${pointId}`);
@@ -119,26 +120,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
             feedbackDiv.innerHTML = ""; // Reset feedback
 
+            const inputContainer = document.createElement("div");
+            inputContainer.id = "input-container";
+            feedbackDiv.appendChild(inputContainer);
+
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Entrez votre réponse ici...";
-            feedbackDiv.appendChild(input);
+            inputContainer.appendChild(input);
 
             const button = document.createElement("button");
             button.textContent = "Valider";
-            button.onclick = () => {
-                const reponse = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom.toLowerCase();
+            inputContainer.appendChild(button);
 
-                if (input.value.trim().toLowerCase() === reponse) {
+            button.onclick = () => {
+                const pointCorrect = pointsDePression.find((p) =>
+                    question.ids.some((id) => p.ids.includes(id))
+                );
+
+                const correctNoms = pointCorrect.nom.split(", ").map((nom) => nom.toLowerCase());
+                const entreeUtilisateur = input.value.trim().toLowerCase();
+
+                if (correctNoms.includes(entreeUtilisateur)) {
+                    question.ids.forEach((id) => manipulerPoint(id, true));
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
                     donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
                 }
             };
-            feedbackDiv.appendChild(button);
         }
 
         function afficherChoix(question) {
