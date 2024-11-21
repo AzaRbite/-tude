@@ -115,30 +115,39 @@ button.reponse:active {
 .choix-liste {
     list-style-type: none; /* Pas de puces */
     padding: 0;
-    margin: 0;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .choix-liste li {
+    width: 100%;
+    max-width: 400px;
     margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ccc; /* Bordure légère */
-    border-radius: 5px;
+    padding: 15px;
+    border: 2px solid #ccc; /* Bordure légère */
+    border-radius: 8px;
     background-color: #f9f9f9;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s;
+    text-align: center;
 }
 
 .choix-liste li:hover {
-    background-color: #f1f1f1;
+    background-color: #e0e0e0;
+    transform: scale(1.02);
 }
 
 .choix-liste li.correct {
     background-color: #4caf50; /* Vert pour la bonne réponse */
     color: white;
+    border-color: #388e3c;
     pointer-events: none; /* Désactiver le clic après la sélection */
 }
 
 .choix-liste li.wrong {
     background-color: #ff4c4c; /* Rouge pour la mauvaise réponse */
     color: white;
+    border-color: #d32f2f;
 }
