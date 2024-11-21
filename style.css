@@ -7,8 +7,8 @@ body {
 }
 
 nav {
-    margin-top: 20px; /* Ajoutez un espacement en haut si nécessaire */
-    text-align: center; /* Centrez les éléments horizontalement */
+    margin-top: 20px; /* Ajoute un espacement en haut si nécessaire */
+    text-align: center; /* Centre les éléments horizontalement */
 }
 
 nav ul {
@@ -21,14 +21,15 @@ nav ul {
 }
 
 nav ul li {
-    margin: 10px;
+    margin: 10px; /* Espace entre chaque bouton */
 }
 
 nav ul li a {
+    font-size: 0.8em; /* Réduction de la taille du texte */
+    padding: 8px 16px; /* Ajustement du padding pour correspondre à la nouvelle taille du texte */
     background-color: #ed2c2c; /* Couleur par défaut des boutons */
     color: #ffffff;
     text-decoration: none;
-    padding: 10px 20px;
     display: block;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
