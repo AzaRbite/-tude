@@ -156,26 +156,35 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(button);
         }
 
-        function afficherChoix(question) {
-            question.options.forEach((option) => {
-                const button = document.createElement("button");
-                button.textContent = option;
-                button.onclick = () => {
-                    const reponseCorrecte = pointsDePression.find((p) =>
-                        question.ids.some((id) => p.ids.includes(id))
-                    ).nom;
+      function afficherChoix(question) {
+    const feedbackDiv = document.getElementById("feedback");
+    feedbackDiv.innerHTML = ""; // Réinitialiser le feedback
 
-                    if (option === reponseCorrecte) {
-                        donnerFeedback("Bonne réponse !", "#4caf50");
-                        avancerQuestion();
-                    } else {
-                        donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
-                    }
-                };
+    // Créer la liste des choix
+    const ul = document.createElement("ul");
+    ul.className = "choix-liste"; // Appliquer le style de la liste
 
-                container.appendChild(button);
-            });
-        }
+    question.options.forEach(option => {
+        const li = document.createElement("li");
+        li.textContent = option;
+
+        li.onclick = () => {
+            if (option.toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
+                li.classList.add("correct"); // Style pour la bonne réponse
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                setTimeout(() => avancerQuestion(), 1500); // Passer à la question suivante après un délai
+            } else {
+                li.classList.add("wrong"); // Style pour la mauvaise réponse
+                donnerFeedback("Mauvaise réponse. Essayez encore !", "#ff4c4c");
+            }
+        };
+
+        ul.appendChild(li);
+    });
+
+    feedbackDiv.appendChild(ul); // Ajouter la liste au DOM
+}
+
 
         function donnerFeedback(message, couleur) {
             const feedback = document.getElementById("feedback");
