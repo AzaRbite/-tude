@@ -77,8 +77,13 @@ function afficherQuestion(index) {
 
     const question = questionnaire[index];
     const questionDiv = document.createElement("div");
-    questionDiv.textContent = `Question ${index + 1}: ${question.texte}`;
+    questionDiv.textContent = question.texte;
     container.appendChild(questionDiv);
+
+    // Ajouter un endroit pour afficher le feedback
+    const feedbackDiv = document.createElement("div");
+    feedbackDiv.id = "feedback";
+    container.appendChild(feedbackDiv);
 
     if (question.type === "choix") {
         const optionsDiv = document.createElement("div");
@@ -93,6 +98,10 @@ function afficherQuestion(index) {
             label.appendChild(document.createTextNode(option));
             optionsDiv.appendChild(label);
         });
+        const submitButton = document.createElement("button");
+        submitButton.textContent = "Valider";
+        submitButton.onclick = () => verifierReponse(question);
+        optionsDiv.appendChild(submitButton);
         container.appendChild(optionsDiv);
     }
 
@@ -127,6 +136,24 @@ function mettreAJourSVG(ids) {
             }
         });
     };
+}
+
+// Fonction pour vérifier la réponse de l'utilisateur
+function verifierReponse(question) {
+    const selectedOption = document.querySelector('input[name="options"]:checked');
+    const feedbackDiv = document.getElementById("feedback");
+    if (selectedOption) {
+        if (selectedOption.value === question.ids[0]) {
+            feedbackDiv.textContent = "Bonne réponse!";
+            feedbackDiv.style.color = "green";
+        } else {
+            feedbackDiv.textContent = "Mauvaise réponse. La bonne réponse est " + question.ids[0];
+            feedbackDiv.style.color = "red";
+        }
+    } else {
+        feedbackDiv.textContent = "Veuillez sélectionner une option.";
+        feedbackDiv.style.color = "orange";
+    }
 }
 
 // Initialisation
