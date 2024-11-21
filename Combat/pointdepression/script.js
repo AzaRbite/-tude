@@ -117,8 +117,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 function gererCliqueNommer(e) {
-    // Trouver le plus proche élément SVG qui a un ID parmi ceux que nous attendons
-    const cible = e.target.closest('path, circle, rect, polygon');
+    // Cible l'élément sur lequel on a cliqué s'il a un ID défini
+    const cible = e.target.closest('[id]');
     const cibleId = cible ? cible.id : null;
 
     console.log("Élément cliqué avec ID:", cibleId); // Debug
