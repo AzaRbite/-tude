@@ -5,36 +5,32 @@ document.addEventListener("DOMContentLoaded", function() {
         var svgDoc = svgObject.getSVGDocument();
         var infraOrbitalPoint = svgDoc.getElementById("Infra-orbital");
 
-        if (infraOrbitalPoint) {
-            infraOrbitalPoint.addEventListener("click", function() {
-                var currentOpacity = infraOrbitalPoint.style.fillOpacity;
-                if (currentOpacity == 0 || currentOpacity === '') {
-                    infraOrbitalPoint.style.fillOpacity = 1; 
-                    alert("Point Infra-orbital cliqué !");
-                } else {
-                    infraOrbitalPoint.style.fillOpacity = 0; 
-                }
-            });
-        }
+        // Réinitialiser le message de feedback
+        var feedbackElement = document.getElementById("feedback");
+        feedbackElement.textContent = "";
+
+        svgDoc.addEventListener("click", function(e) {
+            if (e.target === infraOrbitalPoint) {
+                feedbackElement.textContent = "Bonne réponse !";
+                feedbackElement.style.color = "#4caf50"; // Vert pour bonne réponse
+                document.getElementById("question1").style.display = "none";
+                document.getElementById("question2").style.display = "block";
+            } else {
+                feedbackElement.textContent = "Mauvaise réponse, réessayez !";
+                feedbackElement.style.color = "#ff4c4c"; // Rouge pour mauvaise réponse
+            }
+        });
     });
 });
 
-function checkAnswer(choiceName, correctId) {
-    var selected = document.querySelector(`input[name="${choiceName}"]:checked`);
-    if (selected && selected.value === correctId) {
-        alert("Bonne réponse !");
-        document.getElementById("question1").style.display = "none";
-        document.getElementById("question2").style.display = "block";
-    } else {
-        alert("Mauvaise réponse, réessayez !");
-    }
-}
-
 function checkTextAnswer(inputId, correctAnswer) {
     var answerInput = document.getElementById(inputId);
+    var feedbackElement = document.getElementById("question2-feedback");
     if (answerInput.value.trim() === correctAnswer) {
-        alert("Bonne réponse !");
+        feedbackElement.textContent = "Bonne réponse !";
+        feedbackElement.style.color = "#4caf50";
     } else {
-        alert("Mauvaise réponse, réessayez !");
+        feedbackElement.textContent = "Mauvaise réponse, réessayez !";
+        feedbackElement.style.color = "#ff4c4c";
     }
 }
