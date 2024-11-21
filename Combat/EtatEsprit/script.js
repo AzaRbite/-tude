@@ -80,7 +80,7 @@ function showQuestion(index) {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
     const questionData = questions[questionOrder[index]];
-    
+
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
     questionEl.innerHTML = `<p>${questionData.question}</p>`;
@@ -121,10 +121,9 @@ function checkAnswer(index, selectedValue) {
 }
 
 function nextQuestion() {
-    // Incrémente seulement de 1
-    currentQuestionIndex++;
-    
-    if (currentQuestionIndex < questionOrder.length) {
+    // Vérifier s'il reste des questions dans la série
+    if (currentQuestionIndex < questionOrder.length - 1) {
+        currentQuestionIndex++;  // Incrémenter seulement après le traitement de la réponse
         showQuestion(currentQuestionIndex);
     } else {
         endQuiz();
