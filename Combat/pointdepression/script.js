@@ -39,18 +39,19 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentQuestionIndex = 0;
         let dernierPoint = null;
 
-        // Attache des écouteurs aux éléments cliquables du SVG
-        pointsDePression.forEach(point => {
-            point.ids.forEach(id => {
-                const element = svgDoc.getElementById(id);
-                if (element) {
-                    element.addEventListener("click", gererCliqueNommer);
-                    console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
-                } else {
-                    console.error(`ID de point non trouvé dans le SVG : ${id}`);
-                }
+        function attacherEcouteurs() {
+            pointsDePression.forEach(point => {
+                point.ids.forEach(id => {
+                    const element = svgDoc.getElementById(id);
+                    if (element) {
+                        element.addEventListener("click", gererCliqueNommer);
+                        console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
+                    } else {
+                        console.error(`ID de point non trouvé dans le SVG : ${id}`);
+                    }
+                });
             });
-        });
+        }
 
         function genererQuestionsAleatoires(nombre) {
             const tempPoints = [...pointsDePression];
@@ -82,10 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 questions.push(question);
                 dernierPoint = point;
 
-                // Retirer le point pour éviter qu'il ne soit sélectionné à nouveau immédiatement
                 tempPoints.splice(indexPoint, 1);
 
-                // Si tous les points ont été utilisés, réinitialiser la liste temporaire
                 if (tempPoints.length === 0 && questions.length < nombre) {
                     tempPoints.push(...pointsDePression);
                 }
@@ -129,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(feedbackDiv);
 
             if (question.type === "nommer") {
-                // Rien à faire ici car les écouteurs sont déjà attachés
+                question.ids.forEach((id) => manipulerPoint(id, true));
             } else if (question.type === "identifier") {
                 question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
@@ -140,12 +139,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function gererCliqueNommer(e) {
-            const cibleId = e.target.getAttribute('id');
+            const cible = e.target.closest('[id]');
+            const cibleId = cible ? cible.id : null;
             console.log("Élément cliqué avec ID:", cibleId); // Debug
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
-                avancerQuestion();
+                setTimeout(avancerQuestion, 1500); // Utiliser un délai pour voir le feedback
             } else {
                 donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
             }
@@ -215,6 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
             afficherQuestion(currentQuestionIndex);
         }
 
+        attacherEcouteurs();
         genererQuestionsAleatoires(10);
         afficherQuestion(currentQuestionIndex);
     });
