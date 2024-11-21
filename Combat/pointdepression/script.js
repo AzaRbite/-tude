@@ -123,14 +123,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 };
                 feedbackDiv.appendChild(button);
             });
-            document.getElementById("feedback").append(feedbackDiv);
+            document.getElementById("feedback").appendChild(feedbackDiv);
         }
 
         function demanderNom(question) {
             const feedbackDiv = document.getElementById("feedback");
-            const inputContainer = document.createElement("div"); // Créer un conteneur pour l'entrée et le bouton
             feedbackDiv.innerHTML = ""; 
 
+            const inputContainer = document.createElement("div");
             const input = document.createElement("input");
             input.type = "text";
             inputContainer.appendChild(input);
@@ -139,7 +139,9 @@ document.addEventListener("DOMContentLoaded", function() {
             button.textContent = "Valider";
             button.onclick = () => {
                 const correctNoms = pointsDePression.find(p => question.ids.some(id => p.ids.includes(id))).nom.split(", ");
-                if (correctNoms.some(nom => nom.trim().toLowerCase() === input.value.trim().toLowerCase())) {
+                const entreeUtilisateur = input.value.trim().toLowerCase();
+                console.log("Validation de l'entrée: " + entreeUtilisateur);
+                if (correctNoms.some(nom => nom.trim().toLowerCase() === entreeUtilisateur)) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
@@ -149,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             };
             inputContainer.appendChild(button);
-            feedbackDiv.appendChild(inputContainer); // Ajouter le conteneur au feedback
+            feedbackDiv.appendChild(inputContainer);
             console.log("Question de type 'identifier' affichée avec champ de saisie.");
         }
 
@@ -161,8 +163,8 @@ document.addEventListener("DOMContentLoaded", function() {
         { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
         { nom: "Jugulaire", ids: ["Jugulaire"] },
         { nom: "Médian", ids: ["Median", "Median2"] },
-        { nom: "Fémoral, femoral", ids: ["Femoral", "Femoral2"] },
-        { nom: "Tibial, tibial", ids: ["Tibial", "Tibial2"] },
+        { nom: "Fémoral", ids: ["Femoral", "Femoral2"] },
+        { nom: "Tibial", ids: ["Tibial", "Tibial2"] },
         { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"] },
         { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"] },
         { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"] },
