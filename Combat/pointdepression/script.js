@@ -1,3 +1,4 @@
+// Liste des points de pression et leurs IDs
 const pointsDePression = [
     { nom: "Infra-orbital", ids: ["Infra-orbital"] },
     { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
@@ -16,9 +17,10 @@ const pointsDePression = [
     { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] }
 ];
 
-function genererChoix(pointCorrect, nombreChoix = 3) {
+// Fonction pour générer des choix de réponse
+function genererChoix(correct, nombreChoix = 3) {
     const choix = new Set();
-    choix.add(pointCorrect);
+    choix.add(correct);
     while (choix.size < nombreChoix) {
         const pointAleatoire = pointsDePression[Math.floor(Math.random() * pointsDePression.length)].nom;
         choix.add(pointAleatoire);
@@ -26,6 +28,7 @@ function genererChoix(pointCorrect, nombreChoix = 3) {
     return Array.from(choix).sort();
 }
 
+// Fonction pour générer un questionnaire de 10 questions
 function genererQuestionnaire() {
     let questions = [];
     for (let i = 0; i < 10; i++) {
@@ -36,7 +39,7 @@ function genererQuestionnaire() {
         switch(typeQuestion) {
             case 0: // Nommer le Point
                 question = {
-                    texte: `Nommez le point ${pointAleatoire.nom}.`,
+                    texte: `Cliquez sur le point ${pointAleatoire.nom}.`,
                     type: "nommer",
                     ids: pointAleatoire.ids
                 };
@@ -66,4 +69,9 @@ function genererQuestionnaire() {
 
 // Générer et afficher le questionnaire
 const questionnaire = genererQuestionnaire();
-console.log(questionnaire);
+questionnaire.forEach((question, index) => {
+    console.log(`Question ${index + 1}: ${question.texte}`);
+    if (question.type === "choix") {
+        console.log(`Options: ${question.options.join(", ")}`);
+    }
+});
