@@ -117,13 +117,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 function gererCliqueNommer(e) {
-    const question = questions[currentQuestionIndex];
-    const cibleId = e.target.id; // Assurez-vous que l'ID correct est récupéré
+    // Trouver le plus proche élément SVG qui a un ID parmi ceux que nous attendons
+    const cible = e.target.closest('path, circle, rect, polygon');
+    const cibleId = cible ? cible.id : null;
 
     console.log("Élément cliqué avec ID:", cibleId); // Debug
 
-    // Vérifiez si le clic est sur l'un des identifiants corrects
-    if (cibleId && question.ids.includes(cibleId)) {
+    if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
         donnerFeedback("Bonne réponse !", "#4caf50");
         avancerQuestion();
     } else {
