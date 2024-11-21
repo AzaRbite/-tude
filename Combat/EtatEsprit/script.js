@@ -109,9 +109,11 @@ function checkAnswer(index, selectedValue) {
             document.getElementById('results').innerHTML = '';
         }, 2000);
     } else {
-        incorrectAnswers++;  // Comptabiliser une seule erreur
+        if (!resultDiv.innerHTML.includes('Mauvaise réponse')) {
+            incorrectAnswers++;  // Comptabiliser une seule erreur
+        }
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
-        isLocked = false;  // Permettre une nouvelle tentative
+        isLocked = false;  // Permettre une nouvelle tentative après une mauvaise réponse
     }
 }
 
