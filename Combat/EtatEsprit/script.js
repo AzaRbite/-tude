@@ -52,12 +52,21 @@ const questions = [
 ];
 
 let currentQuestionIndex = 0;
-const usedQuestions = new Set();
+const questionOrder = generateRandomOrder(questions.length);
+
+function generateRandomOrder(length) {
+    let order = Array.from(Array(length).keys());
+    for (let i = order.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [order[i], order[j]] = [order[j], order[i]];
+    }
+    return order;
+}
 
 function showQuestion(index) {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
-    const questionData = questions[index];
+    const questionData = questions[questionOrder[index]];
     
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
@@ -70,7 +79,7 @@ function showQuestion(index) {
 
     const checkButton = document.createElement('button');
     checkButton.textContent = 'Vérifier';
-    checkButton.onclick = () => checkAnswer(index);
+    checkButton.onclick = () => checkAnswer(questionOrder[index]);
     questionEl.appendChild(checkButton);
 
     quizDiv.appendChild(questionEl);
@@ -89,11 +98,8 @@ function checkAnswer(index) {
 }
 
 function nextQuestion() {
-    if (usedQuestions.size < questions.length) {
-        do {
-            currentQuestionIndex = Math.floor(Math.random() * questions.length);
-        } while (usedQuestions.has(currentQuestionIndex));
-        usedQuestions.add(currentQuestionIndex);
+    if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
         document.getElementById('results').innerHTML = ''; // Clear results
     } else {
@@ -102,9 +108,14 @@ function nextQuestion() {
 }
 
 function prevQuestion() {
-    // Fonctionnalité "Précédent" désactivée car les questions sont posées aléatoirement
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showQuestion(currentQuestionIndex);
+        document.getElementById('results').innerHTML = ''; // Clear results
+    }
 }
 
 window.onload = () => {
-    nextQuestion(); // Charge la première question de manière aléatoire
+    showQuestion(currentQuestionIndex);
 };
+
