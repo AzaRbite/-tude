@@ -50,14 +50,14 @@ function generateNonRepeatingOrder(questions, length) {
     while (order.length < length) {
         const randomIndex = Math.floor(Math.random() * questions.length);
         const question = questions[randomIndex];
-        const color = question.question.match(/Blanc|Jaune|Orange|Rouge|Noir/)[0]; // Trouver la couleur mentionnée dans la question
+        const color = question.question.match(/Blanc|Jaune|Orange|Rouge|Noir/)[0];
 
         if (!usedColors.has(color)) {
             order.push(randomIndex);
             usedColors.add(color);
         }
 
-        if (usedColors.size >= 5) { // Limite pour éviter des boucles infinies si toutes les couleurs ont été utilisées
+        if (usedColors.size >= 5) {
             usedColors.clear();
         }
     }
@@ -84,7 +84,6 @@ function showQuestion(index) {
 
     quizDiv.appendChild(questionEl);
 
-    // Afficher le compteur de question
     const counterDiv = document.getElementById('question-counter');
     counterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
 }
@@ -96,7 +95,10 @@ function checkAnswer(index, selectedValue) {
     if (isCorrect) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
-        setTimeout(nextQuestion, 2000); // Passe à la question suivante après 2 secondes si correcte
+        setTimeout(() => {
+            nextQuestion();
+            document.getElementById('results').innerHTML = ''; // Efface le résultat
+        }, 2000);
     } else {
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
     }
@@ -106,7 +108,6 @@ function nextQuestion() {
     if (currentQuestionIndex < questionOrder.length - 1) {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
-        document.getElementById('results').innerHTML = ''; // Efface le résultat
     } else {
         endQuiz();
     }
@@ -139,11 +140,11 @@ window.onload = () => {
     counterDiv.id = 'question-counter';
     counterDiv.style.position = 'absolute';
     counterDiv.style.top = '50%';
-    counterDiv.style.transform = 'translateY(-50%)'; // Aligner avec le header
+    counterDiv.style.transform = 'translateY(-50%)';
     counterDiv.style.right = '20px';
     counterDiv.style.color = '#ffffff';
-    counterDiv.style.fontSize = '1.2em';  // Taille de la police
-    counterDiv.style.fontWeight = 'bold'; // Mettre en gras
+    counterDiv.style.fontSize = '1.2em';
+    counterDiv.style.fontWeight = 'bold';
     header.appendChild(counterDiv);
     
     showQuestion(currentQuestionIndex);
