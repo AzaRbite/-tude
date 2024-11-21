@@ -90,13 +90,39 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        function afficherQuestion(index) {
-            cacherTousLesPoints();
+function afficherQuestion(index) {
+    cacherTousLesPoints();
 
-            if (index >= questions.length) {
-                container.innerHTML = "Quiz terminé ! Félicitations !";
-                return;
-            }
+    // Détacher l'écouteur précédent
+    svgDoc.removeEventListener("click", gererCliqueNommer);
+
+    if (index >= questions.length) {
+        container.innerHTML = "Quiz terminé ! Félicitations !";
+        return;
+    }
+
+    const question = questions[index];
+    compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+    container.innerHTML = "";
+
+    const questionDiv = document.createElement("div");
+    questionDiv.textContent = question.texte;
+    container.appendChild(questionDiv);
+
+    const feedbackDiv = document.createElement("div");
+    feedbackDiv.id = "feedback";
+    container.appendChild(feedbackDiv);
+
+    if (question.type === "nommer") {
+        svgDoc.addEventListener("click", gererCliqueNommer); // Re-attacher
+    } else if (question.type === "identifier") {
+        question.ids.forEach((id) => manipulerPoint(id, true));
+        afficherChampDeSaisie(question);
+    } else if (question.type === "choix") {
+        question.ids.forEach((id) => manipulerPoint(id, true));
+        afficherChoix(question);
+    }
+}
 
             const question = questions[index];
             compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
@@ -121,16 +147,18 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        function gererCliqueNommer(e) {
-            const question = questions[currentQuestionIndex];
-            if (question.ids.includes(e.target.id)) {
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                avancerQuestion();
-            } else {
-                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-            }
-        }
+function gererCliqueNommer(e) {
+    const question = questions[currentQuestionIndex];
+    const cibleId = e.target.id; // Utiliser e.target pour obtenir l'ID de l'élément cliqué
 
+    if (question.ids.includes(cibleId)) {
+        donnerFeedback("Bonne réponse !", "#4caf50");
+        avancerQuestion();
+    } else {
+        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+    }
+}
+        
         function afficherChampDeSaisie(question) {
             const input = document.createElement("input");
             input.type = "text";
