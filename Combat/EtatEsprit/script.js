@@ -109,16 +109,14 @@ function checkAnswer(index, selectedValue) {
     if (isCorrect) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
+        setTimeout(() => {
+            nextQuestion();
+            document.getElementById('results').innerHTML = '';
+        }, 2000);
     } else {
         incorrectAnswers++;
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
     }
-    setTimeout(() => {
-        if (isCorrect) {
-            nextQuestion();
-            document.getElementById('results').innerHTML = '';
-        }
-    }, 2000);
 }
 
 function nextQuestion() {
