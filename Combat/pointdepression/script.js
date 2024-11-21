@@ -70,11 +70,20 @@ function genererQuestionnaire() {
     return questions;
 }
 
-// Générer et afficher le questionnaire
+// Affichage du questionnaire dans la page
+const divQuestionnaire = document.getElementById("questionnaire");
 const questionnaire = genererQuestionnaire();
+
 questionnaire.forEach((question, index) => {
-    console.log(`Question ${index + 1}: ${question.texte}`);
+    const questionDiv = document.createElement("div");
+    questionDiv.textContent = `Question ${index + 1}: ${question.texte}`;
+    divQuestionnaire.appendChild(questionDiv);
+
     if (question.type === "choix") {
-        console.log(`Options: ${question.options.join(", ")}`);
+        const optionsDiv = document.createElement("div");
+        optionsDiv.textContent = `Options: ${question.options.join(", ")}`;
+        divQuestionnaire.appendChild(optionsDiv);
     }
+
+    divQuestionnaire.appendChild(document.createElement("br"));
 });
