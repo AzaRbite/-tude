@@ -29,18 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ];
 
         const templatesDeQuestions = [
-            {
-                texte: (point) => `Cliquez sur le point ${point.nom}.`,
-                type: "nommer",
-            },
-            {
-                texte: () => "Identifiez le point rouge visible.",
-                type: "identifier",
-            },
-            {
-                texte: () => "Quel est ce point ?",
-                type: "choix",
-            },
+            { texte: (point) => `Cliquez sur le point ${point.nom}.`, type: "nommer" },
+            { texte: () => "Identifiez le point rouge visible.", type: "identifier" },
+            { texte: () => "Quel est ce point ?", type: "choix" },
         ];
 
         let questions = [];
@@ -63,6 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .map((p) => p.nom)
                         .sort(() => Math.random() - 0.5)
                         .slice(0, 3);
+
                     if (!question.options.includes(point.nom)) {
                         question.options.push(point.nom);
                     }
@@ -90,39 +82,16 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-function afficherQuestion(index) {
-    cacherTousLesPoints();
+        function afficherQuestion(index) {
+            cacherTousLesPoints();
 
-    // Détacher l'écouteur précédent
-    svgDoc.removeEventListener("click", gererCliqueNommer);
+            if (index >= questions.length) {
+                container.innerHTML = "Quiz terminé ! Félicitations !";
+                return;
+            }
 
-    if (index >= questions.length) {
-        container.innerHTML = "Quiz terminé ! Félicitations !";
-        return;
-    }
-
-    const question = questions[index];
-    compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
-    container.innerHTML = "";
-
-    const questionDiv = document.createElement("div");
-    questionDiv.textContent = question.texte;
-    container.appendChild(questionDiv);
-
-    const feedbackDiv = document.createElement("div");
-    feedbackDiv.id = "feedback";
-    container.appendChild(feedbackDiv);
-
-    if (question.type === "nommer") {
-        svgDoc.addEventListener("click", gererCliqueNommer); // Re-attacher
-    } else if (question.type === "identifier") {
-        question.ids.forEach((id) => manipulerPoint(id, true));
-        afficherChampDeSaisie(question);
-    } else if (question.type === "choix") {
-        question.ids.forEach((id) => manipulerPoint(id, true));
-        afficherChoix(question);
-    }
-}
+            // Détacher l'écouteur précédent avant d'afficher une nouvelle question
+            svgDoc.removeEventListener("click", gererCliqueNommer);
 
             const question = questions[index];
             compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
@@ -147,18 +116,18 @@ function afficherQuestion(index) {
             }
         }
 
-function gererCliqueNommer(e) {
-    const question = questions[currentQuestionIndex];
-    const cibleId = e.target.id; // Utiliser e.target pour obtenir l'ID de l'élément cliqué
+        function gererCliqueNommer(e) {
+            const question = questions[currentQuestionIndex];
+            const cibleId = e.target.id; // Utiliser e.target pour obtenir l'ID de l'élément cliqué
 
-    if (question.ids.includes(cibleId)) {
-        donnerFeedback("Bonne réponse !", "#4caf50");
-        avancerQuestion();
-    } else {
-        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-    }
-}
-        
+            if (question.ids.includes(cibleId)) {
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                avancerQuestion();
+            } else {
+                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+            }
+        }
+
         function afficherChampDeSaisie(question) {
             const input = document.createElement("input");
             input.type = "text";
@@ -166,12 +135,10 @@ function gererCliqueNommer(e) {
 
             const button = document.createElement("button");
             button.textContent = "Valider";
-
             button.onclick = () => {
                 const reponseCorrecte = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
                 ).nom;
-
                 if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
@@ -184,34 +151,33 @@ function gererCliqueNommer(e) {
             container.appendChild(button);
         }
 
-     function afficherChoix(question) {
-    const feedbackDiv = document.getElementById("feedback");
-    feedbackDiv.innerHTML = ""; // Réinitialiser le feedback
+        function afficherChoix(question) {
+            const feedbackDiv = document.getElementById("feedback");
+            feedbackDiv.innerHTML = ""; // Réinitialiser le feedback
 
-    // Créer la liste des choix
-    const ul = document.createElement("ul");
-    ul.className = "choix-liste"; // Appliquer le style de la liste
+            const ul = document.createElement("ul");
+            ul.className = "choix-liste";
 
-    question.options.forEach(option => {
-        const li = document.createElement("li");
-        li.textContent = option;
+            question.options.forEach(option => {
+                const li = document.createElement("li");
+                li.textContent = option;
 
-        li.onclick = () => {
-            if (option.toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
-                li.classList.add("correct"); // Style pour la bonne réponse
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                setTimeout(() => avancerQuestion(), 1500); // Passer à la question suivante après un délai
-            } else {
-                li.classList.add("wrong"); // Style pour la mauvaise réponse
-                donnerFeedback("Mauvaise réponse. Essayez encore !", "#ff4c4c");
-            }
-        };
+                li.onclick = () => {
+                    if (option.toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
+                        li.classList.add("correct");
+                        donnerFeedback("Bonne réponse !", "#4caf50");
+                        setTimeout(() => avancerQuestion(), 1500);
+                    } else {
+                        li.classList.add("wrong");
+                        donnerFeedback("Mauvaise réponse. Essayez encore !", "#ff4c4c");
+                    }
+                };
 
-        ul.appendChild(li);
-    });
+                ul.appendChild(li);
+            });
 
-    feedbackDiv.appendChild(ul); // Ajouter la liste au DOM
-}
+            feedbackDiv.appendChild(ul);
+        }
 
         function donnerFeedback(message, couleur) {
             const feedback = document.getElementById("feedback");
