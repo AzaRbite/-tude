@@ -66,11 +66,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
             cacherTousLesPoints(); // Cache tous les points avant d'afficher la question
 
-            if (question.type === "nommer" || question.type === "identifier") {
+            if (question.type === "nommer") {
+                // Ne rien afficher au départ pour la question "nommer"
+            } else if (question.type === "identifier" || question.type === "choix") {
                 question.ids.forEach(id => manipulerPoint(id, true)); // Affiche les points pour la question actuelle
-            } else if (question.type === "choix") {
-                question.ids.forEach(id => manipulerPoint(id, true));
-                afficherChoix(question);
+                if (question.type === "choix") {
+                    afficherChoix(question);
+                } else if (question.type === "identifier") {
+                    demanderNom(question);
+                }
             }
         }
 
