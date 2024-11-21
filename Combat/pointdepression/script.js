@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (point) {
                 point.style.fillOpacity = estActif ? 1 : 0;
                 point.style.fill = estActif ? "red" : "none";
-                point.style.cursor = estActif ? "pointer" : "";
+                point.style.cursor = estActif ? "pointer" : "default";
             } else {
                 console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
             }
@@ -127,8 +127,9 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
+            // Cacher les points au début pour les questions de type "nommer"
             if (question.type === "nommer") {
-                question.ids.forEach((id) => manipulerPoint(id, true));
+                // Pas de points visibles au départ
             } else if (question.type === "identifier") {
                 question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
@@ -144,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Élément cliqué avec ID:", cibleId); // Debug
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
+                question.ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 setTimeout(avancerQuestion, 1500); // Utiliser un délai pour voir le feedback
             } else {
