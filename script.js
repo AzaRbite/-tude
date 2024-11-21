@@ -1,39 +1,5 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Menu de base chargé avec succès. Sélectionnez un cours pour commencer.");
+});
 
-nav {
-    background-color: #333;
-    padding: 10px;
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: space-around;
-}
-
-nav ul li {
-    margin: 0;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    display: block;
-    transition: background-color 0.3s;
-}
-
-nav ul li a:hover {
-    background-color: #555;
-}
-
-.content {
-    padding: 20px;
-    text-align: center;
-}
 
