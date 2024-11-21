@@ -1,4 +1,3 @@
-// Liste des points de pression et leurs IDs
 const pointsDePression = [
     { nom: "Infra-orbital", ids: ["Infra-orbital"] },
     { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
@@ -17,26 +16,54 @@ const pointsDePression = [
     { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] }
 ];
 
-// Fonction pour générer une question aléatoire
-function genererQuestionAleatoire() {
-    const typeQuestion = Math.floor(Math.random() * 3);
-    const pointAleatoire = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
-    
-    switch(typeQuestion) {
-        case 0: // Nommer le Point
-            console.log(`Nommez le point ${pointAleatoire.nom}.`);
-            // Logique pour cliquer sur le point dans le SVG
-            break;
-        case 1: // Identifier un Point
-            console.log(`Identifiez ce point de pression.`);
-            // Logique pour mettre en évidence le point dans le SVG et demander la saisie
-            break;
-        case 2: // Choix de Réponse
-            console.log(`Quel est ce point ?`);
-            // Logique pour mettre en évidence le point et proposer des choix
-            break;
+function genererChoix(pointCorrect, nombreChoix = 3) {
+    const choix = new Set();
+    choix.add(pointCorrect);
+    while (choix.size < nombreChoix) {
+        const pointAleatoire = pointsDePression[Math.floor(Math.random() * pointsDePression.length)].nom;
+        choix.add(pointAleatoire);
     }
+    return Array.from(choix).sort();
 }
 
-// Appel de la fonction pour tester
-genererQuestionAleatoire();
+function genererQuestionnaire() {
+    let questions = [];
+    for (let i = 0; i < 10; i++) {
+        const pointAleatoire = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
+        const typeQuestion = Math.floor(Math.random() * 3);
+        let question = {};
+
+        switch(typeQuestion) {
+            case 0: // Nommer le Point
+                question = {
+                    texte: `Nommez le point ${pointAleatoire.nom}.`,
+                    type: "nommer",
+                    ids: pointAleatoire.ids
+                };
+                break;
+            case 1: // Identifier un Point
+                question = {
+                    texte: `Identifiez ce point de pression (nom : ${pointAleatoire.nom}).`,
+                    type: "identifier",
+                    ids: pointAleatoire.ids
+                };
+                break;
+            case 2: // Choix de Réponse
+                const choix = genererChoix(pointAleatoire.nom);
+                question = {
+                    texte: `Quel est ce point ?`,
+                    type: "choix",
+                    ids: pointAleatoire.ids,
+                    options: choix
+                };
+                break;
+        }
+
+        questions.push(question);
+    }
+    return questions;
+}
+
+// Générer et afficher le questionnaire
+const questionnaire = genererQuestionnaire();
+console.log(questionnaire);
