@@ -50,7 +50,6 @@ main {
     margin: 20px 0;
 }
 
-/* Ajustement pour assurer une largeur uniforme */
 .choice-container {
     display: flex;
     flex-direction: column;
@@ -58,10 +57,10 @@ main {
 }
 
 label {
-    display: inline-block;
+    display: block;
+    width: 250px; /* Assurez-vous d'utiliser une largeur fixe pour uniformiser */
     margin: 10px auto;
     padding: 15px;
-    width: 250px; /* Assurez-vous que cette largeur est suffisamment large pour inclure le choix le plus long */
     background-color: #444;
     border-radius: 5px;
     cursor: pointer;
@@ -99,7 +98,3 @@ button:hover {
     display: flex;
     justify-content: space-between;
 }
-
-
-
-
