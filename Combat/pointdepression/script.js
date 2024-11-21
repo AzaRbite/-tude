@@ -127,9 +127,8 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
-            // Cacher les points au début pour les questions de type "nommer"
             if (question.type === "nommer") {
-                // Pas de points visibles au départ
+                // Caché par défaut, il s'affichera après un clic correct
             } else if (question.type === "identifier") {
                 question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
@@ -145,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Élément cliqué avec ID:", cibleId); // Debug
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
-                question.ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
+                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 setTimeout(avancerQuestion, 1500); // Utiliser un délai pour voir le feedback
             } else {
