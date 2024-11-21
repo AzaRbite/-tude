@@ -30,9 +30,6 @@ document.addEventListener("DOMContentLoaded", function() {
             point.ids.forEach(id => manipulerPoint(id, false));
         });
 
-        // Afficher la première question
-        afficherQuestion(currentQuestionIndex);
-
         // Fonction pour vérifier la réponse de l'utilisateur par clic
         svgDoc.addEventListener("click", function(e) {
             const question = questionnaire[currentQuestionIndex];
@@ -51,6 +48,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById("feedback").style.color = "#ff4c4c";
             }
         });
+
+        // Afficher la première question
+        afficherQuestion(currentQuestionIndex);
 
     });
 
