@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function afficherChoix(question) {
-            const feedbackDiv = document.getElementById("feedback");
+            const feedbackDiv = document.createElement("div");
             feedbackDiv.innerHTML = "";
             question.options.forEach(option => {
                 const button = document.createElement("button");
@@ -123,30 +123,33 @@ document.addEventListener("DOMContentLoaded", function() {
                 };
                 feedbackDiv.appendChild(button);
             });
+            document.getElementById("feedback").append(feedbackDiv);
         }
 
         function demanderNom(question) {
             const feedbackDiv = document.getElementById("feedback");
+            const inputContainer = document.createElement("div"); // Créer un conteneur pour l'entrée et le bouton
             feedbackDiv.innerHTML = ""; 
 
             const input = document.createElement("input");
             input.type = "text";
-            feedbackDiv.appendChild(input);
+            inputContainer.appendChild(input);
 
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
                 const correctNoms = pointsDePression.find(p => question.ids.some(id => p.ids.includes(id))).nom.split(", ");
-                if (correctNoms.some(nom => nom.toLowerCase() === input.value.trim().toLowerCase())) {
+                if (correctNoms.some(nom => nom.trim().toLowerCase() === input.value.trim().toLowerCase())) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
                     console.log("Entrée incorrecte donnée : " + input.value);
                     donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-                    input.value = ''; // Réinitialiser le champ de saisie
+                    input.value = ''; // Réinitialiser le champ de saisie, mais le laisser visible
                 }
             };
-            feedbackDiv.appendChild(button);
+            inputContainer.appendChild(button);
+            feedbackDiv.appendChild(inputContainer); // Ajouter le conteneur au feedback
             console.log("Question de type 'identifier' affichée avec champ de saisie.");
         }
 
