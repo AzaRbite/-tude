@@ -6,78 +6,56 @@ body {
     color: #f0f0f0;
 }
 
-header {
-    background-color: #292929;
-    padding: 20px;
-    text-align: center;
+nav {
+    margin-top: 20px; /* Ajoute un espacement en haut si nécessaire */
+    text-align: center; /* Centre les éléments horizontalement */
 }
 
-header h1 {
+nav ul {
+    list-style-type: none;
+    padding: 0;
     margin: 0;
-    font-size: 2.5em;
-    color: #ed2c2c;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Permet aux boutons de s'adapter sur plusieurs lignes si nécessaire */
 }
 
-main {
-    padding: 20px;
+nav ul li {
+    margin: 10px; /* Espace entre chaque bouton */
+}
+
+nav ul li a {
+    font-size: 0.8em; /* Réduit la taille du texte des boutons */
+    padding: 8px 16px; /* Ajuste le padding pour correspondre à la nouvelle taille du texte */
+    background-color: #ed2c2c; /* Couleur par défaut des boutons */
+    color: #ffffff;
+    text-decoration: none;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: #a30000; /* Couleur de survol sombre */
+    color: #ffffff;
+}
+
+.content {
+    padding: 40px;
     max-width: 800px;
     margin: 20px auto;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    text-align: center; /* Centre le texte à l'intérieur du conteneur */
 }
 
-.content {
-    text-align: center;
-}
-
-.content h2 {
+h1 {
     font-size: 2em;
-    margin-bottom: 20px;
-    color: #ffffff;
+    margin-bottom: 20px; /* Espacement en bas du titre pour séparer du menu */
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    margin: 10px 0;
-}
-
-li a {
-    text-decoration: none;
-    font-size: 1.5em;
-    color: #ffffff;
-    background-color: #ed2c2c;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-li a:hover {
-    background-color: #a30000;
-}
-
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #292929;
-    border-top: 1px solid #444;
-}
-
-footer p {
-    margin: 0;
+p {
     font-size: 1.2em;
-}
-
-footer a {
-    color: #ed2c2c;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-footer a:hover {
-    color: #ffffff;
+    line-height: 1.6;
 }
