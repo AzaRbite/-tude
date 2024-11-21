@@ -1,33 +1,53 @@
 const questions = [
     {
         question: "Quelle couleur correspond à 'Inconscience du danger'?",
-        choices: ["Blanc", "Jaune", "Rouge"],
+        choices: ["Blanc", "Jaune", "Rouge", "Orange", "Noir"],
         correct: "Blanc"
     },
     {
         question: "Quel est l'état d'esprit correspondant à la description : 'Détendu et vigilant'?",
-        choices: ["Jaune", "Blanc", "Rouge"],
+        choices: ["Jaune", "Blanc", "Rouge", "Orange", "Noir"],
         correct: "Jaune"
     },
     {
         question: "Quel état d'esprit est associé à la couleur 'Rouge'?",
-        choices: ["Lutte", "Inconscience du danger", "Panique"],
+        choices: ["Lutte", "Inconscience du danger", "Panique", "Détendu", "Préparation au danger"],
         correct: "Lutte"
     },
     {
         question: "Quelle couleur est associée à 'Préparation au danger'?",
-        choices: ["Orange", "Rouge", "Jaune"],
+        choices: ["Orange", "Rouge", "Jaune", "Blanc", "Noir"],
         correct: "Orange"
     },
     {
         question: "Que signifie l'état d'esprit 'Noir'?",
-        choices: ["Panique", "Préparation au danger", "Détendu"],
+        choices: ["Panique", "Préparation au danger", "Détendu", "Lutte", "Inconscience du danger"],
         correct: "Panique"
     },
     {
         question: "Quel est l'état d'esprit pour 'Réaction en vue de maîtriser la menace'?",
-        choices: ["Rouge", "Orange", "Noir"],
+        choices: ["Rouge", "Orange", "Noir", "Jaune", "Blanc"],
         correct: "Rouge"
+    },
+    {
+        question: "Quelle couleur symbolise la 'Lutte'?",
+        choices: ["Rouge", "Jaune", "Blanc", "Noir", "Orange"],
+        correct: "Rouge"
+    },
+    {
+        question: "Quel est le nom associé à la couleur 'Blanc'?",
+        choices: ["Inconscience du danger", "Détendu", "Préparation au danger", "Lutte", "Panique"],
+        correct: "Inconscience du danger"
+    },
+    {
+        question: "Quelle est la description pour 'Orange'?",
+        choices: ["Préparation au danger", "Panique", "Inconscience du danger", "Lutte", "Détendu"],
+        correct: "Préparation au danger"
+    },
+    {
+        question: "Quel est l'état d'esprit pour 'Panique'?",
+        choices: ["Noir", "Rouge", "Orange", "Jaune", "Blanc"],
+        correct: "Noir"
     }
 ];
 
@@ -82,7 +102,7 @@ function nextQuestion() {
 }
 
 function prevQuestion() {
-    // Fonctionnalité "Précédent" désactivée pour ce mode aléatoire
+    // Fonctionnalité "Précédent" désactivée car les questions sont posées aléatoirement
 }
 
 window.onload = () => {
