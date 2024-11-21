@@ -10,6 +10,25 @@ header {
     background-color: #292929;
     padding: 20px;
     text-align: center;
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: #ed2c2c;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #a30000;
 }
 
 main {
@@ -70,6 +89,3 @@ button:hover {
     justify-content: space-between;
 }
 
-.back {
-    margin-top: 20px;
-}
