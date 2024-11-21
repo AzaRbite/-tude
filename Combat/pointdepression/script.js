@@ -82,6 +82,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const container = document.getElementById("questionnaire");
             container.innerHTML = "";
 
+            const compteur = document.getElementById("compteur");
+            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+
             const question = questions[index];
 
             const questionDiv = document.createElement("div");
@@ -138,10 +141,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     question.ids.some((id) => p.ids.includes(id))
                 );
 
-                const correctNoms = pointCorrect.nom.split(", ").map((nom) => nom.toLowerCase());
+                const correctNoms = pointCorrect.nom.toLowerCase();
                 const entreeUtilisateur = input.value.trim().toLowerCase();
 
-                if (correctNoms.includes(entreeUtilisateur)) {
+                if (entreeUtilisateur === correctNoms) {
                     question.ids.forEach((id) => manipulerPoint(id, true));
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
@@ -153,14 +156,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function afficherChoix(question) {
             const feedbackDiv = document.getElementById("feedback");
+            feedbackDiv.innerHTML = "";
+
             question.options.forEach((option) => {
                 const button = document.createElement("button");
                 button.textContent = option;
                 button.onclick = () => {
-                    const reponse = pointsDePression.find((p) =>
+                    const reponseCorrecte = pointsDePression.find((p) =>
                         question.ids.some((id) => p.ids.includes(id))
                     ).nom;
-                    if (option === reponse) {
+                    if (option === reponseCorrecte) {
                         donnerFeedback("Bonne réponse !", "#4caf50");
                         avancerQuestion();
                     } else {
