@@ -61,8 +61,9 @@ document.addEventListener("DOMContentLoaded", function() {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
-            const questionCounter = document.getElementById("question-counter");
+            const questionCounter = document.createElement("div");
             questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
+            container.appendChild(questionCounter);
 
             cacherTousLesPoints();
 
@@ -107,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function afficherChoix(question) {
-            const feedbackDiv = document.createElement("div");
+            const feedbackDiv = document.getElementById("feedback");
             feedbackDiv.innerHTML = "";
             question.options.forEach(option => {
                 const button = document.createElement("button");
@@ -123,7 +124,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 };
                 feedbackDiv.appendChild(button);
             });
-            document.getElementById("feedback").appendChild(feedbackDiv);
         }
 
         function demanderNom(question) {
