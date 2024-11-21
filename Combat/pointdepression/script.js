@@ -1,6 +1,3 @@
-// Message de confirmation pour vérifier l'application du script
-console.log("Le script JavaScript est bien chargé et s'exécute.");
-
 // Liste des points de pression et leurs IDs
 const pointsDePression = [
     { nom: "Infra-orbital", ids: ["Infra-orbital"] },
@@ -70,20 +67,67 @@ function genererQuestionnaire() {
     return questions;
 }
 
-// Affichage du questionnaire dans la page
-const divQuestionnaire = document.getElementById("questionnaire");
+let currentQuestionIndex = 0;
 const questionnaire = genererQuestionnaire();
 
-questionnaire.forEach((question, index) => {
+// Fonction pour afficher la question actuelle
+function afficherQuestion(index) {
+    const container = document.getElementById("questionnaire");
+    container.innerHTML = ""; // Efface les questions précédentes
+
+    const question = questionnaire[index];
     const questionDiv = document.createElement("div");
     questionDiv.textContent = `Question ${index + 1}: ${question.texte}`;
-    divQuestionnaire.appendChild(questionDiv);
+
+    container.appendChild(questionDiv);
 
     if (question.type === "choix") {
         const optionsDiv = document.createElement("div");
         optionsDiv.textContent = `Options: ${question.options.join(", ")}`;
-        divQuestionnaire.appendChild(optionsDiv);
+        container.appendChild(optionsDiv);
     }
 
-    divQuestionnaire.appendChild(document.createElement("br"));
+    // Met à jour le compteur de questions
+    const questionCounter = document.getElementById("question-counter");
+    questionCounter.textContent = `Question ${index + 1}/${questionnaire.length}`;
+
+    // Mettez à jour ou modifiez le SVG selon la question
+    mettreAJourSVG(question.ids);
+
+    // Afficher/masquer les boutons suivant/précédent
+    document.getElementById("prev-btn").style.display = index > 0 ? "inline-block" : "none";
+    document.getElementById("next-btn").style.display = index < questionnaire.length - 1 ? "inline-block" : "none";
+}
+
+// Fonction pour mettre à jour l'affichage du SVG selon l'ID des points ciblés
+function mettreAJourSVG(ids) {
+    const svg = document.querySelector('embed#svgImg');
+    svg.onload = function() {
+        const svgDocument = svg.getSVGDocument();
+        ids.forEach(id => {
+            const element = svgDocument.getElementById(id);
+            if (element) {
+                element.style.stroke = 'red'; // Par exemple, mettre en surbrillance l'élément
+                element.style.strokeWidth = '2px';
+            }
+        });
+    };
+}
+
+// Initialisation
+afficherQuestion(currentQuestionIndex);
+
+// Boutons pour naviguer entre les questions
+document.getElementById("next-btn").addEventListener("click", () => {
+    if (currentQuestionIndex < questionnaire.length - 1) {
+        currentQuestionIndex++;
+        afficherQuestion(currentQuestionIndex);
+    }
+});
+
+document.getElementById("prev-btn").addEventListener("click", () => {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        afficherQuestion(currentQuestionIndex);
+    }
 });
