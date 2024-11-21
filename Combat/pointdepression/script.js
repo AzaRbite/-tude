@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function() {
         function manipulerPoint(pointId, estActif) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
-                point.style.fillOpacity = estActif ? 1 : 0; // Affiche ou cache le point
-                point.style.fill = 'red'; // Assurez-vous que la couleur est toujours rouge quand actif
-                point.style.cursor = estActif ? 'pointer' : ''; // Change le curseur si actif
+                point.style.fillOpacity = estActif ? 1 : 0;
+                point.style.fill = 'red';
+                point.style.cursor = estActif ? 'pointer' : '';
             } else {
                 console.error(`ID de point non trouvé: ${pointId}`);
             }
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
 
-        cacherTousLesPoints(); // Assurez-vous que tous les points sont cachés au début
+        cacherTousLesPoints();
 
         let currentQuestionIndex = 0;
 
@@ -64,12 +64,12 @@ document.addEventListener("DOMContentLoaded", function() {
             const questionCounter = document.getElementById("question-counter");
             questionCounter.textContent = `Question ${index + 1}/${questions.length}`;
 
-            cacherTousLesPoints(); // Cache tous les points avant d'afficher la question
+            cacherTousLesPoints();
 
             if (question.type === "nommer") {
-                // Rien à afficher au départ pour la question "nommer"
+                // Rien à faire ici, le point est caché
             } else if (question.type === "identifier") {
-                question.ids.forEach(id => manipulerPoint(id, true)); // Affiche les points pour la question actuelle
+                question.ids.forEach(id => manipulerPoint(id, true));
                 demanderNom(question);
             } else if (question.type === "choix") {
                 question.ids.forEach(id => manipulerPoint(id, true));
@@ -79,10 +79,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         svgDoc.addEventListener("click", function(e) {
             const question = questions[currentQuestionIndex];
-            if (question.type === "nommer" && question.ids.includes(e.target.id)) {
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                question.ids.forEach(id => manipulerPoint(id, true)); // Affiche le point seulement après le bon clic
-                avancerQuestion();
+            if (question.type === "nommer") {
+                if (question.ids.includes(e.target.id)) {
+                    donnerFeedback("Bonne réponse !", "#4caf50");
+                    question.ids.forEach(id => manipulerPoint(id, true));
+                    avancerQuestion();
+                } else {
+                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                }
             }
         });
 
@@ -103,13 +107,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function afficherChoix(question) {
             const feedbackDiv = document.getElementById("feedback");
-            feedbackDiv.innerHTML = ""; // Efface les choix précédents
+            feedbackDiv.innerHTML = "";
             question.options.forEach(option => {
                 const button = document.createElement("button");
-                button.className = "reponse"; // Ajoute la classe pour le style
+                button.className = "reponse";
                 button.textContent = option;
                 button.onclick = () => {
-                    if (option === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom) {
+                    if (option.toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
                         donnerFeedback("Bonne réponse !", "#4caf50");
                         avancerQuestion();
                     } else {
@@ -122,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function demanderNom(question) {
             const feedbackDiv = document.getElementById("feedback");
-            feedbackDiv.innerHTML = ""; 
+            feedbackDiv.innerHTML = "";
 
             const input = document.createElement("input");
             input.type = "text";
@@ -131,14 +135,14 @@ document.addEventListener("DOMContentLoaded", function() {
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
-                const correctNom = pointsDePression.find(p => question.ids.includes(p.ids[0])).nom;
-                if (input.value.trim().toLowerCase() === correctNom.toLowerCase()) {
+                const correctNoms = pointsDePression.find(p => question.ids.includes(p.ids[0])).nom.toLowerCase().split(", ");
+                if (correctNoms.some(nom => nom === input.value.trim().toLowerCase())) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
                     donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                    input.value = ''; // Réinitialiser le champ de saisie
                 }
-                input.value = ''; // Réinitialiser le champ de saisie pour permettre de réessayer
             };
             feedbackDiv.appendChild(button);
         }
@@ -151,8 +155,8 @@ document.addEventListener("DOMContentLoaded", function() {
         { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
         { nom: "Jugulaire", ids: ["Jugulaire"] },
         { nom: "Médian", ids: ["Median", "Median2"] },
-        { nom: "Fémoral", ids: ["Femoral", "Femoral2"] },
-        { nom: "Tibial", ids: ["Tibial", "Tibial2"] },
+        { nom: "Fémoral, femoral", ids: ["Femoral", "Femoral2"] },
+        { nom: "Tibial, tibial", ids: ["Tibial", "Tibial2"] },
         { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"] },
         { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"] },
         { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"] },
