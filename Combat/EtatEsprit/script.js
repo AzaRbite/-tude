@@ -118,9 +118,11 @@ function nextQuestion() {
 
 function endQuiz() {
     const quizDiv = document.getElementById('quiz');
+    const totalQuestions = questionOrder.length;
+    const incorrectAnswers = totalQuestions - correctAnswers;
     quizDiv.innerHTML = `
         <h2>Quiz Terminé</h2>
-        <p>Vous avez répondu correctement à ${correctAnswers} questions sur ${questionOrder.length}.</p>
+        <p>Vous avez fait ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
         <button onclick="restartQuiz()">Recommencer</button>
         <button onclick="window.location.href='../index.html'">Retour à Combats</button>
     `;
@@ -142,7 +144,7 @@ window.onload = () => {
     const counterDiv = document.createElement('div');
     counterDiv.id = 'question-counter';
     counterDiv.style.position = 'absolute';
-    counterDiv.style.top = '50%';
+    counterDiv.style.top = '70%'; // Ajustement pour descendre le compteur
     counterDiv.style.transform = 'translateY(-50%)';
     counterDiv.style.right = '20px';
     counterDiv.style.color = '#ffffff';
