@@ -136,8 +136,8 @@ document.addEventListener("DOMContentLoaded", function() {
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
-                const correctNoms = pointsDePression.find(p => question.ids.includes(p.ids[0])).nom.toLowerCase().split(", ");
-                if (correctNoms.some(nom => nom === input.value.trim().toLowerCase())) {
+                const correctNoms = pointsDePression.find(p => question.ids.some(id => p.ids.includes(id))).nom.split(", ");
+                if (correctNoms.some(nom => nom.toLowerCase() === input.value.trim().toLowerCase())) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
