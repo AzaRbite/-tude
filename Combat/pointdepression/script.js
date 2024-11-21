@@ -111,10 +111,6 @@ function afficherQuestion(index) {
 
     // Mettez à jour ou modifiez le SVG selon la question
     mettreAJourSVG(question.ids);
-
-    // Afficher/masquer les boutons suivant/précédent
-    document.getElementById("prev-btn").style.display = index > 0 ? "inline-block" : "none";
-    document.getElementById("next-btn").style.display = index < questionnaire.length - 1 ? "inline-block" : "none";
 }
 
 // Fonction pour mettre à jour l'affichage du SVG selon l'ID des points ciblés
@@ -122,15 +118,17 @@ function mettreAJourSVG(ids) {
     const svg = document.querySelector('embed#svgImg');
     svg.onload = function() {
         const svgDocument = svg.getSVGDocument();
-        // Masquer tous les points
-        const allElements = svgDocument.querySelectorAll('*');
-        allElements.forEach(el => el.style.opacity = '0.2');
+        // Réinitialiser tous les styles
+        svgDocument.querySelectorAll('*').forEach(el => {
+            el.style.opacity = '1.0'; // Assurez-vous que tout est visible
+            el.style.fill = ''; // Réinitialiser tout remplissage ou contour
+            el.style.stroke = '';
+        });
 
-        // Montrer les points pour la question actuelle
+        // Mettre en surbrillance les points pour la question actuelle
         ids.forEach(id => {
             const element = svgDocument.getElementById(id);
             if (element) {
-                element.style.opacity = '1.0'; // Remettre la visibilité normale
                 element.style.stroke = 'red'; // Mettre en surbrillance l'élément
                 element.style.strokeWidth = '2px';
             }
@@ -150,6 +148,13 @@ function verifierReponse(question) {
             feedbackDiv.textContent = "Mauvaise réponse. La bonne réponse est " + question.ids[0];
             feedbackDiv.style.color = "red";
         }
+        // Passer automatiquement à la question suivante après un délai
+        setTimeout(() => {
+            if (currentQuestionIndex < questionnaire.length - 1) {
+                currentQuestionIndex++;
+                afficherQuestion(currentQuestionIndex);
+            }
+        }, 2000);
     } else {
         feedbackDiv.textContent = "Veuillez sélectionner une option.";
         feedbackDiv.style.color = "orange";
@@ -158,18 +163,3 @@ function verifierReponse(question) {
 
 // Initialisation
 afficherQuestion(currentQuestionIndex);
-
-// Boutons pour naviguer entre les questions
-document.getElementById("next-btn").addEventListener("click", () => {
-    if (currentQuestionIndex < questionnaire.length - 1) {
-        currentQuestionIndex++;
-        afficherQuestion(currentQuestionIndex);
-    }
-});
-
-document.getElementById("prev-btn").addEventListener("click", () => {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        afficherQuestion(currentQuestionIndex);
-    }
-});
