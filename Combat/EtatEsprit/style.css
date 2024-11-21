@@ -20,7 +20,8 @@ header {
     transform: translateY(-50%);
     background-color: #ed2c2c;
     color: #ffffff;
-    padding: 10px 20px;
+    padding: 15px 30px;
+    font-size: 1.1em;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -55,8 +56,10 @@ input[type="radio"] {
 
 label {
     display: block;
-    margin: 10px 0;
-    padding: 10px;
+    margin: 10px auto;
+    padding: 15px;
+    width: fit-content;
+    max-width: 100%;
     background-color: #444;
     border-radius: 5px;
     cursor: pointer;
@@ -71,12 +74,13 @@ label:hover {
 button {
     background-color: #ed2c2c;
     color: #ffffff;
-    padding: 10px 20px;
+    padding: 15px 30px;
+    font-size: 1.1em;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 5px;
+    margin: 10px;
 }
 
 button:hover {
@@ -88,5 +92,6 @@ button:hover {
     display: flex;
     justify-content: space-between;
 }
+
 
 
