@@ -25,12 +25,29 @@ main {
     text-align: center;
 }
 
-.question {
+.question p {
+    font-size: 1.5em;
     margin: 20px 0;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"], input[type="radio"] {
     margin-right: 10px;
+    accent-color: #ed2c2c; /* Couleur spécifique pour les cases à cocher */
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #444;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+label:hover {
+    background-color: #555;
+    color: #ffffff;
 }
 
 button {
