@@ -71,25 +71,46 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.log("Question de type 'nommer' affichée.");
             } else if (question.type === "identifier") {
                 question.ids.forEach(id => manipulerPoint(id, true));
-                demanderNom(question);
+                afficherChampDeSaisie(question);
             } else if (question.type === "choix") {
                 question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChoix(question);
             }
         }
 
-        svgDoc.addEventListener("click", function(e) {
-            const question = questions[currentQuestionIndex];
-            if (question.type === "nommer") {
-                if (question.ids.includes(e.target.id)) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
-                    question.ids.forEach(id => manipulerPoint(id, true));
-                    avancerQuestion();
-                } else {
-                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-                }
+        function afficherChampDeSaisie(question) {
+            const feedbackDiv = document.getElementById("feedback");
+
+            // Vérifier si le champ de saisie existe déjà pour ne pas le recréer
+            let inputContainer = document.getElementById("input-container");
+            if (!inputContainer) {
+                inputContainer = document.createElement("div");
+                inputContainer.id = "input-container"; // Ajouter un ID pour une identification facile
+                const input = document.createElement("input");
+                input.type = "text";
+                input.placeholder = "Entrez votre réponse ici...";
+                inputContainer.appendChild(input);
+
+                const button = document.createElement("button");
+                button.textContent = "Valider";
+                button.onclick = () => {
+                    const correctNoms = pointsDePression.find(p => question.ids.some(id => p.ids.includes(id))).nom.split(", ");
+                    const entreeUtilisateur = input.value.trim().toLowerCase();
+                    console.log("Validation de l'entrée: " + entreeUtilisateur);
+                    if (correctNoms.some(nom => nom.trim().toLowerCase() === entreeUtilisateur)) {
+                        donnerFeedback("Bonne réponse !", "#4caf50");
+                        avancerQuestion();
+                    } else {
+                        console.log("Entrée incorrecte donnée : " + input.value);
+                        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                        input.value = ''; // Réinitialiser le champ de saisie, mais le laisser visible
+                    }
+                };
+                inputContainer.appendChild(button);
+                feedbackDiv.appendChild(inputContainer);
             }
-        });
+            console.log("Question de type 'identifier' affichée avec champ de saisie.");
+        }
 
         function donnerFeedback(message, couleur) {
             const feedbackDiv = document.getElementById("feedback");
@@ -124,35 +145,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 };
                 feedbackDiv.appendChild(button);
             });
-        }
-
-        function demanderNom(question) {
-            const feedbackDiv = document.getElementById("feedback");
-            feedbackDiv.innerHTML = ""; 
-
-            const inputContainer = document.createElement("div");
-            const input = document.createElement("input");
-            input.type = "text";
-            inputContainer.appendChild(input);
-
-            const button = document.createElement("button");
-            button.textContent = "Valider";
-            button.onclick = () => {
-                const correctNoms = pointsDePression.find(p => question.ids.some(id => p.ids.includes(id))).nom.split(", ");
-                const entreeUtilisateur = input.value.trim().toLowerCase();
-                console.log("Validation de l'entrée: " + entreeUtilisateur);
-                if (correctNoms.some(nom => nom.trim().toLowerCase() === entreeUtilisateur)) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
-                    avancerQuestion();
-                } else {
-                    console.log("Entrée incorrecte donnée : " + input.value);
-                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-                    input.value = ''; // Réinitialiser le champ de saisie, mais le laisser visible
-                }
-            };
-            inputContainer.appendChild(button);
-            feedbackDiv.appendChild(inputContainer);
-            console.log("Question de type 'identifier' affichée avec champ de saisie.");
         }
 
         afficherQuestion(currentQuestionIndex);
