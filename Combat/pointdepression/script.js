@@ -3,21 +3,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     svgObject.addEventListener("load", function() {
         // Obtention du document SVG interne
-        var svgDoc = svgObject.contentDocument;
+        var svgDoc = svgObject.getSVGDocument();
         
         // Sélection du point par son ID
         var infraOrbitalPoint = svgDoc.getElementById("Infra-orbital");
 
-        // Ajouter un événement au clic pour changer l'opacité
-        infraOrbitalPoint.addEventListener("click", function() {
-            var currentOpacity = infraOrbitalPoint.style.fillOpacity;
+        // Vérification si le point existe
+        if (infraOrbitalPoint) {
+            // Ajouter un événement au clic pour changer l'opacité
+            infraOrbitalPoint.addEventListener("click", function() {
+                var currentOpacity = infraOrbitalPoint.style.fillOpacity;
 
-            if (currentOpacity == 0 || currentOpacity === '') {
-                infraOrbitalPoint.style.fillOpacity = 1; // Rendre visible
-                alert("Point Infra-orbital cliqué !");
-            } else {
-                infraOrbitalPoint.style.fillOpacity = 0; // Rendre invisible
-            }
-        });
+                if (currentOpacity == 0 || currentOpacity === '') {
+                    infraOrbitalPoint.style.fillOpacity = 1; // Rendre visible
+                    alert("Point Infra-orbital cliqué !");
+                } else {
+                    infraOrbitalPoint.style.fillOpacity = 0; // Rendre invisible
+                }
+            });
+        }
     });
 });
