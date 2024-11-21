@@ -7,8 +7,8 @@ body {
 }
 
 nav {
-    background-color: #292929;
-    padding: 15px 0;
+    margin-top: 20px; /* Ajoutez un espacement en haut si nécessaire */
+    text-align: center; /* Centrez les éléments horizontalement */
 }
 
 nav ul {
@@ -17,14 +17,16 @@ nav ul {
     margin: 0;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* Permet aux boutons de s'adapter sur plusieurs lignes si nécessaire */
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin: 10px;
 }
 
 nav ul li a {
-    color: #f0f0f0;
+    background-color: #ed2c2c; /* Couleur par défaut des boutons */
+    color: #ffffff;
     text-decoration: none;
     padding: 10px 20px;
     display: block;
@@ -33,7 +35,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #ed2c2c;
+    background-color: #a30000; /* Couleur de survol sombre */
     color: #ffffff;
 }
 
@@ -44,11 +46,12 @@ nav ul li a:hover {
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    text-align: center; /* Centre le texte à l'intérieur du conteneur */
 }
 
 h1 {
     font-size: 2em;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* Espacement en bas du titre pour séparer du menu */
 }
 
 p {
