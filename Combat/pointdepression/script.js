@@ -67,27 +67,22 @@ document.addEventListener("DOMContentLoaded", function() {
             cacherTousLesPoints(); // Cache tous les points avant d'afficher la question
 
             if (question.type === "nommer") {
-                // Ne rien afficher au départ pour la question "nommer"
-            } else if (question.type === "identifier" || question.type === "choix") {
+                // Rien à afficher au départ pour la question "nommer"
+            } else if (question.type === "identifier") {
                 question.ids.forEach(id => manipulerPoint(id, true)); // Affiche les points pour la question actuelle
-                if (question.type === "choix") {
-                    afficherChoix(question);
-                } else if (question.type === "identifier") {
-                    demanderNom(question);
-                }
+                demanderNom(question);
+            } else if (question.type === "choix") {
+                question.ids.forEach(id => manipulerPoint(id, true));
+                afficherChoix(question);
             }
         }
 
         svgDoc.addEventListener("click", function(e) {
             const question = questions[currentQuestionIndex];
-            if (question.ids.includes(e.target.id)) {
+            if (question.type === "nommer" && question.ids.includes(e.target.id)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
-                if (question.type === "nommer") {
-                    question.ids.forEach(id => manipulerPoint(id, true)); // Affiche le point seulement après le bon clic
-                }
+                question.ids.forEach(id => manipulerPoint(id, true)); // Affiche le point seulement après le bon clic
                 avancerQuestion();
-            } else {
-                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
             }
         });
 
@@ -111,6 +106,7 @@ document.addEventListener("DOMContentLoaded", function() {
             feedbackDiv.innerHTML = ""; // Efface les choix précédents
             question.options.forEach(option => {
                 const button = document.createElement("button");
+                button.className = "reponse"; // Ajoute la classe pour le style
                 button.textContent = option;
                 button.onclick = () => {
                     if (option === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom) {
@@ -142,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
                 }
+                input.value = ''; // Réinitialiser le champ de saisie pour permettre de réessayer
             };
             feedbackDiv.appendChild(button);
         }
