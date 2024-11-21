@@ -42,6 +42,7 @@ const questions = [
 
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
+let incorrectAnswers = 0;
 let questionOrder = generateNonRepeatingOrder(questions, 10);
 
 function generateNonRepeatingOrder(questions, length) {
@@ -108,13 +109,16 @@ function checkAnswer(index, selectedValue) {
     if (isCorrect) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
-        setTimeout(() => {
-            nextQuestion();
-            document.getElementById('results').innerHTML = '';
-        }, 2000);
     } else {
+        incorrectAnswers++;
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
     }
+    setTimeout(() => {
+        if (isCorrect) {
+            nextQuestion();
+            document.getElementById('results').innerHTML = '';
+        }
+    }, 2000);
 }
 
 function nextQuestion() {
@@ -129,7 +133,6 @@ function nextQuestion() {
 function endQuiz() {
     const quizDiv = document.getElementById('quiz');
     const totalQuestions = questionOrder.length;
-    const incorrectAnswers = totalQuestions - correctAnswers;
     quizDiv.innerHTML = `
         <h2>Quiz Terminé</h2>
         <p>Vous avez fait ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
@@ -143,6 +146,7 @@ function endQuiz() {
 function restartQuiz() {
     currentQuestionIndex = 0;
     correctAnswers = 0;
+    incorrectAnswers = 0;
     questionOrder = generateNonRepeatingOrder(questions, 10);
     showQuestion(currentQuestionIndex);
     document.querySelector('.navigation').style.display = 'flex';
