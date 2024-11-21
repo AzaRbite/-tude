@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     svgObject.addEventListener("load", function () {
         const svgDoc = svgObject.contentDocument || svgObject.getSVGDocument();
+
         if (!svgDoc) {
             console.error("Impossible de charger le document SVG.");
             return;
@@ -37,30 +38,38 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
+        // Attache des écouteurs aux éléments cliquables du SVG
+        pointsDePression.forEach(point => {
+            point.ids.forEach(id => {
+                const element = svgDoc.getElementById(id);
+                if (element) {
+                    element.addEventListener("click", gererCliqueNommer);
+                } else {
+                    console.error(`ID de point non trouvé dans le SVG : ${id}`);
+                }
+            });
+        });
+
         function genererQuestionsAleatoires(nombre) {
             questions = [];
             for (let i = 0; i < nombre; i++) {
                 const point = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
                 const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
-
                 const question = {
                     texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
                     type: template.type,
                     ids: point.ids,
                 };
-
                 if (template.type === "choix") {
                     question.options = pointsDePression
                         .map((p) => p.nom)
                         .sort(() => Math.random() - 0.5)
                         .slice(0, 3);
-
                     if (!question.options.includes(point.nom)) {
                         question.options.push(point.nom);
                     }
                     question.options.sort(() => Math.random() - 0.5);
                 }
-
                 questions.push(question);
             }
         }
@@ -84,14 +93,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function afficherQuestion(index) {
             cacherTousLesPoints();
-
             if (index >= questions.length) {
                 container.innerHTML = "Quiz terminé ! Félicitations !";
                 return;
             }
-
-            // Détacher l'écouteur précédent avant d'afficher une nouvelle question
-            svgDoc.removeEventListener("click", gererCliqueNommer);
 
             const question = questions[index];
             compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
@@ -106,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(feedbackDiv);
 
             if (question.type === "nommer") {
-                svgDoc.addEventListener("click", gererCliqueNommer);
+                // Les écouteurs sont déjà attachés, donc pas besoin de les réattacher
             } else if (question.type === "identifier") {
                 question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
@@ -116,20 +121,18 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-function gererCliqueNommer(e) {
-    // Cible l'élément sur lequel on a cliqué s'il a un ID défini
-    const cible = e.target.closest('[id]');
-    const cibleId = cible ? cible.id : null;
+        function gererCliqueNommer(e) {
+            const cible = e.target.closest('[id]');
+            const cibleId = cible ? cible.id : null;
+            console.log("Élément cliqué avec ID:", cibleId); // Debug
 
-    console.log("Élément cliqué avec ID:", cibleId); // Debug
-
-    if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
-        donnerFeedback("Bonne réponse !", "#4caf50");
-        avancerQuestion();
-    } else {
-        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-    }
-}
+            if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                avancerQuestion();
+            } else {
+                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+            }
+        }
 
         function afficherChampDeSaisie(question) {
             const input = document.createElement("input");
