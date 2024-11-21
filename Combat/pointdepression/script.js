@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const element = svgDoc.getElementById(id);
                 if (element) {
                     element.addEventListener("click", gererCliqueNommer);
+                    console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
                 } else {
                     console.error(`ID de point non trouvé dans le SVG : ${id}`);
                 }
@@ -111,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(feedbackDiv);
 
             if (question.type === "nommer") {
-                // Les écouteurs sont déjà attachés, donc pas besoin de les réattacher
+                // Rien à faire ici car les écouteurs sont déjà attachés
             } else if (question.type === "identifier") {
                 question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
@@ -122,8 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function gererCliqueNommer(e) {
-            const cible = e.target.closest('[id]');
-            const cibleId = cible ? cible.id : null;
+            const cibleId = e.target.getAttribute('id');
             console.log("Élément cliqué avec ID:", cibleId); // Debug
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
