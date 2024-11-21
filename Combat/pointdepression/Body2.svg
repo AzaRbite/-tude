@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="3.143168"
-     inkscape:cx="372.87221"
-     inkscape:cy="228.27288"
+     inkscape:zoom="0.87061987"
+     inkscape:cx="445.08518"
+     inkscape:cy="546.16259"
      inkscape:window-width="1472"
      inkscape:window-height="816"
      inkscape:window-x="0"
@@ -58,4 +58,203 @@
      cx="305.99741"
      cy="123.8621"
      r="6.1811399" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="Plexusbracialclavicule"
+     cx="342.21915"
+     cy="178.78229"
+     rx="8.6645489"
+     ry="8.3516979" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="PlexusBrachialorigine"
+     cx="318.04404"
+     cy="170.57872"
+     inkscape:label="PlexusBrachial(origine)"
+     rx="7.1136923"
+     ry="7.122333" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="Plexusbracialclavicule2"
+     cx="272.94086"
+     cy="181.82748"
+     rx="8.6645489"
+     ry="8.3516979"
+     inkscape:label="Plexusbracialclavicule2" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="AngleMandibulaire"
+     cx="328.63577"
+     cy="143.25636"
+     r="6.1811399"
+     inkscape:label="AngleMandibulaire" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="AngleMandibulaire2"
+     cx="285.2417"
+     cy="144.01767"
+     inkscape:label="AngleMandibulaire2"
+     rx="6.1725001"
+     ry="6.1811399" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="Hypoglosse"
+     cx="315.69366"
+     cy="151.63066"
+     inkscape:label="Hypoglosse"
+     rx="6.1725001"
+     ry="6.1811399" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="Hypoglosse2"
+     cx="296.66116"
+     cy="152.39197"
+     inkscape:label="Hypoglosse2"
+     rx="6.1725001"
+     ry="6.1811399" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="PlexusBrachialorigine2"
+     cx="294.44376"
+     cy="170.57872"
+     inkscape:label="PlexusBrachial(origine)2"
+     rx="7.125"
+     ry="7.122333" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="Jugulaire"
+     cx="306.93875"
+     cy="183.9859"
+     inkscape:label="Jugulaire"
+     rx="7.875"
+     ry="8.0843897" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="PlexusBrachialJonction"
+     cx="367.08139"
+     cy="210.63139"
+     inkscape:label="PlexusBrachialJonction"
+     rx="9.375"
+     ry="9.6069889" />
+  <ellipse
+     style="fill:red;fill-opacity:0"
+     id="PlexusBrachialJonction2"
+     cx="239.18303"
+     cy="212.15399"
+     inkscape:label="PlexusBrachialJonction2"
+     rx="9.375"
+     ry="9.6069889"
+     sodipodi:insensitive="true" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Median"
+     cx="210.02863"
+     cy="351.71136"
+     inkscape:label="Median"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Median2"
+     cx="404.4086"
+     cy="350.64624"
+     inkscape:label="Median2"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Radial"
+     cx="403.87607"
+     cy="309.10751"
+     inkscape:label="Radial"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Radial2"
+     cx="208.96352"
+     cy="310.70517"
+     inkscape:label="Radial2"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Cubital"
+     cx="375.11847"
+     cy="329.34433"
+     inkscape:label="Cubital"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Cubital2"
+     cx="236.65601"
+     cy="325.61649"
+     inkscape:label="Cubital2"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Femoral"
+     cx="296.83392"
+     cy="521.59412"
+     inkscape:label="Femoral"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Femoral2"
+     cx="315.47311"
+     cy="521.59412"
+     inkscape:label="Femoral2"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Sciatique"
+     cx="266.4787"
+     cy="540.23328"
+     inkscape:label="Sciatique"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Sciatique2"
+     cx="343.69815"
+     cy="539.16821"
+     inkscape:label="Sciatique2"
+     r="8.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Tibial"
+     cx="297.89902"
+     cy="615.32257"
+     inkscape:label="Tibial"
+     r="7.5" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Tibial2"
+     cx="314.40799"
+     cy="614.78998"
+     inkscape:label="Tibial2"
+     r="7.5" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="LobeOreille"
+     cx="340.50287"
+     cy="129.63887"
+     inkscape:label="LobeOreille"
+     r="5.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="LobeOreille2"
+     cx="270.73911"
+     cy="129.10632"
+     inkscape:label="LobeOreille2"
+     r="5.25" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Main"
+     cx="440.05951"
+     cy="422.79156"
+     inkscape:label="Main"
+     r="4.5" />
+  <circle
+     style="fill:red;fill-opacity:0"
+     id="Main2"
+     cx="173.0721"
+     cy="421.75473"
+     inkscape:label="Main2"
+     r="4.5" />
 </svg>
