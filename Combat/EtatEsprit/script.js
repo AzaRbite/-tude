@@ -109,7 +109,7 @@ function checkAnswer(index, selectedValue) {
             document.getElementById('results').innerHTML = '';
         }, 2000);
     } else {
-        incorrectAnswers++;
+        incorrectAnswers++;  // Comptabiliser une seule erreur
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
         isLocked = false;  // Permettre une nouvelle tentative
     }
