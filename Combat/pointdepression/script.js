@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let questions = [];
         let currentQuestionIndex = 0;
+        let dernierPoint = null;
 
         // Attache des écouteurs aux éléments cliquables du SVG
         pointsDePression.forEach(point => {
@@ -52,15 +53,21 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         function genererQuestionsAleatoires(nombre) {
+            const tempPoints = [...pointsDePression];
             questions = [];
-            for (let i = 0; i < nombre; i++) {
-                const point = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
+            while (questions.length < nombre && tempPoints.length > 0) {
+                const indexPoint = Math.floor(Math.random() * tempPoints.length);
+                const point = tempPoints[indexPoint];
+
+                if (point === dernierPoint) continue;
+
                 const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
                 const question = {
                     texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
                     type: template.type,
                     ids: point.ids,
                 };
+
                 if (template.type === "choix") {
                     question.options = pointsDePression
                         .map((p) => p.nom)
@@ -71,7 +78,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     question.options.sort(() => Math.random() - 0.5);
                 }
+
                 questions.push(question);
+                dernierPoint = point;
+
+                // Retirer le point pour éviter qu'il ne soit sélectionné à nouveau immédiatement
+                tempPoints.splice(indexPoint, 1);
+
+                // Si tous les points ont été utilisés, réinitialiser la liste temporaire
+                if (tempPoints.length === 0 && questions.length < nombre) {
+                    tempPoints.push(...pointsDePression);
+                }
             }
         }
 
