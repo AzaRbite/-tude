@@ -50,15 +50,18 @@ function generateNonRepeatingOrder(questions, length) {
     while (order.length < length) {
         const randomIndex = Math.floor(Math.random() * questions.length);
         const question = questions[randomIndex];
-        const color = question.question.match(/Blanc|Jaune|Orange|Rouge|Noir/)[0];
+        const colorMatch = question.question.match(/Blanc|Jaune|Orange|Rouge|Noir/);
 
-        if (!usedColors.has(color)) {
-            order.push(randomIndex);
-            usedColors.add(color);
-        }
-
-        if (usedColors.size >= 5) {
-            usedColors.clear();
+        if (colorMatch) {
+            const color = colorMatch[0];
+            if (!usedColors.has(color)) {
+                order.push(randomIndex);
+                usedColors.add(color);
+            }
+    
+            if (usedColors.size >= 5) {
+                usedColors.clear();
+            }
         }
     }
     return order;
@@ -97,7 +100,7 @@ function checkAnswer(index, selectedValue) {
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
         setTimeout(() => {
             nextQuestion();
-            document.getElementById('results').innerHTML = ''; // Efface le résultat
+            document.getElementById('results').innerHTML = '';
         }, 2000);
     } else {
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
