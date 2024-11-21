@@ -105,23 +105,27 @@ function showQuestion(index) {
 function checkAnswer(index, selectedValue) {
     const resultDiv = document.getElementById('results');
     const isCorrect = selectedValue === questions[index].correct;
-    
+
     if (isCorrect) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
-        setTimeout(() => {
-            nextQuestion();
-            document.getElementById('results').innerHTML = '';
-        }, 2000);
     } else {
         incorrectAnswers++;
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
     }
+
+    setTimeout(() => {
+        if (isCorrect) {
+            nextQuestion();
+        }
+        document.getElementById('results').innerHTML = '';
+    }, 2000);
 }
 
 function nextQuestion() {
-    if (currentQuestionIndex < questionOrder.length - 1) {
-        currentQuestionIndex++;
+    currentQuestionIndex++;  // Incrémentation correcte par +1
+
+    if (currentQuestionIndex < questionOrder.length) {
         showQuestion(currentQuestionIndex);
     } else {
         endQuiz();
@@ -137,7 +141,6 @@ function endQuiz() {
         <button onclick="restartQuiz()">Recommencer</button>
         <button onclick="window.location.href='../index.html'">Retour à Combats</button>
     `;
-    document.querySelector('.navigation').style.display = 'none';
     document.getElementById('results').innerHTML = ''; 
 }
 
@@ -147,8 +150,6 @@ function restartQuiz() {
     incorrectAnswers = 0;
     questionOrder = generateNonRepeatingOrder(questions, 10);
     showQuestion(currentQuestionIndex);
-    document.querySelector('.navigation').style.display = 'flex';
-    document.getElementById('results').innerHTML = '';
 }
 
 window.onload = () => {
@@ -156,7 +157,7 @@ window.onload = () => {
     const counterDiv = document.createElement('div');
     counterDiv.id = 'question-counter';
     counterDiv.style.position = 'absolute';
-    counterDiv.style.top = '70%'; // Ajustement pour descendre le compteur
+    counterDiv.style.top = '70%';
     counterDiv.style.transform = 'translateY(-50%)';
     counterDiv.style.right = '20px';
     counterDiv.style.color = '#ffffff';
