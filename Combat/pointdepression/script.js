@@ -117,16 +117,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function gererCliqueNommer(e) {
-            const question = questions[currentQuestionIndex];
-            const cibleId = e.target.id; // Utiliser e.target pour obtenir l'ID de l'élément cliqué
+    const question = questions[currentQuestionIndex];
+    const cibleId = e.target.id; // Utiliser e.target pour obtenir l'ID de l'élément cliqué
 
-            if (question.ids.includes(cibleId)) {
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                avancerQuestion();
-            } else {
-                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-            }
-        }
+    if (question.ids.includes(cibleId)) {
+        donnerFeedback("Bonne réponse !", "#4caf50");
+        avancerQuestion();
+    } else {
+        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+    }
+}
 
         function afficherChampDeSaisie(question) {
             const input = document.createElement("input");
