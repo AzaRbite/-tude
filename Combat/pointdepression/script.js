@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
             cacherTousLesPoints();
 
             if (question.type === "nommer") {
-                // Rien à faire ici, le point est caché
+                // Rien à afficher au départ pour la question "nommer"
             } else if (question.type === "identifier") {
                 question.ids.forEach(id => manipulerPoint(id, true));
                 demanderNom(question);
@@ -126,11 +126,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
         function demanderNom(question) {
             const feedbackDiv = document.getElementById("feedback");
-            feedbackDiv.innerHTML = "";
+            feedbackDiv.innerHTML = ""; 
 
+            const inputContainer = document.createElement("div"); // Container pour input et bouton
             const input = document.createElement("input");
             input.type = "text";
-            feedbackDiv.appendChild(input);
+            inputContainer.appendChild(input);
 
             const button = document.createElement("button");
             button.textContent = "Valider";
@@ -141,10 +142,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     avancerQuestion();
                 } else {
                     donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-                    input.value = ''; // Réinitialiser le champ de saisie
                 }
+                input.value = ''; // Réinitialiser le champ de saisie
             };
-            feedbackDiv.appendChild(button);
+            inputContainer.appendChild(button);
+            feedbackDiv.appendChild(inputContainer); // Ajout du container au feedback
         }
 
         afficherQuestion(currentQuestionIndex);
