@@ -5,8 +5,11 @@ document.addEventListener("DOMContentLoaded", function() {
         var svgDoc = svgObject.getSVGDocument();
         var infraOrbitalPoint = svgDoc.getElementById("Infra-orbital");
 
-        // Ajoute une classe pour l'animation visuelle
-        infraOrbitalPoint.setAttribute('id', 'infra-orbital-highlight');
+        // Assurez-vous que le point est visible avec une animation
+        function activatePoint() {
+            infraOrbitalPoint.style.fillOpacity = 1;
+            infraOrbitalPoint.style.fill = 'red'; // Assurez-vous que le point est rouge
+        }
 
         var feedbackElement = document.getElementById("feedback");
 
@@ -14,12 +17,11 @@ document.addEventListener("DOMContentLoaded", function() {
             if (e.target === infraOrbitalPoint) {
                 feedbackElement.textContent = "Bonne réponse !";
                 feedbackElement.style.color = "#4caf50"; // Vert pour bonne réponse
-                infraOrbitalPoint.classList.add("active");
+                activatePoint();
                 setTimeout(function() {
                     document.getElementById("question1").style.display = "none";
                     document.getElementById("question2").style.display = "block";
                     feedbackElement.textContent = ""; // Reset feedback
-                    infraOrbitalPoint.classList.remove("active");
                 }, 4000); // attendre 4 secondes avant de passer à la question suivante
             } else {
                 feedbackElement.textContent = "Mauvaise réponse, réessayez !";
@@ -27,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Assurez-vous que le point est mis en évidence pour la deuxième question
-        infraOrbitalPoint.classList.add("active");
+        // Montrez le point pendant la deuxième question
+        activatePoint();
     });
 });
 
