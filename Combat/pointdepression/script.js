@@ -1,3 +1,6 @@
+// Message de confirmation pour vérifier l'application du script
+console.log("Le script JavaScript est bien chargé et s'exécute.");
+
 // Liste des points de pression et leurs IDs
 const pointsDePression = [
     { nom: "Infra-orbital", ids: ["Infra-orbital"] },
