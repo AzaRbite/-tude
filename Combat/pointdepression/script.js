@@ -8,6 +8,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        const compteur = document.getElementById("compteur");
+        if (!compteur) {
+            console.error("Élément 'compteur' introuvable dans le DOM.");
+            return;
+        }
+
+        const container = document.getElementById("questionnaire");
+        if (!container) {
+            console.error("Élément 'questionnaire' introuvable dans le DOM.");
+            return;
+        }
+
         const pointsDePression = [
             { nom: "Infra-orbital", ids: ["Infra-orbital"] },
             { nom: "Jugulaire", ids: ["Jugulaire"] },
@@ -65,10 +77,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const point = svgDoc.getElementById(pointId);
             if (point) {
                 point.style.fillOpacity = estActif ? 1 : 0;
-                point.style.fill = estActif ? 'red' : 'none';
-                point.style.cursor = estActif ? 'pointer' : '';
+                point.style.fill = estActif ? "red" : "none";
+                point.style.cursor = estActif ? "pointer" : "";
             } else {
-                console.error(`ID de point non trouvé: ${pointId}`);
+                console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
             }
         }
 
@@ -79,13 +91,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function afficherQuestion(index) {
-            const container = document.getElementById("questionnaire");
-            container.innerHTML = "";
+            cacherTousLesPoints();
 
-            const compteur = document.getElementById("compteur");
-            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+            if (index >= questions.length) {
+                container.innerHTML = "Quiz terminé ! Félicitations !";
+                return;
+            }
 
             const question = questions[index];
+            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+            container.innerHTML = "";
 
             const questionDiv = document.createElement("div");
             questionDiv.textContent = question.texte;
@@ -94,8 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const feedbackDiv = document.createElement("div");
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
-
-            cacherTousLesPoints();
 
             if (question.type === "nommer") {
                 svgDoc.addEventListener("click", gererCliqueNommer);
@@ -110,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function gererCliqueNommer(e) {
             const question = questions[currentQuestionIndex];
-            if (question.type === "nommer" && question.ids.includes(e.target.id)) {
+            if (question.ids.includes(e.target.id)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 avancerQuestion();
             } else {
@@ -119,45 +132,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function afficherChampDeSaisie(question) {
-            const feedbackDiv = document.getElementById("feedback");
-
-            feedbackDiv.innerHTML = ""; // Reset feedback
-
-            const inputContainer = document.createElement("div");
-            inputContainer.id = "input-container";
-            feedbackDiv.appendChild(inputContainer);
-
             const input = document.createElement("input");
             input.type = "text";
-            input.placeholder = "Entrez votre réponse ici...";
-            inputContainer.appendChild(input);
+            input.placeholder = "Entrez votre réponse...";
 
             const button = document.createElement("button");
             button.textContent = "Valider";
-            inputContainer.appendChild(button);
 
             button.onclick = () => {
-                const pointCorrect = pointsDePression.find((p) =>
+                const reponseCorrecte = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
-                );
+                ).nom;
 
-                const correctNoms = pointCorrect.nom.toLowerCase();
-                const entreeUtilisateur = input.value.trim().toLowerCase();
-
-                if (entreeUtilisateur === correctNoms) {
-                    question.ids.forEach((id) => manipulerPoint(id, true));
-                    donnerFeedback("Bonne réponse !", "#4caf50");
+                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
+                    donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
-                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                    donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
                 }
             };
+
+            container.appendChild(input);
+            container.appendChild(button);
         }
 
         function afficherChoix(question) {
-            const feedbackDiv = document.getElementById("feedback");
-            feedbackDiv.innerHTML = "";
-
             question.options.forEach((option) => {
                 const button = document.createElement("button");
                 button.textContent = option;
@@ -165,38 +164,33 @@ document.addEventListener("DOMContentLoaded", function () {
                     const reponseCorrecte = pointsDePression.find((p) =>
                         question.ids.some((id) => p.ids.includes(id))
                     ).nom;
+
                     if (option === reponseCorrecte) {
-                        donnerFeedback("Bonne réponse !", "#4caf50");
+                        donnerFeedback("Bonne réponse !", "#4caf50");
                         avancerQuestion();
                     } else {
-                        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                        donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
                     }
                 };
-                feedbackDiv.appendChild(button);
+
+                container.appendChild(button);
             });
         }
 
         function donnerFeedback(message, couleur) {
-            const feedbackDiv = document.getElementById("feedback");
-            feedbackDiv.textContent = message;
-            feedbackDiv.style.color = couleur;
+            const feedback = document.getElementById("feedback");
+            if (feedback) {
+                feedback.textContent = message;
+                feedback.style.color = couleur;
+            }
         }
 
         function avancerQuestion() {
-            svgDoc.removeEventListener("click", gererCliqueNommer);
-            setTimeout(() => {
-                if (currentQuestionIndex < questions.length - 1) {
-                    currentQuestionIndex++;
-                    afficherQuestion(currentQuestionIndex);
-                } else {
-                    donnerFeedback("Quiz terminé !", "#4caf50");
-                }
-            }, 2000);
+            currentQuestionIndex++;
+            afficherQuestion(currentQuestionIndex);
         }
 
-        cacherTousLesPoints();
-
-        genererQuestionsAleatoires(10); // Génère 10 questions aléatoires
+        genererQuestionsAleatoires(10);
         afficherQuestion(currentQuestionIndex);
     });
 });
