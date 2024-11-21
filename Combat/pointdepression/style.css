@@ -1,3 +1,4 @@
+/* Styles généraux pour la page */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -108,4 +109,36 @@ button.reponse:hover {
 
 button.reponse:active {
     background-color: #bbb;
+}
+
+/* Style pour la liste de choix */
+.choix-liste {
+    list-style-type: none; /* Pas de puces */
+    padding: 0;
+    margin: 0;
+}
+
+.choix-liste li {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.choix-liste li:hover {
+    background-color: #f1f1f1;
+}
+
+.choix-liste li.correct {
+    background-color: #4caf50; /* Vert pour la bonne réponse */
+    color: white;
+    pointer-events: none; /* Désactiver le clic après la sélection */
+}
+
+.choix-liste li.wrong {
+    background-color: #ff4c4c; /* Rouge pour la mauvaise réponse */
+    color: white;
 }
