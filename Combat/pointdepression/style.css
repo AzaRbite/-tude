@@ -1,0 +1,9 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+svg {
+    width: 100%;
+    height: auto;
+}
