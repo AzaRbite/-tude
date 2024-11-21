@@ -1,13 +1,24 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var svgObject = document.getElementById("svgImg").contentDocument;
+    var svgObject = document.getElementById("svgImg");
 
-    // Assurez-vous que le SVG est chargé
     svgObject.addEventListener("load", function() {
-        var point1 = svgObject.getElementById("point1");
+        // Obtention du document SVG interne
+        var svgDoc = svgObject.contentDocument;
+        
+        // Sélection du point par son ID
+        var infraOrbitalPoint = svgDoc.getElementById("Infra-orbital");
 
-        point1.addEventListener('click', function() {
-            alert("Point de pression cliqué !");
-            point1.style.fill = 'red'; // Change la couleur pour confirmer le clic
+        // Ajouter un événement au clic pour changer l'opacité
+        infraOrbitalPoint.addEventListener("click", function() {
+            var currentOpacity = infraOrbitalPoint.style.fillOpacity;
+
+            if (currentOpacity == 0 || currentOpacity === '') {
+                infraOrbitalPoint.style.fillOpacity = 1; // Rendre visible
+                alert("Point Infra-orbital cliqué !");
+            } else {
+                infraOrbitalPoint.style.fillOpacity = 0; // Rendre invisible
+            }
         });
     });
 });
+
