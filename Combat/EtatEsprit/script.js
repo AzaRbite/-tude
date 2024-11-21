@@ -92,7 +92,7 @@ function showQuestion(index) {
     shuffledChoices.forEach(choice => {
         const choiceLabel = document.createElement('label');
         choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
-        choiceLabel.onclick = () => checkAnswer(questionOrder[index], choice);
+        choiceLabel.onclick = () => checkAnswer(index, choice);
         choiceContainer.appendChild(choiceLabel);
     });
 
@@ -104,27 +104,26 @@ function showQuestion(index) {
 
 function checkAnswer(index, selectedValue) {
     const resultDiv = document.getElementById('results');
-    const isCorrect = selectedValue === questions[index].correct;
-
+    const questionData = questions[questionOrder[index]];
+    const isCorrect = selectedValue === questionData.correct;
+    
     if (isCorrect) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
+        setTimeout(() => {
+            nextQuestion();
+            document.getElementById('results').innerHTML = '';
+        }, 2000);
     } else {
         incorrectAnswers++;
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
     }
-
-    setTimeout(() => {
-        if (isCorrect) {
-            nextQuestion();
-        }
-        document.getElementById('results').innerHTML = '';
-    }, 2000);
 }
 
 function nextQuestion() {
-    currentQuestionIndex++;  // Incrémentation correcte par +1
-
+    // Incrémente seulement de 1
+    currentQuestionIndex++;
+    
     if (currentQuestionIndex < questionOrder.length) {
         showQuestion(currentQuestionIndex);
     } else {
