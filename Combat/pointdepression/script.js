@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const svgObject = document.getElementById("svgImg");
 
     svgObject.addEventListener("load", function() {
-        const svgDoc = svgObject.getSVGDocument();
+        const svgDoc = svgObject.contentDocument || svgObject.getSVGDocument();
         if (!svgDoc) {
             console.error("Impossible de charger le document SVG.");
             return;
@@ -69,12 +69,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (question.type === "nommer") {
                 console.log("Question de type 'nommer' affichée.");
+                svgDoc.addEventListener("click", gererCliqueNommer);
             } else if (question.type === "identifier") {
                 question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
             } else if (question.type === "choix") {
                 question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChoix(question);
+            }
+        }
+        
+        function gererCliqueNommer(e) {
+            const question = questions[currentQuestionIndex];
+            if (question.type === "nommer") {
+                if (question.ids.includes(e.target.id)) {
+                    donnerFeedback("Bonne réponse !", "#4caf50");
+                    question.ids.forEach(id => manipulerPoint(id, true));
+                    avancerQuestion();
+                } else {
+                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                }
             }
         }
 
@@ -120,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         function avancerQuestion() {
+            svgDoc.removeEventListener("click", gererCliqueNommer);
             setTimeout(() => {
                 if (currentQuestionIndex < questions.length - 1) {
                     currentQuestionIndex++;
