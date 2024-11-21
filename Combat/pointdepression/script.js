@@ -118,10 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function gererCliqueNommer(e) {
     const question = questions[currentQuestionIndex];
-    const cibleId = e.target.closest('path, rect, circle').id; // Assurez-vous de cibler le bon élément SVG avec un identifiant
+    const cibleId = e.target.id; // Assurez-vous que l'ID correct est récupéré
 
-    // Vérifiez si le clic est sur un élément avec un ID attendu
-    if (cibleId && question.ids.includes(cibleId)) {
+    // Vérifiez si le clic est sur l'un des identifiants corrects
+    if (cibleId && question.ids.some(id => id === cibleId)) {
         donnerFeedback("Bonne réponse !", "#4caf50");
         avancerQuestion();
     } else {
