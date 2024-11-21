@@ -16,26 +16,49 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
         ];
 
-        const questions = [
+        const templatesDeQuestions = [
             {
-                texte: "Cliquez sur le point Fémoral.",
+                texte: (point) => `Cliquez sur le point ${point.nom}.`,
                 type: "nommer",
-                ids: ["Femoral", "Femoral2"],
             },
             {
-                texte: "Identifiez le point rouge visible.",
+                texte: () => "Identifiez le point rouge visible.",
                 type: "identifier",
-                ids: ["Tibial", "Tibial2"],
             },
             {
-                texte: "Quel est ce point ?",
+                texte: () => "Quel est ce point ?",
                 type: "choix",
-                ids: ["Jugulaire"],
-                options: ["Infra-orbital", "Jugulaire", "Fémoral", "Cubital"],
             },
         ];
 
+        let questions = [];
         let currentQuestionIndex = 0;
+
+        function genererQuestionsAleatoires(nombre) {
+            for (let i = 0; i < nombre; i++) {
+                const point = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
+                const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
+
+                const question = {
+                    texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
+                    type: template.type,
+                    ids: point.ids,
+                };
+
+                if (template.type === "choix") {
+                    question.options = pointsDePression
+                        .map((p) => p.nom)
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 3);
+                    if (!question.options.includes(point.nom)) {
+                        question.options.push(point.nom);
+                    }
+                    question.options.sort(() => Math.random() - 0.5);
+                }
+
+                questions.push(question);
+            }
+        }
 
         function manipulerPoint(pointId, estActif) {
             const point = svgDoc.getElementById(pointId);
@@ -85,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const question = questions[currentQuestionIndex];
             if (question.type === "nommer" && question.ids.includes(e.target.id)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
-                question.ids.forEach((id) => manipulerPoint(id, true));
                 avancerQuestion();
             } else {
                 donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
@@ -94,6 +116,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function afficherChampDeSaisie(question) {
             const feedbackDiv = document.getElementById("feedback");
+
+            feedbackDiv.innerHTML = ""; // Reset feedback
+
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Entrez votre réponse ici...";
@@ -104,8 +129,9 @@ document.addEventListener("DOMContentLoaded", function () {
             button.onclick = () => {
                 const reponse = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-                if (input.value.trim().toLowerCase() === reponse.toLowerCase()) {
+                ).nom.toLowerCase();
+
+                if (input.value.trim().toLowerCase() === reponse) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
@@ -154,6 +180,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         cacherTousLesPoints();
+
+        genererQuestionsAleatoires(10); // Génère 10 questions aléatoires
         afficherQuestion(currentQuestionIndex);
     });
 });
