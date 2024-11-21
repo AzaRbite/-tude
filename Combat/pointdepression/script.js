@@ -22,15 +22,11 @@ function genererQuestionnaire() {
     let questions = [];
     for (let i = 0; i < 10; i++) {
         const pointAleatoire = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
-        const typeQuestion = Math.floor(Math.random() * 2); // on se limite à des questions cliquables
-        let question = {};
-
-        question = {
+        const question = {
             texte: `Cliquez sur le point ${pointAleatoire.nom}.`,
             type: "nommer",
             ids: pointAleatoire.ids
         };
-
         questions.push(question);
     }
     return questions;
@@ -67,21 +63,21 @@ function mettreAJourSVG(ids) {
     const svg = document.querySelector('embed#svgImg');
     svg.onload = function() {
         const svgDocument = svg.getSVGDocument();
-        // Réinitialiser tous les styles
         svgDocument.querySelectorAll('*').forEach(el => {
             el.style.opacity = '1.0';
             el.style.fill = '';
             el.style.stroke = '';
+            el.style.pointerEvents = 'none'; // Désactiver les événements par défaut
         });
 
-        // Mettre en surbrillance les points pour la question actuelle
+        // Activer les clics uniquement sur les points d'intérêt pour cette question
         ids.forEach(id => {
             const element = svgDocument.getElementById(id);
             if (element) {
                 element.style.stroke = 'red';
                 element.style.strokeWidth = '2px';
-                // Ajouter un écouteur d'événement de clic
-                element.style.cursor = 'pointer';
+                element.style.pointerEvents = 'auto'; // Activer les événements uniquement pour l'élément ciblé
+                element.style.cursor = 'pointer'; // Changer le curseur pour indiquer la cliquabilité
                 element.addEventListener('click', () => verifierClic(id));
             }
         });
