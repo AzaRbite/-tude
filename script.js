@@ -1,25 +1,39 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const questions = [
-       "Quelle est la capitale de la France ?",
-       "Qu'est-ce que le DOM en JavaScript ?",
-       "Décrivez la méthode CSS Flexbox.",
-       // Ajoutez plus de questions ici
-    ];
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-    let currentQuestionIndex = 0;
+nav {
+    background-color: #333;
+    padding: 10px;
+}
 
-    const questionContainer = document.getElementById('question-container');
-    const nextButton = document.getElementById('next-button');
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
 
-    function showQuestion(index) {
-        questionContainer.textContent = questions[index];
-    }
+nav ul li {
+    margin: 0;
+}
 
-    nextButton.addEventListener('click', function() {
-        currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
-        showQuestion(currentQuestionIndex);
-    });
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    transition: background-color 0.3s;
+}
 
-    // Affiche la première question
-    showQuestion(currentQuestionIndex);
-});
+nav ul li a:hover {
+    background-color: #555;
+}
+
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
