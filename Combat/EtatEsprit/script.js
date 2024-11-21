@@ -44,16 +44,34 @@ let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 let questionOrder = generateRandomOrderByColor(questions);
-let isLocked = false; // Variable de verrouillage
+let isLocked = false;  // Variable pour éviter les appels multiples
+
+function generateRandomOrderByColor(questions) {
+    const colors = ['Blanc', 'Jaune', 'Orange', 'Rouge', 'Noir'];
+    const selectedQuestions = [];
+
+    colors.forEach(color => {
+        const questionsByColor = questions.filter(q => q.question.includes(color));
+        if (questionsByColor.length > 0) {
+            const randomIndex = Math.floor(Math.random() * questionsByColor.length);
+            selectedQuestions.push(questionsByColor[randomIndex]);
+        }
+    });
+
+    return shuffleArray(selectedQuestions);
+}
+
+function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
 
 function showQuestion(index) {
-    // Réinitialiser la variable de verrouillage à chaque nouvelle question
-    isLocked = false;
+    isLocked = false;  // Réinitialiser le verrouillage
 
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
     const questionData = questionOrder[index];
-    
+
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
     questionEl.innerHTML = `<p>${questionData.question}</p>`;
@@ -76,13 +94,13 @@ function showQuestion(index) {
 }
 
 function checkAnswer(index, selectedValue) {
-    if (isLocked) return; // Si verrouillé, sortir de la fonction
-    isLocked = true; // Verrouiller après la première sélection
+    if (isLocked) return;  // Empêcher les clics multiples
+    isLocked = true;  // Verrouiller après la sélection
 
     const resultDiv = document.getElementById('results');
     const questionData = questionOrder[index];
     const isCorrect = selectedValue === questionData.correct;
-    
+
     if (isCorrect) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
@@ -93,7 +111,7 @@ function checkAnswer(index, selectedValue) {
     } else {
         incorrectAnswers++;
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
-        isLocked = false; // Déverrouiller pour permettre une nouvelle tentative
+        isLocked = false;  // Permettre une nouvelle tentative
     }
 }
 
