@@ -141,9 +141,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     avancerQuestion();
                 } else {
-                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
                     console.log("Entrée incorrecte donnée : " + input.value);
-                    input.value = ''; // Réinitialiser le champ de saisie, mais laisser visible
+                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                    input.value = ''; // Réinitialiser le champ de saisie
                 }
             };
             feedbackDiv.appendChild(button);
