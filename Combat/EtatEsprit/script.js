@@ -1,16 +1,23 @@
-function checkAnswers() {
-    const q1 = document.getElementById('q1').value;
-    const q2 = document.getElementById('q2').value;
-    const q3 = document.getElementById('q3').value;
+function checkAnswer(questionName, correctAnswer) {
+    const checkboxes = document.querySelectorAll(`input[name="${questionName}"]`);
+    let selectedAnswer = null;
+    checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+            selectedAnswer = checkbox.value;
+        }
+    });
 
-    let score = 0;
-    let totalQuestions = 3;
+    const resultDiv = document.getElementById(`result-${questionName}`);
+    if (selectedAnswer === correctAnswer) {
+        resultDiv.textContent = 'Bonne réponse!';
+        resultDiv.style.color = 'green';
+    } else {
+        resultDiv.textContent = 'Mauvaise réponse, essayez encore.';
+        resultDiv.style.color = 'red';
+    }
 
-    if (q1 === "Inconscience du danger") score++;
-    if (q2 === "Rouge") score++;
-    if (q3 === "Rouge") score++;
-
-    const results = document.getElementById('results');
-    results.innerHTML = `<p>Vous avez obtenu ${score} sur ${totalQuestions}!</p>`;
+    // Désactiver les autres cases à cocher après vérification
+    checkboxes.forEach((checkbox) => {
+        checkbox.disabled = true;
+    });
 }
-
