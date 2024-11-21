@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
             cacherTousLesPoints();
 
             if (question.type === "nommer") {
-                // Rien à afficher au départ pour la question "nommer"
+                console.log("Question de type 'nommer' affichée.");
             } else if (question.type === "identifier") {
                 question.ids.forEach(id => manipulerPoint(id, true));
                 demanderNom(question);
@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const feedbackDiv = document.getElementById("feedback");
             feedbackDiv.textContent = message;
             feedbackDiv.style.color = couleur;
+            console.log("Feedback: " + message);
         }
 
         function avancerQuestion() {
@@ -128,10 +129,9 @@ document.addEventListener("DOMContentLoaded", function() {
             const feedbackDiv = document.getElementById("feedback");
             feedbackDiv.innerHTML = ""; 
 
-            const inputContainer = document.createElement("div"); // Container pour input et bouton
             const input = document.createElement("input");
             input.type = "text";
-            inputContainer.appendChild(input);
+            feedbackDiv.appendChild(input);
 
             const button = document.createElement("button");
             button.textContent = "Valider";
@@ -142,11 +142,12 @@ document.addEventListener("DOMContentLoaded", function() {
                     avancerQuestion();
                 } else {
                     donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                    console.log("Entrée incorrecte donnée : " + input.value);
+                    input.value = ''; // Réinitialiser le champ de saisie, mais laisser visible
                 }
-                input.value = ''; // Réinitialiser le champ de saisie
             };
-            inputContainer.appendChild(button);
-            feedbackDiv.appendChild(inputContainer); // Ajout du container au feedback
+            feedbackDiv.appendChild(button);
+            console.log("Question de type 'identifier' affichée avec champ de saisie.");
         }
 
         afficherQuestion(currentQuestionIndex);
