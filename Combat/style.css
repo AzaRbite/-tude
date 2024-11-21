@@ -20,12 +20,16 @@ header {
     transform: translateY(-50%);
     background-color: #ed2c2c;
     color: #ffffff;
-    padding: 15px 30px;
+    padding: 10px 20px; /* Réduit le padding pour correspondre à une taille de texte plus petite */
     font-size: 0.9em; /* Réduit la taille du texte */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: inline-block; /* Assure que le bouton se comporte correctement */
+    text-align: center;
+    text-decoration: none;
+    margin: 10px; /* Ajoute de l'espace entre chaque bouton */
 }
 
 .back-button:hover {
@@ -60,12 +64,15 @@ input[type="text"] {
 button {
     background-color: #ed2c2c;
     color: #ffffff;
-    padding: 10px 20px; /* Réduit le padding pour correspondre à la nouvelle taille du texte */
+    padding: 10px 20px; /* Réduit le padding pour une apparence plus cohérente avec la taille de texte */
     font-size: 0.9em; /* Réduit la taille du texte */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: inline-block; /* Définit le comportement comme un bouton */
+    text-align: center;
+    text-decoration: none;
     margin: 10px; /* Ajoute de l'espace entre chaque bouton */
 }
 
