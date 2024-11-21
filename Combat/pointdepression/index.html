@@ -15,27 +15,18 @@
     <main>
         <div class="content">
             <div id="question1" class="question">
-                <p>Où se trouve le point Infra-orbital ?</p>
-                <div class="choice-container">
-                    <label>
-                        <input type="radio" name="choice1" value="point1">
-                        Option 1
-                    </label>
-                    <label>
-                        <input type="radio" name="choice1" value="point2">
-                        Option 2
-                    </label>
-                </div>
-                <button onclick="checkAnswer('choice1', 'Infra-orbital')">Valider</button>
+                <p>Où se trouve le point Infra-orbital ? Cliquez sur l'image pour l'identifier.</p>
             </div>
 
             <div id="question2" class="question" style="display: none;">
                 <p>Identifiez le point affiché (nom ID du point) :</p>
                 <input type="text" id="answerInput" placeholder="Entrez le nom du point">
                 <button onclick="checkTextAnswer('answerInput', 'Infra-orbital')">Valider</button>
+                <p id="question2-feedback" class="feedback"></p>
             </div>
         </div>
         <embed id="svgImg" src="Body2.svg" type="image/svg+xml"></embed>
+        <p id="feedback" class="feedback"></p>
     </main>
     <script src="script.js"></script>
 </body>
