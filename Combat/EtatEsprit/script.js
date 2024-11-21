@@ -67,6 +67,14 @@ function generateNonRepeatingOrder(questions, length) {
     return order;
 }
 
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 function showQuestion(index) {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
@@ -78,7 +86,9 @@ function showQuestion(index) {
     questionEl.innerHTML += `<div class="choice-container"></div>`;
     const choiceContainer = questionEl.querySelector('.choice-container');
 
-    questionData.choices.forEach(choice => {
+    const shuffledChoices = shuffleArray([...questionData.choices]);
+
+    shuffledChoices.forEach(choice => {
         const choiceLabel = document.createElement('label');
         choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
         choiceLabel.onclick = () => checkAnswer(questionOrder[index], choice);
