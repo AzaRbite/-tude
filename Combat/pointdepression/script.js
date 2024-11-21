@@ -95,34 +95,37 @@ document.addEventListener("DOMContentLoaded", function() {
         function afficherChampDeSaisie(question) {
             const feedbackDiv = document.getElementById("feedback");
 
-            // Vérifier si le champ de saisie existe déjà pour ne pas le recréer
+            // Créer ou réutiliser le champ de saisie
             let inputContainer = document.getElementById("input-container");
             if (!inputContainer) {
                 inputContainer = document.createElement("div");
                 inputContainer.id = "input-container"; // Ajouter un ID pour une identification facile
-                const input = document.createElement("input");
-                input.type = "text";
-                input.placeholder = "Entrez votre réponse ici...";
-                inputContainer.appendChild(input);
-
-                const button = document.createElement("button");
-                button.textContent = "Valider";
-                button.onclick = () => {
-                    const correctNoms = pointsDePression.find(p => question.ids.some(id => p.ids.includes(id))).nom.split(", ");
-                    const entreeUtilisateur = input.value.trim().toLowerCase();
-                    console.log("Validation de l'entrée: " + entreeUtilisateur);
-                    if (correctNoms.some(nom => nom.trim().toLowerCase() === entreeUtilisateur)) {
-                        donnerFeedback("Bonne réponse !", "#4caf50");
-                        avancerQuestion();
-                    } else {
-                        console.log("Entrée incorrecte donnée : " + input.value);
-                        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-                        input.value = ''; // Réinitialiser le champ de saisie, mais le laisser visible
-                    }
-                };
-                inputContainer.appendChild(button);
                 feedbackDiv.appendChild(inputContainer);
             }
+            
+            inputContainer.innerHTML = ''; // Réinitialiser le conteneur mais ne pas le retirer du DOM
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "Entrez votre réponse ici...";
+            inputContainer.appendChild(input);
+
+            const button = document.createElement("button");
+            button.textContent = "Valider";
+            button.onclick = () => {
+                const correctNoms = pointsDePression.find(p => question.ids.some(id => p.ids.includes(id))).nom.split(", ");
+                const entreeUtilisateur = input.value.trim().toLowerCase();
+                console.log("Validation de l'entrée: " + entreeUtilisateur);
+                if (correctNoms.some(nom => nom.trim().toLowerCase() === entreeUtilisateur)) {
+                    donnerFeedback("Bonne réponse !", "#4caf50");
+                    avancerQuestion();
+                } else {
+                    console.log("Entrée incorrecte donnée : " + input.value);
+                    donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+                    input.value = ''; // Réinitialiser le champ de saisie, mais le laisser visible
+                }
+            };
+            inputContainer.appendChild(button);
             console.log("Question de type 'identifier' affichée avec champ de saisie.");
         }
 
