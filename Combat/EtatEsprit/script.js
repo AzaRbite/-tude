@@ -5,9 +5,14 @@ const questions = [
         correct: "Blanc"
     },
     {
-        question: "Quel état d'esprit est associé à la couleur 'Noir'?",
-        choices: ["Panique", "Préparation au danger", "Détente"],
-        correct: "Panique"
+        question: "Quel est l'état d'esprit correspondant à la description : 'Détendu et vigilant'?",
+        choices: ["Jaune", "Blanc", "Rouge"],
+        correct: "Jaune"
+    },
+    {
+        question: "Quel état d'esprit est associé à la couleur 'Rouge'?",
+        choices: ["Lutte", "Inconscience du danger", "Panique"],
+        correct: "Lutte"
     },
     {
         question: "Quelle couleur est associée à 'Préparation au danger'?",
@@ -15,9 +20,9 @@ const questions = [
         correct: "Orange"
     },
     {
-        question: "Quel état d'esprit est décrit par 'Détendu et vigilant'?",
-        choices: ["Jaune", "Blanc", "Rouge"],
-        correct: "Jaune"
+        question: "Que signifie l'état d'esprit 'Noir'?",
+        choices: ["Panique", "Préparation au danger", "Détendu"],
+        correct: "Panique"
     },
     {
         question: "Quel est l'état d'esprit pour 'Réaction en vue de maîtriser la menace'?",
@@ -27,6 +32,7 @@ const questions = [
 ];
 
 let currentQuestionIndex = 0;
+const usedQuestions = new Set();
 
 function showQuestion(index) {
     const quizDiv = document.getElementById('quiz');
@@ -38,7 +44,7 @@ function showQuestion(index) {
     questionEl.innerHTML = `<p>${questionData.question}</p>`;
     questionData.choices.forEach(choice => {
         const choiceLabel = document.createElement('label');
-        choiceLabel.innerHTML = `<input type="checkbox" name="question" value="${choice}"> ${choice}<br>`;
+        choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
         questionEl.appendChild(choiceLabel);
     });
 
@@ -63,22 +69,22 @@ function checkAnswer(index) {
 }
 
 function nextQuestion() {
-    if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
+    if (usedQuestions.size < questions.length) {
+        do {
+            currentQuestionIndex = Math.floor(Math.random() * questions.length);
+        } while (usedQuestions.has(currentQuestionIndex));
+        usedQuestions.add(currentQuestionIndex);
         showQuestion(currentQuestionIndex);
         document.getElementById('results').innerHTML = ''; // Clear results
+    } else {
+        document.getElementById('quiz').innerHTML = '<p>Toutes les questions ont été posées!</p>';
     }
 }
 
 function prevQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        showQuestion(currentQuestionIndex);
-        document.getElementById('results').innerHTML = ''; // Clear results
-    }
+    // Fonctionnalité "Précédent" désactivée pour ce mode aléatoire
 }
 
 window.onload = () => {
-    showQuestion(currentQuestionIndex);
+    nextQuestion(); // Charge la première question de manière aléatoire
 };
-
