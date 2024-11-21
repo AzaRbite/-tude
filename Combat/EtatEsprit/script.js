@@ -48,11 +48,38 @@ const questions = [
         question: "Quel est l'état d'esprit pour 'Panique'?",
         choices: ["Noir", "Rouge", "Orange", "Jaune", "Blanc"],
         correct: "Noir"
+    },
+    // Ajout de nouvelles questions (exemples ci-dessous)
+    {
+        question: "Quelle couleur associez-vous à la vigilance accrue?",
+        choices: ["Noir", "Jaune", "Orange", "Blanc", "Rouge"],
+        correct: "Jaune"
+    },
+    {
+        question: "Que représente l'état d'esprit 'Rouge' dans un contexte de danger?",
+        choices: ["Action", "Évasion", "Alerte", "Inaction", "Calme"],
+        correct: "Action"
+    },
+    {
+        question: "Quel état d'esprit implique une préparation mentale et physique au danger?",
+        choices: ["Orange", "Blanc", "Jaune", "Noir", "Rouge"],
+        correct: "Orange"
+    },
+    {
+        question: "Quel est l'état d'esprit associé à l'insouciance?",
+        choices: ["Blanc", "Rouge", "Jaune", "Orange", "Noir"],
+        correct: "Blanc"
+    },
+    {
+        question: "Quel état d'esprit devez-vous éviter dans une situation de crise?",
+        choices: ["Noir", "Jaune", "Orange", "Blanc", "Rouge"],
+        correct: "Noir"
     }
 ];
 
 let currentQuestionIndex = 0;
-let questionOrder = generateRandomOrder(questions.length);
+let correctAnswers = 0;
+let questionOrder = generateRandomOrder(questions.length).slice(0, 10); // Générer un ordre aléatoire et sélectionner 10 questions
 
 function generateRandomOrder(length) {
     let order = Array.from(Array(length).keys());
@@ -87,21 +114,24 @@ function showQuestion(index) {
 function checkAnswer(index, selectedValue) {
     const resultDiv = document.getElementById('results');
     const isCorrect = selectedValue === questions[index].correct;
-    resultDiv.innerHTML = isCorrect ? '<p style="color: green;">Bonne réponse!</p>' : '<p style="color: red;">Mauvaise réponse, essayez encore.</p>';
     
     if (isCorrect) {
-        setTimeout(() => {
-            if (currentQuestionIndex < questions.length - 1) {
-                nextQuestion();
-            } else {
-                endQuiz();
-            }
-        }, 2000);
+        correctAnswers++;
     }
+
+    resultDiv.innerHTML = isCorrect ? '<p style="color: green;">Bonne réponse!</p>' : '<p style="color: red;">Mauvaise réponse.</p>';
+    
+    setTimeout(() => {
+        if (currentQuestionIndex < questionOrder.length - 1) {
+            nextQuestion();
+        } else {
+            endQuiz();
+        }
+    }, 2000);
 }
 
 function nextQuestion() {
-    if (currentQuestionIndex < questions.length - 1) {
+    if (currentQuestionIndex < questionOrder.length - 1) {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
         document.getElementById('results').innerHTML = ''; // Efface le résultat
@@ -111,16 +141,19 @@ function nextQuestion() {
 function endQuiz() {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = `
-        <p>Toutes les questions ont été posées!</p>
+        <h2>Quiz Terminé</h2>
+        <p>Vous avez répondu correctement à ${correctAnswers} questions sur ${questionOrder.length}.</p>
         <button onclick="restartQuiz()">Recommencer</button>
         <button onclick="window.location.href='../index.html'">Retour à Combats</button>
     `;
     document.querySelector('.navigation').style.display = 'none';
+    document.getElementById('results').innerHTML = ''; // Efface le message du résultat
 }
 
 function restartQuiz() {
     currentQuestionIndex = 0;
-    questionOrder = generateRandomOrder(questions.length);
+    correctAnswers = 0;
+    questionOrder = generateRandomOrder(questions.length).slice(0, 10); // Re-sélectionner 10 nouvelles questions
     showQuestion(currentQuestionIndex);
     document.querySelector('.navigation').style.display = 'flex';
     document.getElementById('results').innerHTML = '';
