@@ -5,10 +5,12 @@ document.addEventListener("DOMContentLoaded", function() {
         var svgDoc = svgObject.getSVGDocument();
         var infraOrbitalPoint = svgDoc.getElementById("Infra-orbital");
 
-        // Assurez-vous que le point est visible avec une animation
+        // S'assurer que le point commence caché
+        infraOrbitalPoint.style.fillOpacity = 0;
+
         function activatePoint() {
             infraOrbitalPoint.style.fillOpacity = 1;
-            infraOrbitalPoint.style.fill = 'red'; // Assurez-vous que le point est rouge
+            infraOrbitalPoint.style.fill = 'red'; // S'assurer que le point est rouge
         }
 
         var feedbackElement = document.getElementById("feedback");
@@ -21,16 +23,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 setTimeout(function() {
                     document.getElementById("question1").style.display = "none";
                     document.getElementById("question2").style.display = "block";
-                    feedbackElement.textContent = ""; // Reset feedback
-                }, 4000); // attendre 4 secondes avant de passer à la question suivante
+                    feedbackElement.textContent = ""; // Réinitialiser le feedback
+                }, 4000); // Attendre 4 secondes avant de passer à la question suivante
             } else {
                 feedbackElement.textContent = "Mauvaise réponse, réessayez !";
                 feedbackElement.style.color = "#ff4c4c"; // Rouge pour mauvaise réponse
             }
         });
 
-        // Montrez le point pendant la deuxième question
-        activatePoint();
+        // Assurez-vous que le point est visible pour la deuxième question
+        document.getElementById("question2").addEventListener('click', activatePoint);
     });
 });
 
