@@ -32,32 +32,25 @@ document.addEventListener("DOMContentLoaded", function() {
         svgDoc.addEventListener("click", function(e) {
             const question = questionnaire[currentQuestionIndex];
             if (question.ids.includes(e.target.id)) {
+                document.getElementById("feedback").textContent = "Bonne réponse !";
+                document.getElementById("feedback").style.color = "#4caf50";
+
                 switch(question.type) {
                     case "nommer":
-                        document.getElementById("feedback").textContent = "Bonne réponse !";
-                        document.getElementById("feedback").style.color = "#4caf50";
+                        activerPoints(question.ids);
                         break;
                     case "choix":
-                        // Afficher les choix dans le feedback
                         afficherChoix(question);
                         break;
                     case "identifier":
                         demanderNom(question);
                         break;
                 }
-
-                setTimeout(() => {
-                    if (currentQuestionIndex < questionnaire.length - 1) {
-                        currentQuestionIndex++;
-                        afficherQuestion(currentQuestionIndex);
-                    }
-                }, 2000);
             } else {
                 document.getElementById("feedback").textContent = "Mauvaise réponse, réessayez !";
                 document.getElementById("feedback").style.color = "#ff4c4c";
             }
         });
-
     });
 
     const pointsDePression = [
@@ -82,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let questions = [];
         for (let i = 0; i < 10; i++) {
             const pointAleatoire = pointsDePression[Math.floor(Math.random() * pointsDePression.length)];
-            const typeQuestion = Math.floor(Math.random() * 3); // Choisir au hasard le type de question
+            const typeQuestion = Math.floor(Math.random() * 3);
 
             let question;
             switch(typeQuestion) {
@@ -149,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function afficherChoix(question) {
         const feedbackDiv = document.getElementById("feedback");
+        feedbackDiv.innerHTML = ""; // Efface les choix précédents
         question.options.forEach(option => {
             const button = document.createElement("button");
             button.textContent = option;
@@ -167,12 +161,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function demanderNom(question) {
         const feedbackDiv = document.getElementById("feedback");
+        feedbackDiv.innerHTML = ""; // Efface les entrées précédentes
+
         const input = document.createElement("input");
         input.type = "text";
+        feedbackDiv.appendChild(input);
+
         const button = document.createElement("button");
         button.textContent = "Valider";
         button.onclick = () => {
-            if (input.value.trim().toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
+            const correctNom = pointsDePression.find(p => p.ids.includes(question.ids[0])).nom;
+            if (input.value.trim().toLowerCase() === correctNom.toLowerCase()) {
                 feedbackDiv.textContent = "Bonne réponse !";
                 feedbackDiv.style.color = "#4caf50";
             } else {
@@ -180,7 +179,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 feedbackDiv.style.color = "#ff4c4c";
             }
         };
-        feedbackDiv.appendChild(input);
         feedbackDiv.appendChild(button);
     }
 });
