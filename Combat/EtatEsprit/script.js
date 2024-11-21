@@ -49,7 +49,6 @@ const questions = [
         choices: ["Noir", "Rouge", "Orange", "Jaune", "Blanc"],
         correct: "Noir"
     },
-    // Ajout de nouvelles questions (exemples ci-dessous)
     {
         question: "Quelle couleur associez-vous à la vigilance accrue?",
         choices: ["Noir", "Jaune", "Orange", "Blanc", "Rouge"],
@@ -79,7 +78,7 @@ const questions = [
 
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
-let questionOrder = generateRandomOrder(questions.length).slice(0, 10); // Générer un ordre aléatoire et sélectionner 10 questions
+let questionOrder = generateRandomOrder(questions.length).slice(0, 10);
 
 function generateRandomOrder(length) {
     let order = Array.from(Array(length).keys());
@@ -109,6 +108,10 @@ function showQuestion(index) {
     });
 
     quizDiv.appendChild(questionEl);
+
+    // Afficher le compteur de question
+    const counterDiv = document.getElementById('question-counter');
+    counterDiv.textContent = `Question ${index + 1} sur ${questionOrder.length}`;
 }
 
 function checkAnswer(index, selectedValue) {
@@ -147,18 +150,27 @@ function endQuiz() {
         <button onclick="window.location.href='../index.html'">Retour à Combats</button>
     `;
     document.querySelector('.navigation').style.display = 'none';
-    document.getElementById('results').innerHTML = ''; // Efface le message du résultat
+    document.getElementById('results').innerHTML = ''; 
 }
 
 function restartQuiz() {
     currentQuestionIndex = 0;
     correctAnswers = 0;
-    questionOrder = generateRandomOrder(questions.length).slice(0, 10); // Re-sélectionner 10 nouvelles questions
+    questionOrder = generateRandomOrder(questions.length).slice(0, 10);
     showQuestion(currentQuestionIndex);
     document.querySelector('.navigation').style.display = 'flex';
     document.getElementById('results').innerHTML = '';
 }
 
 window.onload = () => {
+    const header = document.querySelector('header');
+    const counterDiv = document.createElement('div');
+    counterDiv.id = 'question-counter';
+    counterDiv.style.position = 'absolute';
+    counterDiv.style.top = '20px';
+    counterDiv.style.right = '20px';
+    counterDiv.style.color = '#ffffff';
+    header.appendChild(counterDiv);
+    
     showQuestion(currentQuestionIndex);
 };
