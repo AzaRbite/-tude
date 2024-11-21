@@ -95,17 +95,11 @@ function checkAnswer(index, selectedValue) {
     
     if (isCorrect) {
         correctAnswers++;
+        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
+        setTimeout(nextQuestion, 2000); // Passe à la question suivante après 2 secondes si correcte
+    } else {
+        resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
     }
-
-    resultDiv.innerHTML = isCorrect ? '<p style="color: green;">Bonne réponse!</p>' : '<p style="color: red;">Mauvaise réponse.</p>';
-    
-    setTimeout(() => {
-        if (currentQuestionIndex < questionOrder.length - 1) {
-            nextQuestion();
-        } else {
-            endQuiz();
-        }
-    }, 2000);
 }
 
 function nextQuestion() {
@@ -113,6 +107,8 @@ function nextQuestion() {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
         document.getElementById('results').innerHTML = ''; // Efface le résultat
+    } else {
+        endQuiz();
     }
 }
 
