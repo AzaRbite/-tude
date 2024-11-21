@@ -25,8 +25,8 @@ nav ul li {
 }
 
 nav ul li a {
-    font-size: 0.8em; /* Réduction de la taille du texte */
-    padding: 8px 16px; /* Ajustement du padding pour correspondre à la nouvelle taille du texte */
+    font-size: 0.8em; /* Réduit la taille du texte des boutons */
+    padding: 8px 16px; /* Ajuste le padding pour correspondre à la nouvelle taille du texte */
     background-color: #ed2c2c; /* Couleur par défaut des boutons */
     color: #ffffff;
     text-decoration: none;
