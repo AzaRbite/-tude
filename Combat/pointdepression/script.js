@@ -30,21 +30,16 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
 
-        const templatesDeQuestions = [
-            { texte: (point) => `Cliquez sur le point ${point.nom}.`, type: "nommer" },
-        ];
-
         let questions = [];
         let currentQuestionIndex = 0;
 
         function manipulerPoint(pointId, estActif) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
-                point.style.fillOpacity = estActif ? 1 : 0;
-                point.style.fill = estActif ? "red" : "none";
+                point.style.fillOpacity = 0; // Toujours caché par défaut
+                point.style.fill = "red";
                 point.style.cursor = estActif ? "pointer" : "default";
 
-                // Ajoute ou enlève l'événement de clic
                 if (estActif) {
                     point.addEventListener("click", verifierReponse);
                 } else {
@@ -59,10 +54,14 @@ document.addEventListener("DOMContentLoaded", function () {
             pointsDePression.forEach((point) => {
                 point.ids.forEach((id) => manipulerPoint(id, false));
             });
+
+            // Retire les mauvaises réponses globales
+            svgDoc.removeEventListener("click", detecterMauvaiseReponse);
         }
 
         function afficherQuestion(index) {
             cacherTousLesPoints();
+
             if (index >= questions.length) {
                 container.innerHTML = "Quiz terminé ! Félicitations !";
                 return;
@@ -80,10 +79,13 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
-            if (question.type === "nommer") {
-                question.ids.forEach((id) => manipulerPoint(id, true));
-                afficherBoutonReponse(question);
-            }
+            // Rendre les points interactifs
+            question.ids.forEach((id) => manipulerPoint(id, true));
+
+            // Ajoute un clic global pour détecter les mauvaises réponses
+            svgDoc.addEventListener("click", detecterMauvaiseReponse);
+
+            afficherBoutonReponse(question);
         }
 
         function afficherBoutonReponse(question) {
@@ -105,7 +107,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 setTimeout(avancerQuestion, 1500);
             } else {
-                donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
+                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
+            }
+        }
+
+        function detecterMauvaiseReponse(event) {
+            const clickedId = event.target.id;
+            const question = questions[currentQuestionIndex];
+
+            if (!question.ids.includes(clickedId)) {
+                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
             }
         }
 
@@ -129,10 +140,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 const indexPoint = Math.floor(Math.random() * tempPoints.length);
                 const point = tempPoints.splice(indexPoint, 1)[0];
 
-                const template = templatesDeQuestions[0]; // Limité à "nommer" pour cette correction
                 questions.push({
-                    texte: template.texte(point),
-                    type: template.type,
+                    texte: `Cliquez sur le point ${point.nom}.`,
                     ids: point.ids,
                 });
             }
