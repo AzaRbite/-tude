@@ -38,12 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
-        const variantes = {
-            "main": ["main", "mains", "entre index et le pouce"],
-            "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
-            "plexus brachial (jonction)": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
-        };
-
         function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
@@ -118,13 +112,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 const reponseCorrecte = pointCorrect.nom.toLowerCase();
-                const variantesAcceptees = variantes[reponseCorrecte] || [];
                 const reponseEntree = input.value.trim().toLowerCase();
 
-                if (
-                    reponseEntree === reponseCorrecte ||
-                    variantesAcceptees.includes(reponseEntree)
-                ) {
+                if (reponseEntree === reponseCorrecte) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
