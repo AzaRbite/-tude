@@ -80,37 +80,27 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
-            if (question.type === "nommer") {
-                question.ids.forEach((id) => {
-                    manipulerPoint(id, true, false);
-                });
-                ajouterZoneDeSaisie(question);
-            } else if (question.type === "identifier") {
-                question.ids.forEach((id) => {
-                    manipulerPoint(id, false, true);
-                });
-            } else if (question.type === "choix") {
-                question.ids.forEach((id) => manipulerPoint(id, false, true));
-                afficherOptionsDeChoix(question);
+            switch (question.type) {
+                case "nommer":
+                    question.ids.forEach((id) => {
+                        manipulerPoint(id, true, false);
+                    });
+                    ajouterZoneDeSaisie(question);
+                    afficherBoutonReponse(question);
+                    break;
+                case "identifier":
+                    question.ids.forEach((id) => {
+                        manipulerPoint(id, false, true);
+                    });
+                    afficherBoutonReponse(question);
+                    break;
+                case "choix":
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    afficherOptionsDeChoix(question);
+                    break;
+                default:
+                    console.error("Type de question inconnu.");
             }
-
-            if (question.type !== "choix") {
-                afficherBoutonReponse(question);
-            }
-        }
-
-        function afficherBoutonReponse(question) {
-            const buttonReponse = document.createElement("button");
-            buttonReponse.textContent = "Voir la réponse";
-            buttonReponse.onclick = () => {
-                question.ids.forEach((id) => manipulerPoint(id, true, true));
-                const nomDuPoint = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-                donnerFeedback(`Voici la réponse : ${nomDuPoint}`, "#ff9800");
-                setTimeout(avancerQuestion, 3000);
-            };
-            container.appendChild(buttonReponse);
         }
 
         function ajouterZoneDeSaisie(question) {
@@ -150,6 +140,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
             container.appendChild(input);
             container.appendChild(button);
+        }
+
+        function afficherBoutonReponse(question) {
+            const buttonReponse = document.createElement("button");
+            buttonReponse.textContent = "Voir la réponse";
+            buttonReponse.onclick = () => {
+                question.ids.forEach((id) => manipulerPoint(id, true, true));
+                const nomDuPoint = pointsDePression.find((p) =>
+                    question.ids.some((id) => p.ids.includes(id))
+                ).nom;
+                donnerFeedback(`Voici la réponse : ${nomDuPoint}`, "#ff9800");
+                setTimeout(avancerQuestion, 3000);
+            };
+            container.appendChild(buttonReponse);
         }
 
         function afficherOptionsDeChoix(question) {
