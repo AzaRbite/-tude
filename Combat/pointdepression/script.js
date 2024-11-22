@@ -66,8 +66,9 @@ document.addEventListener("DOMContentLoaded", function () {
             svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
 
-       function afficherQuestion(index) {
-    nettoyerZoneDeSaisie(); // Supprime tout input/bouton restant avant d'afficher la nouvelle question
+function afficherQuestion(index) {
+    nettoyerZoneDeSaisie(); // Assurez-vous que cette fonction est appelée pour nettoyer
+
     cacherTousLesPoints();
     if (index >= questions.length) {
         container.innerHTML = "Quiz terminé ! Félicitations !";
@@ -89,13 +90,13 @@ document.addEventListener("DOMContentLoaded", function () {
     switch (question.type) {
         case "nommer":
             question.ids.forEach((id) => manipulerPoint(id, true, false));
-            ajouterZoneDeSaisie(question); // Assurez-vous que ceci est bien appelé pour "nommer"
+            ajouterZoneDeSaisie(question); // Créer les éléments de saisie ici
             afficherBoutonReponse(question);
             break;
 
         case "identifier":
             question.ids.forEach((id) => manipulerPoint(id, false, true));
-            // Ne pas appeler ajouterZoneDeSaisie ici
+            // Ne pas ajouter de zone de saisie ici
             afficherBoutonReponse(question);
             break;
 
@@ -108,46 +109,52 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Type de question inconnu.");
     }
 }
-        function ajouterZoneDeSaisie(question) {
-            if (question.type === "identifier") return; // Ne rien faire pour le type "identifier"
 
-            const input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Entrez le nom du point...";
+function nettoyerZoneDeSaisie() {
+    const elementsASupprimer = container.querySelectorAll("input, button");
+    elementsASupprimer.forEach((el) => el.remove());
+}
 
-            const button = document.createElement("button");
-            button.textContent = "Valider";
-            button.onclick = () => {
-                const reponseCorrecte = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
+function ajouterZoneDeSaisie(question) {
+    if (question.type !== "nommer") return; // Ne créer la zone de saisie que pour "nommer"
 
-                const variantes = {
-                    "main": ["main", "mains", "entre index et le pouce"],
-                    "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
-                    "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
-                };
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Entrez le nom du point...";
 
-                let reponseAcceptee = reponseCorrecte.toLowerCase();
+    const button = document.createElement("button");
+    button.textContent = "Valider";
+    button.onclick = () => {
+        const reponseCorrecte = pointsDePression.find((p) =>
+            question.ids.some((id) => p.ids.includes(id))
+        ).nom;
 
-                if (variantes[reponseAcceptee]) {
-                    if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
-                        reponseAcceptee = input.value.trim().toLowerCase();
-                    }
-                }
+        const variantes = {
+            "main": ["main", "mains", "entre index et le pouce"],
+            "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
+            "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
+        };
 
-                if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    setTimeout(avancerQuestion, 1500);
-                } else {
-                    donnerFeedback("Mauvaise réponse.", "#ff4c4c");
-                }
-            };
+        let reponseAcceptee = reponseCorrecte.toLowerCase();
 
-            container.appendChild(input);
-            container.appendChild(button);
+        if (variantes[reponseAcceptee]) {
+            if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
+                reponseAcceptee = input.value.trim().toLowerCase();
+            }
         }
+
+        if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
+            donnerFeedback("Bonne réponse !", "#4caf50");
+            question.ids.forEach((id) => manipulerPoint(id, true, true));
+            setTimeout(avancerQuestion, 1500);
+        } else {
+            donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+        }
+    };
+
+    container.appendChild(input);
+    container.appendChild(button);
+}
 
         function afficherBoutonReponse(question) {
             const buttonReponse = document.createElement("button");
