@@ -13,21 +13,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const container = document.getElementById("questionnaire");
 
         const pointsDePression = [
-            { nom: "Infra-orbital", ids: ["Infra-orbital"], synonymes: ["infraorbital"] },
-            { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"], synonymes: ["plexus brachial origine"] },
-            { nom: "Jugulaire", ids: ["Jugulaire"], synonymes: ["jugulaire"] },
-            { nom: "Médian", ids: ["Median", "Median2"], synonymes: ["median"] },
-            { nom: "Fémoral", ids: ["Femoral", "Femoral2"], synonymes: ["femoral"] },
-            { nom: "Tibial", ids: ["Tibial", "Tibial2"], synonymes: ["tibial"] },
-            { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"], synonymes: ["angle mandibulaire"] },
-            { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"], synonymes: ["hypoglosse"] },
-            { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"], synonymes: ["plexus brachial clavicule"] },
-            { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"], synonymes: ["plexus brachial jonction"] },
-            { nom: "Radial", ids: ["Radial", "Radial2"], synonymes: ["radial"] },
-            { nom: "Cubital", ids: ["Cubital", "Cubital2"], synonymes: ["cubital"] },
-            { nom: "Sciatique", ids: ["Sciatique", "Sciatique2"], synonymes: ["sciatique"] },
-            { nom: "Derrière le lobe d'oreille", ids: ["LobeOreille", "LobeOreille2"], synonymes: ["lobe", "oreille", "lobe oreille"] },
-            { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"], synonymes: ["main", "mains"] },
+            { nom: "Infra-orbital", ids: ["Infra-orbital"] },
+            { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
+            { nom: "Jugulaire", ids: ["Jugulaire"] },
+            { nom: "Médian", ids: ["Median", "Median2"] },
+            { nom: "Fémoral", ids: ["Femoral", "Femoral2"] },
+            { nom: "Tibial", ids: ["Tibial", "Tibial2"] },
+            { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"] },
+            { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"] },
+            { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"] },
+            { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"] },
+            { nom: "Radial", ids: ["Radial", "Radial2"] },
+            { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
+            { nom: "Sciatique", ids: ["Sciatique", "Sciatique2"] },
+            { nom: "Derrière le lobe d'oreille", ids: ["LobeOreille", "LobeOreille2"] },
+            { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
 
         const templatesDeQuestions = [
@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 case "identifier":
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
                     ajouterZoneDeSaisie(question);
-                    afficherBoutonReponse(question); // Ajout du bouton "Voir la réponse"
                     break;
 
                 case "choix":
@@ -127,14 +126,8 @@ document.addEventListener("DOMContentLoaded", function () {
             button.onclick = () => {
                 const reponseCorrecte = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
-                );
-
-                if (
-                    reponseCorrecte &&
-                    reponseCorrecte.synonymes.some(
-                        (syn) => input.value.trim().toLowerCase() === syn.toLowerCase()
-                    )
-                ) {
+                ).nom;
+                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     setTimeout(avancerQuestion, 1500);
                 } else {
@@ -176,6 +169,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(avancerQuestion, 1500);
             } else {
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+            }
+        }
+
+        function detecterMauvaiseReponse(event) {
+            const pointClique = event.target.id;
+            if (!pointsDePression.some((point) => point.ids.includes(pointClique))) {
+                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
             }
         }
 
