@@ -7,8 +7,8 @@ body {
 }
 
 nav {
-    margin-top: 20px; /* Ajoute un espacement en haut si nécessaire */
-    text-align: center; /* Centre les éléments horizontalement */
+    margin-top: 20px;
+    text-align: center;
 }
 
 nav ul {
@@ -17,27 +17,27 @@ nav ul {
     margin: 0;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap; /* Permet aux boutons de s'adapter sur plusieurs lignes si nécessaire */
+    flex-wrap: wrap;
 }
 
 nav ul li {
-    margin: 10px; /* Espace entre chaque bouton */
+    margin: 10px;
 }
 
-nav ul li a {
-    font-size: 0.8em; /* Réduit la taille du texte des boutons */
-    padding: 8px 16px; /* Ajuste le padding pour correspondre à la nouvelle taille du texte */
-    background-color: #ed2c2c; /* Couleur par défaut des boutons */
+.button {
+    font-size: 1em;
+    padding: 10px 20px;
+    background-color: #ed2c2c;
     color: #ffffff;
     text-decoration: none;
-    display: block;
+    display: inline-block;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
+    cursor: pointer;
 }
 
-nav ul li a:hover {
-    background-color: #a30000; /* Couleur de survol sombre */
-    color: #ffffff;
+.button:hover {
+    background-color: #a30000;
 }
 
 .content {
@@ -47,12 +47,12 @@ nav ul li a:hover {
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    text-align: center; /* Centre le texte à l'intérieur du conteneur */
+    text-align: center;
 }
 
 h1 {
     font-size: 2em;
-    margin-bottom: 20px; /* Espacement en bas du titre pour séparer du menu */
+    margin-bottom: 20px;
 }
 
 p {
