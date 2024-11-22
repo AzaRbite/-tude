@@ -62,11 +62,11 @@ main {
 }
 
 .choice-container label {
-    display: flex;
+    display: inline-block;
     align-items: center;
     justify-content: flex-start;
-    width: 100%; /* Utiliser toute la largeur disponible dans le conteneur */
-    max-width: 500px; /* Limitation de la largeur au besoin */
+    width: 100%; /* Uniformiser avec le conteneur */
+    max-width: 500px; /* Largeur fixe pour tous les choix */
     margin: 2px 0; /* Espacement réduit entre les choix */
     padding: 15px;
     background-color: #444;
@@ -84,7 +84,7 @@ main {
 
 .choice-container label input[type="radio"] {
     margin-right: 10px;
-    margin-left: 0;
+    appearance: none; /* Supprime les points */
 }
 
 button {
