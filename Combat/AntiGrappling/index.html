@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Formule Anti-Gappling</title>
+</head>
+<body>
+    <header>
+        <h1>Apprenez la Formule Anti-Gappling</h1>
+    </header>
+    <main>
+        <div class="content">
+            <h2>Choisissez votre niveau d'apprentissage</h2>
+            <button id="easy-level" class="button">Niveau Facile</button>
+            <button id="advanced-level" class="button">Niveau Avancé</button>
+            <div id="easy-mode" class="hidden">
+                <h3>Drag and Drop : Mettez les étapes dans le bon ordre</h3>
+                <ul id="draggable-steps">
+                    <li draggable="true" class="draggable">Évadez-vous ou attaquez à nouveau</li>
+                    <li draggable="true" class="draggable">Abaissez votre centre de gravité</li>
+                    <li draggable="true" class="draggable">Décidez du niveau de défense à utiliser</li>
+                    <li draggable="true" class="draggable">Établir quel membre est libre</li>
+                    <li draggable="true" class="draggable">Choisissez une cible</li>
+                    <li draggable="true" class="draggable">Sélectionnez une technique de frappe</li>
+                    <li draggable="true" class="draggable">Frappez pour assoupir votre agresseur</li>
+                    <li draggable="true" class="draggable">Libérez-vous de la saisie, si nécessaire</li>
+                    <li draggable="true" class="draggable">Attaque avec une combinaison de techniques</li>
+                    <li draggable="true" class="draggable">Évaluer les dommages</li>
+                </ul>
+                <div id="drop-zone">
+                    <!-- Emplacements où les utilisateurs déposeront les étapes -->
+                </div>
+            </div>
+            <div id="advanced-mode" class="hidden">
+                <h3>Écriture : Entrez les étapes dans l'ordre correct</h3>
+                <textarea id="input-steps" rows="10" placeholder="Écrivez ici les étapes dans l'ordre..."></textarea>
+            </div>
+            <button id="validate" class="button hidden">Valider</button>
+        </div>
+    </main>
+    <footer>
+        <p>Bonne chance avec votre apprentissage de la formule Anti-Gappling !</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
