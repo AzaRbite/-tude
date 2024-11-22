@@ -65,9 +65,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 100%;
-    max-width: 500px; /* Limite de largeur pour uniformiser */
-    margin: 10px 0; /* Espacement vertical entre les choix */
+    width: 90%; /* Uniformiser la largeur des options */
+    margin: 5px 0; /* Réduction de l'espacement vertical */
     padding: 15px;
     background-color: #444;
     border-radius: 5px;
@@ -104,8 +103,8 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 60px); /* Réduction de la largeur totale */
-    max-width: 500px; /* Alignement avec le conteneur de choix */
+    width: calc(100% - 80px); /* Réduction accrue de la largeur totale */
+    max-width: 400px; /* Alignement avec une taille plus réduite */
     margin: 10px auto;
     padding: 10px;
     border-radius: 5px;
