@@ -9,6 +9,18 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // Attacher un écouteur d'événement à chaque élément de l'arbre SVG
+        function attacherEcouteursAchaqueElement() {
+            const elements = svgDoc.querySelectorAll('*');
+            elements.forEach((element) => {
+                const elementId = element.getAttribute('id');
+                if (elementId) {
+                    element.addEventListener("click", gererCliqueNommer);
+                    console.log(`Écouteur attaché à l'élément avec ID : ${elementId}`);
+                }
+            });
+        }
+
         const compteur = document.getElementById("compteur");
         if (!compteur) {
             console.error("Élément 'compteur' introuvable dans le DOM.");
@@ -38,20 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
         let dernierPoint = null;
-
-        function attacherEcouteurs() {
-            pointsDePression.forEach(point => {
-                point.ids.forEach(id => {
-                    const element = svgDoc.getElementById(id);
-                    if (element) {
-                        element.addEventListener("click", gererCliqueNommer);
-                        console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
-                    } else {
-                        console.error(`ID de point non trouvé dans le SVG : ${id}`);
-                    }
-                });
-            });
-        }
 
         function genererQuestionsAleatoires(nombre) {
             const tempPoints = [...pointsDePression];
@@ -146,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
                 questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
                 donnerFeedback("Bonne réponse !", "#4caf50");
-                setTimeout(avancerQuestion, 1500); // Utiliser un délai pour voir le feedback
+                setTimeout(avancerQuestion, 1500);
             } else {
                 donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
             }
@@ -216,7 +214,8 @@ document.addEventListener("DOMContentLoaded", function () {
             afficherQuestion(currentQuestionIndex);
         }
 
-        attacherEcouteurs();
+        // Attacher les écouteurs à chaque élément dès le début
+        attacherEcouteursAchaqueElement();
         genererQuestionsAleatoires(10);
         afficherQuestion(currentQuestionIndex);
     });
