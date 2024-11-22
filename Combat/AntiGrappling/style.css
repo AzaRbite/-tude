@@ -78,7 +78,7 @@ main {
 .order-column li {
     position: relative;
     margin: 10px 0;
-    min-height: 40px; /* Assure que la hauteur est similaire aux éléments draggables */
+    min-height: 30px; /* Réduction de la hauteur */
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
@@ -97,11 +97,11 @@ main {
 .draggable {
     background-color: #ed2c2c;
     color: white;
-    padding: 10px;
+    padding: 5px; /* Réduction de la hauteur */
     margin: 5px 0;
     border-radius: 5px;
     cursor: move;
-    min-height: 40px; /* Assure que la hauteur est similaire aux zones de dépôt */
+    min-height: 30px; /* Assure que la hauteur est similaire aux zones de dépôt */
 }
 
 .valid.correct {
