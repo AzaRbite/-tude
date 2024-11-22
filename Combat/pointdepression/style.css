@@ -59,21 +59,25 @@ main {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    list-style-type: none; /* Supprime les puces de liste */
+    padding: 0; /* Supprime le padding par défaut de la liste */
 }
 
 .choice-container label {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    max-width: 500px;
-    margin: 5px 0;
-    padding: 10px; /* Taille verticale réduite */
+    display: inline-block;
+    width: 100%; /* Assure que tous les choix ont la même largeur */
+    max-width: 500px; /* Largeur maximale uniforme */
+    margin: 2px 0; /* Espacement réduit entre les choix */
+    padding: 15px;
     background-color: #444;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
+    text-align: left;
+    white-space: nowrap; /* Assure que le texte tient sur une seule ligne */
+    overflow: hidden; /* Coupe le texte qui dépasse */
+    text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
 }
 
 .choice-container label:hover {
@@ -83,45 +87,36 @@ main {
 
 .choice-container label input[type="radio"] {
     margin-right: 10px;
-    display: inline-block; /* Assure que le bouton radio reste à l'intérieur */
-}
-
-.actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-    gap: 15px; /* Ajoute de l'espace entre les éléments */
-}
-
-.actions input[type="text"],
-.actions button {
-    margin: 0 5px;
-}
-
-.actions input[type="text"] {
-    width: 200px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px solid #ffffff;
-    background-color: #292929;
-    color: #f0f0f0;
-    text-align: center;
+    margin-left: 0;
+    flex-shrink: 0; /* Empêche le bouton radio de rétrécir */
 }
 
 button {
     background-color: #ed2c2c;
     color: #ffffff;
-    padding: 10px 20px;
-    font-size: 1em;
+    padding: 15px 30px;
+    font-size: 1.1em;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: 10px;
 }
 
 button:hover {
     background-color: #a30000;
+}
+
+input[type="text"] {
+    width: calc(100% - 120px); /* Largeur réduite pour plus de compacité */
+    max-width: 300px; /* Largeur adaptée pour un style compact */
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #ffffff;
+    background-color: #292929; /* Même couleur que le fond du contenu */
+    color: #f0f0f0;
+    text-align: center;
 }
 
 .navigation {
@@ -148,5 +143,4 @@ button:hover {
     border: 1px solid #ddd;
     border-radius: 10px;
     background-color: #ffffff;
-    text-align: center;
 }
