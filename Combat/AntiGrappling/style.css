@@ -28,7 +28,7 @@ main {
 .back-button {
     position: absolute;
     top: 50%;
-    left: 20px; /*  transform: translateY(-50%);*/
+    left: 20px;
     background-color: #ed2c2c;
     color: #ffffff;
     padding: 15px 30px;
@@ -95,16 +95,15 @@ main {
 .order-column li {
     position: relative;
     margin: 10px 0;
-    min-height: 40px;
+    min-height: 60px;
     border: 2px dashed #ed2c2c; /* Bordures rayées */
     border-radius: 5px;
     display: flex;
-    align-items: center;
-    justify-content: center; /* Centre le contenu horizontalement */
-    width: 100%;
+    align-items: center; /* Centre verticalement le contenu */
+    justify-content: center; /* Centre horizontalement le contenu */
+    padding: 20px;
     box-sizing: border-box;
-    padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
-    background-position: center; /* Aligne le background au centre */
+    background-position: center;
 }
 
 .draggable-column li {
@@ -121,8 +120,8 @@ main {
     cursor: move;
     height: 40px;
     display: flex;
-    align-items: center;
-    justify-content: center; /* Centre le contenu horizontalement */
+    align-items: center; /* Centre verticalement le texte */
+    justify-content: center; /* Centre horizontalement le texte */
     box-sizing: border-box;
 }
 
@@ -130,23 +129,23 @@ main {
     display: flex;
     justify-content: center; /* Centre l'élément horizontalement */
     align-items: center; /* Centre l'élément verticalement */
-    padding: 0; /* Évite des décalages dus au padding */
-    width: 80%; /* Réduit la largeur de la zone de dépôt */
-    height: 40px; /* Assure que la hauteur correspond à celle de l'élément draggable */
-    margin: 0 auto; /* Centre l'élément dans la colonne */
+    padding: 10px; /* Crée un espace intérieur */
     box-sizing: border-box;
+    margin: auto; /* Centre la zone dans la colonne */
+    width: 70%; /* Réduit la largeur de la zone de dépôt */
+    min-height: 60px;
 }
 
 .order-column li.dropped .draggable {
     background-color: #ed2c2c; /* Fond rouge pour l'élément déposé */
     color: #ffffff;
-    width: 100%; /* S'assure que l'élément occupe toute la largeur disponible dans la zone réduite */
-    height: 100%; /* Remplit complètement la hauteur de la zone de dépôt */
+    width: 100%; /* S'ajuste à la largeur de la zone réduite */
+    height: 100%; /* Remplit complètement la hauteur de la zone */
     text-align: center;
     border-radius: 5px;
-    display: flex; /* Utilise flex pour aligner le texte au centre */
-    align-items: center; /* Centre verticalement le texte dans l'élément */
-    justify-content: center; /* Centre horizontalement le texte dans l'élément */
+    display: flex;
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
     box-sizing: border-box;
 }
 
