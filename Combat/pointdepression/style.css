@@ -35,10 +35,12 @@ header {
 main {
     padding: 20px;
     width: 80%;
+    max-width: 800px;
     margin: 20px auto;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    text-align: center;
 }
 
 .content {
@@ -53,16 +55,18 @@ main {
 .choice-container {
     display: flex;
     flex-direction: column;
-    align-items: stretch; /* S'assurer que les éléments enfants s'étendent */
+    align-items: center;
     width: 100%;
-    list-style-type: none;
-    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .choice-container label {
     display: flex;
     align-items: center;
-    width: auto;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px; /* Limite la largeur si nécessaire */
     margin: 5px 0;
     padding: 15px;
     background-color: #444;
@@ -70,7 +74,6 @@ main {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
-    text-align: left;
 }
 
 .choice-container label:hover {
@@ -82,10 +85,6 @@ main {
     margin-right: 10px;
 }
 
-.choice-container label span {
-    flex-grow: 1; /* Permet au texte de remplir l'espace disponible */
-}
-
 button {
     background-color: #ed2c2c;
     color: #ffffff;
@@ -95,7 +94,8 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin: 10px;
+    margin: 10px auto;
+    display: block; /* Centre le bouton */
 }
 
 button:hover {
@@ -103,7 +103,7 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 80px);
+    width: calc(100% - 120px);
     max-width: 300px;
     margin: 10px auto;
     padding: 10px;
@@ -117,7 +117,7 @@ input[type="text"] {
 .navigation {
     margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centre les éléments de navigation */
 }
 
 #question-counter {
@@ -128,4 +128,15 @@ input[type="text"] {
     font-size: 1.2em;
     font-weight: bold;
     transform: translateY(-50%);
+}
+
+.embed {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
+    text-align: center; /* Centre le contenu à l'intérieur */
 }
