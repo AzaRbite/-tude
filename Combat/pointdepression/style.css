@@ -57,17 +57,18 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 700px; /* Augmentez la largeur maximale du conteneur */
     margin: 0 auto;
     list-style-type: none; /* Supprime les puces de liste */
+    padding: 0; /* Supprime le padding par défaut de la liste */
 }
 
 .choice-container label {
-    display: flex;
-    justify-content: center;
+    display: inline-block;
     width: 100%; /* Étend la largeur à 100% du conteneur parent */
-    max-width: 500px; /* Limite la largeur si nécessaire */
+    max-width: 600px; /* Limite la largeur maximale pour l'uniformité */
     margin: 5px 0; /* Ajoute un espacement plus large entre les choix */
-    padding: 15px; /* Taille verticale ajustée */
+    padding: 10px; /* Taille verticale ajustée */
     background-color: #444;
     border-radius: 5px;
     cursor: pointer;
@@ -106,12 +107,12 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 80px); /* Largeur réduite pour plus de compacité */
+    width: calc(100% - 120px); /* Largeur réduite pour plus de compacité */
     max-width: 300px; /* Largeur adaptée pour un style compact */
     margin: 10px auto;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ffffff;
+    border: 2px solid #ffffff;
     background-color: #292929; /* Même couleur que le fond du contenu */
     color: #f0f0f0;
     text-align: center;
