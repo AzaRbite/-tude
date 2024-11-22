@@ -89,27 +89,26 @@ document.addEventListener("DOMContentLoaded", function () {
     container.appendChild(feedbackDiv);
 
     // Configure les éléments spécifiques à chaque type de question
-    switch (question.type) {
-        case "nommer":
-            question.ids.forEach((id) => manipulerPoint(id, true, false)); // Activer le clic sur les points
-            ajouterZoneDeSaisie(question); // Ajouter la boîte d'écriture et bouton "Valider"
-            afficherBoutonReponse(question); // Ajouter le bouton "Voir la réponse"
-            break;
+switch (question.type) {
+    case "nommer":
+        question.ids.forEach((id) => manipulerPoint(id, true, false));
+        ajouterZoneDeSaisie(question);
+        afficherBoutonReponse(question);
+        break;
 
-        case "identifier":
-            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Affiche les points rouges
-            // Pas d'ajout de boîte d'écriture ici
-            afficherBoutonReponse(question); // Ajouter le bouton "Voir la réponse"
-            break;
+    case "identifier":
+        question.ids.forEach((id) => manipulerPoint(id, false, true));
+        afficherBoutonReponse(question);
+        break;
 
-        case "choix":
-            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Affiche les points rouges
-            afficherOptionsDeChoix(question); // Ajouter les options de choix
-            break;
+    case "choix":
+        question.ids.forEach((id) => manipulerPoint(id, false, true));
+        afficherOptionsDeChoix(question);
+        break;
 
-        default:
-            console.error("Type de question inconnu.");
-    }
+    default:
+        console.error("Type de question inconnu.");
+}
 }
 
         function ajouterZoneDeSaisie(question) {
