@@ -23,6 +23,7 @@ main {
     align-items: center;
     padding: 20px;
     width: 100%;
+    position: relative; /* Nécessaire pour positionner les éléments absolus */
 }
 
 .back-button {
@@ -84,6 +85,9 @@ main {
 .order-column,
 .draggable-column {
     width: 40%;
+    background-color: #292929; /* Assure que le fond reste sombre */
+    padding: 10px;
+    border-radius: 5px;
 }
 
 .order-column ol,
@@ -103,7 +107,18 @@ main {
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px; /* Ajustement uniforme du padding */
+    padding: 10px;
+}
+
+.draggable-column li {
+    position: relative;
+    margin: 10px 0; /* Espacement augmenté pour la colonne des éléments glissables */
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .draggable {
@@ -116,19 +131,19 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%; /* Assure que l'élément occupe toute la largeur disponible */
+    width: 100%;
     box-sizing: border-box;
 }
 
 .dragging {
-    opacity: 0.5; /* Assure que seul l'élément glissé change de visibilité */
+    opacity: 0.5;
 }
 
 .order-column li.dropped {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px; /* Uniformisation du padding */
+    padding: 10px;
     width: 80%;
     height: 40px;
     margin: 0 auto;
