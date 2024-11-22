@@ -75,7 +75,7 @@ main {
     max-width: 45%;
     margin: 10px;
     padding: 10px;
-    background-color: #ed2c2c;
+    background-color: #393939;
     border-radius: 10px;
 }
 
@@ -99,7 +99,7 @@ main {
     width: 90%;
     max-width: 500px;
     box-sizing: border-box;
-    background-color: #292929;
+    background-color: #ed2c2c;
     padding: 5px;
 }
 
