@@ -45,12 +45,12 @@ main {
     padding: 10px 20px;
     background-color: #ed2c2c;
     color: #ffffff;
-    text-decoration: none;
     display: inline-block;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
     cursor: pointer;
     margin: 5px;
+    border: none; /* Suppression du contour noir */
     width: 200px;
 }
 
@@ -75,11 +75,23 @@ main {
     list-style-type: none;
 }
 
-.drop-target {
-    border: 2px dashed #ed2c2c;
-    height: 40px;
+.order-column li {
+    position: relative;
     margin: 10px 0;
+    min-height: 40px; /* Assure que la hauteur est similaire aux éléments draggables */
+    border: 2px dashed #ed2c2c;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-column li::before {
+    content: attr(data-number);
+    position: absolute;
+    left: -30px;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .draggable {
@@ -89,6 +101,21 @@ main {
     margin: 5px 0;
     border-radius: 5px;
     cursor: move;
+    min-height: 40px; /* Assure que la hauteur est similaire aux zones de dépôt */
+}
+
+.valid.correct {
+    border-color: green;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="green"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.valid.incorrect {
+    border-color: red;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
 }
 
 .input-columns ol {
