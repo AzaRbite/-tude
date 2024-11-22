@@ -61,26 +61,6 @@ main {
     list-style-type: none; /* Supprime les puces de liste */
 }
 
-
-
-
-
-
-.choice-container label {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    max-width: 500px; /* Limite la largeur si nécessaire */
-    margin: 5px 0;
-    padding: 15px;
-    background-color: #444;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    box-sizing: border-box; /* Pour inclure le padding dans la largeur */
-
-
-
 .choice-container label {
     display: flex;
     justify-content: center;
