@@ -8,25 +8,26 @@ document.getElementById('advanced-level').addEventListener('click', function() {
     document.getElementById('easy-mode').classList.add('hidden');
 });
 
-// Fonctionnalité de drag and drop
 function setupDragAndDrop() {
     const draggables = document.querySelectorAll('.draggable');
+    const dropTargets = document.querySelectorAll('.drop-target');
+
     draggables.forEach(draggable => {
         draggable.addEventListener('dragstart', () => {
             draggable.classList.add('dragging');
+            setTimeout(() => draggable.classList.add('invisible'), 0);
         });
 
         draggable.addEventListener('dragend', () => {
-            draggable.classList.remove('dragging');
+            draggable.classList.remove('dragging', 'invisible');
         });
     });
 
-    const dropTargets = document.querySelectorAll('.drop-target');
     dropTargets.forEach(target => {
         target.addEventListener('dragover', e => {
             e.preventDefault();
-            const afterElement = getDragAfterElement(target, e.clientY);
             const draggable = document.querySelector('.dragging');
+            const afterElement = getDragAfterElement(target, e.clientY);
             if (afterElement == null) {
                 target.appendChild(draggable);
             } else {
@@ -50,7 +51,6 @@ function getDragAfterElement(container, y) {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
-// Logique de validation
 document.getElementById('validate-easy').addEventListener('click', function() {
     const correctOrder = [
         "Abaissez votre centre de gravité",
@@ -77,7 +77,6 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         }
     });
 
-    // Afficher le bouton de recommencement s'il n'existe pas déjà
     if (!document.getElementById('restart-button')) {
         const restartButton = document.createElement('button');
         restartButton.id = 'restart-button';
@@ -97,5 +96,4 @@ document.getElementById('validate-easy').addEventListener('click', function() {
     }
 });
 
-// Initialisation du drag and drop
 setupDragAndDrop();
