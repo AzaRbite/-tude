@@ -140,8 +140,9 @@ function gererCliqueNommer(e) {
     let cible = e.target;
     let cibleId = cible.getAttribute('id');
 
-    // Vérifier si l'événement est capturé au niveau de l'élément correct
+    // Déboguer pour afficher toute la chaîne des parents jusqu'à obtenir un ID
     while (!cibleId && cible.parentElement) {
+        console.log("Remontée: ", cible.tagName, cible.parentElement.tagName);
         cible = cible.parentElement;
         cibleId = cible.getAttribute('id');
     }
