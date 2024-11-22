@@ -35,10 +35,12 @@ header {
 main {
     padding: 20px;
     width: 80%;
+    max-width: 800px;
     margin: 20px auto;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    text-align: center;
 }
 
 .content {
@@ -55,13 +57,14 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .choice-container label {
     display: flex;
     justify-content: center;
     width: 100%;
-    max-width: 500px; /* Limite la largeur si nécessaire */
     margin: 5px 0;
     padding: 15px;
     background-color: #444;
@@ -69,6 +72,7 @@ main {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box; /* Pour inclure le padding dans la largeur */
+    text-align: center;
 }
 
 .choice-container label:hover {
@@ -90,6 +94,8 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     margin: 10px;
+    width: 100%; /* Rendre tous les boutons de la même largeur */
+    max-width: 600px; /* Limite la largeur si nécessaire */
 }
 
 button:hover {
@@ -110,4 +116,14 @@ button:hover {
     font-size: 1.2em;
     font-weight: bold;
     transform: translateY(-50%);
+}
+
+.embed {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
 }
