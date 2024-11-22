@@ -27,7 +27,12 @@ function setupDragAndDrop() {
         target.addEventListener('dragover', e => {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
-            target.appendChild(draggable);
+            const afterElement = getDragAfterElement(target, e.clientY);
+            if (afterElement == null) {
+                target.appendChild(draggable);
+            } else {
+                target.insertBefore(draggable, afterElement);
+            }
         });
     });
 }
@@ -59,16 +64,17 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         "Évaluer les dommages",
         "Évadez-vous ou attaquez à nouveau"
     ];
-    const dropTargets = document.querySelectorAll('.drop-target');
+
+    const dropTargets = document.querySelectorAll('.drop-target li');
     
     dropTargets.forEach((target, index) => {
         const content = target.textContent.trim();
         if (content === correctOrder[index]) {
             target.classList.add('valid', 'correct');
-            target.classList.remove('valid', 'incorrect');
+            target.classList.remove('incorrect');
         } else {
             target.classList.add('valid', 'incorrect');
-            target.classList.remove('valid', 'correct');
+            target.classList.remove('correct');
         }
     });
 
