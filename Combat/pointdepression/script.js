@@ -167,32 +167,35 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(buttonReponse);
         }
 
-        function afficherOptionsDeChoix(question) {
-            const ul = document.createElement("ul");
+function afficherOptionsDeChoix(question) {
+    const ul = document.createElement("ul");
+    ul.classList.add("choix-liste"); // Ajoutez la classe ici
 
-            question.options.forEach((option) => {
-                const li = document.createElement("li");
-                li.textContent = option;
+    question.options.forEach((option) => {
+        const li = document.createElement("li");
+        li.textContent = option;
 
-                li.onclick = () => {
-                    const pointCorrect = pointsDePression.find((p) =>
-                        question.ids.some((id) => p.ids.includes(id))
-                    ).nom;
+        li.onclick = () => {
+            const pointCorrect = pointsDePression.find((p) =>
+                question.ids.some((id) => p.ids.includes(id))
+            ).nom;
 
-                    if (option.toLowerCase() === pointCorrect.toLowerCase()) {
-                        donnerFeedback("Bonne réponse !", "#4caf50");
-                        question.ids.forEach((id) => manipulerPoint(id, true, true));
-                        setTimeout(avancerQuestion, 1500);
-                    } else {
-                        donnerFeedback("Mauvaise réponse.", "#ff4c4c");
-                    }
-                };
+            if (option.toLowerCase() === pointCorrect.toLowerCase()) {
+                li.classList.add("correct"); // Ajoutez la classe correct si la réponse est bonne
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                question.ids.forEach((id) => manipulerPoint(id, true, true));
+                setTimeout(avancerQuestion, 1500);
+            } else {
+                li.classList.add("wrong"); // Ajoutez la classe wrong si la réponse est mauvaise
+                donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+            }
+        };
 
-                ul.appendChild(li);
-            });
+        ul.appendChild(li);
+    });
 
-            container.appendChild(ul);
-        }
+    container.appendChild(ul);
+}
 
         function verifierReponse(event) {
             const targetId = event.target.id;
