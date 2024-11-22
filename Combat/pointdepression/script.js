@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
         let pointsUtilisesRecents = [];
+        let nombreDErreurs = 0;
 
         function nettoyerZoneDeSaisie() {
             const elementsASupprimer = container.querySelectorAll("input, button, .reveal-button");
@@ -71,8 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
             nettoyerZoneDeSaisie();
             cacherTousLesPoints();
             if (index >= questions.length) {
-                container.innerHTML = "Quiz terminé ! Félicitations !";
-                console.log("Quiz terminé.");
+                terminerQuiz();
                 return;
             }
 
@@ -128,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     setTimeout(avancerQuestion, 1500);
                 } else {
                     donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                    nombreDErreurs++;
                 }
             };
 
@@ -184,6 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
                         label.classList.add("wrong");
                         donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                        nombreDErreurs++;
                     }
                 };
                 ul.appendChild(li);
@@ -200,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(avancerQuestion, 1500);
             } else {
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                nombreDErreurs++;
             }
         }
 
@@ -207,6 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const pointClique = event.target.id;
             if (!pointsDePression.some((point) => point.ids.includes(pointClique))) {
                 donnerFeedback("Mauvaise réponse !", "#ff4c4c");
+                nombreDErreurs++;
             }
         }
 
@@ -221,6 +225,24 @@ document.addEventListener("DOMContentLoaded", function () {
         function avancerQuestion() {
             currentQuestionIndex++;
             afficherQuestion(currentQuestionIndex);
+        }
+
+        function terminerQuiz() {
+            container.innerHTML = `Quiz terminé ! Félicitations ! Nombre d'erreurs : ${nombreDErreurs}`;
+            compteur.textContent = ``; // Effacez le compteur
+            svgObject.style.display = "none"; // Cachez le SVG
+
+            const restartButton = document.createElement("button");
+            restartButton.textContent = "Recommencer";
+            restartButton.onclick = () => {
+                svgObject.style.display = "block"; // Remet le SVG
+                currentQuestionIndex = 0;
+                nombreDErreurs = 0;
+                genererQuestionsAleatoires(10);
+                afficherQuestion(currentQuestionIndex);
+            };
+
+            container.appendChild(restartButton);
         }
 
         function genererQuestionsAleatoires(nombre) {
