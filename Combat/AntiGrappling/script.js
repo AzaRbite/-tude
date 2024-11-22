@@ -9,26 +9,27 @@ document.getElementById('advanced-level').addEventListener('click', function() {
 });
 
 // Fonctionnalité de drag and drop
-const draggables = document.querySelectorAll('.draggable');
-const dropTargets = document.querySelectorAll('.drop-target');
+function setupDragAndDrop() {
+    const draggables = document.querySelectorAll('.draggable');
+    draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', () => {
+            draggable.classList.add('dragging');
+        });
 
-draggables.forEach(draggable => {
-    draggable.addEventListener('dragstart', () => {
-        draggable.classList.add('dragging');
+        draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging');
+        });
     });
 
-    draggable.addEventListener('dragend', () => {
-        draggable.classList.remove('dragging');
+    const dropTargets = document.querySelectorAll('.drop-target');
+    dropTargets.forEach(target => {
+        target.addEventListener('dragover', e => {
+            e.preventDefault();
+            const draggable = document.querySelector('.dragging');
+            target.appendChild(draggable);
+        });
     });
-});
-
-dropTargets.forEach(target => {
-    target.addEventListener('dragover', e => {
-        e.preventDefault();
-        const draggable = document.querySelector('.dragging');
-        target.appendChild(draggable);
-    });
-});
+}
 
 // Logique de validation
 document.getElementById('validate-easy').addEventListener('click', function() {
@@ -44,35 +45,32 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         "Évaluer les dommages",
         "Évadez-vous ou attaquez à nouveau"
     ];
-    const userOrder = Array.from(document.querySelectorAll('.drop-target'))
-        .map(target => target.textContent.trim())
-        .filter(text => text.length > 0);
-    if (JSON.stringify(correctOrder) === JSON.stringify(userOrder)) {
-        alert("Bravo ! Vous avez les étapes dans le bon ordre.");
-    } else {
-        alert("Veuillez réessayer. L'ordre n'est pas correct.");
-    }
+    const dropTargets = document.querySelectorAll('.drop-target');
+    
+    dropTargets.forEach((target, index) => {
+        const content = target.textContent.trim();
+        if (content === correctOrder[index]) {
+            target.classList.add('valid', 'correct');
+        } else {
+            target.classList.add('valid', 'incorrect');
+        }
+    });
+
+    const restartButton = document.createElement('button');
+    restartButton.classList.add('button');
+    restartButton.textContent = "Recommencer";
+    restartButton.addEventListener('click', () => {
+        dropTargets.forEach(target => {
+            target.textContent = '';
+            target.classList.remove('valid', 'correct', 'incorrect');
+        });
+        document.getElementById('draggable-steps').innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
+        setupDragAndDrop(); // Remet en place les événements de drag and drop
+        restartButton.remove();
+    });
+
+    document.querySelector('.content').appendChild(restartButton);
 });
 
-document.getElementById('validate-advanced').addEventListener('click', function() {
-    const correctOrder = [
-        "Abaissez votre centre de gravité",
-        "Décidez du niveau de défense à utiliser",
-        "Établir quel membre est libre",
-        "Choisissez une cible",
-        "Sélectionnez une technique de frappe",
-        "Frappez pour assoupir votre agresseur",
-        "Libérez-vous de la saisie, si nécessaire",
-        "Attaque avec une combinaison de techniques",
-        "Évaluer les dommages",
-        "Évadez-vous ou attaquez à nouveau"
-    ];
-    const userOrder = Array.from(document.querySelectorAll('.input-columns input'))
-        .map(input => input.value.trim())
-        .filter(text => text.length > 0);
-    if (JSON.stringify(correctOrder) === JSON.stringify(userOrder)) {
-        alert("Bravo ! Vous avez les étapes dans le bon ordre.");
-    } else {
-        alert("Veuillez réessayer. L'ordre n'est pas correct.");
-    }
-});
+// Initialisation du drag and drop
+setupDragAndDrop();
