@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log("Type de question: nommer");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
                     ajouterZoneDeSaisieEtButton();
-                    ajouterBoutonReponse(question);
                     break;
                 case "identifier":
                     console.log("Type de question: identifier");
