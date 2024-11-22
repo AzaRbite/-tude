@@ -42,7 +42,7 @@ main {
 
 .button {
     font-size: 1em;
-    padding: 10px 20px;
+    padding: 10px 0; /* Ajustement pour que le bouton remplisse l'espace vertical */
     background-color: #ed2c2c;
     color: #ffffff;
     display: inline-block;
@@ -51,7 +51,7 @@ main {
     cursor: pointer;
     margin: 5px;
     border: none; /* Suppression du contour noir */
-    width: 200px;
+    width: calc(100% - 10px); /* Prend toute la largeur disponible avec espace pour la marge */
 }
 
 .button:hover {
@@ -78,15 +78,15 @@ main {
 .order-column li {
     position: relative;
     margin: 10px 0;
-    height: 40px; /* Hauteur constante pour uniformiser la taille des cases */
+    height: 40px;
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
     width: 100%; /* Assure une largeur uniforme */
-    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+    box-sizing: border-box;
+    padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
 }
 
 .order-column li::before {
@@ -104,12 +104,12 @@ main {
     margin: 5px 0;
     border-radius: 5px;
     cursor: move;
-    height: 40px; /* Hauteur constante pour correspondre aux zones de dépôt */
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%; /* Assure une largeur uniforme */
-    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+    box-sizing: border-box;
 }
 
 .valid.correct::after {
