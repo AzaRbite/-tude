@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 case "identifier":
                     console.log("Type de question: identifier");
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
-                    ajouterBoutonReponse(question);
+                    document.addEventListener('click', detecterMauvaiseReponse);  // Ajout pour détecter les mauvaises réponses
                     break;
                 case "choix":
                     console.log("Type de question: choix");
@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (question.type === "identifier") {
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
+                    document.removeEventListener('click', detecterMauvaiseReponse);  // Retrait du détecteur de mauvaises réponses
                 } else if (question.type === "nommer") {
                     const input = container.querySelector("input");
                     if (input) {
@@ -208,7 +209,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function detecterMauvaiseReponse(event) {
             const pointClique = event.target.id;
-            if (!pointsDePression.some((point) => point.ids.includes(pointClique))) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (!currentQuestion.ids.includes(pointClique) && svgDoc.contains(event.target)) {
                 donnerFeedback("Mauvaise réponse !", "#ff4c4c");
                 nombreDErreurs++;
             }
