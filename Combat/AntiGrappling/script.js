@@ -32,11 +32,29 @@ function setupDragAndDrop() {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
             if (draggable) {
-                target.appendChild(draggable);
+                const afterElement = getDragAfterElement(target, e.clientY);
+                if (afterElement == null) {
+                    target.appendChild(draggable);
+                } else {
+                    target.insertBefore(draggable, afterElement);
+                }
                 draggable.classList.remove('dragging', 'invisible');
             }
         });
     });
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 document.getElementById('validate-easy').addEventListener('click', function() {
@@ -71,7 +89,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.id = 'restart-button';
         restartButton.classList.add('button');
         restartButton.textContent = "Recommencer";
-        
+
         restartButton.addEventListener('click', () => {
             dropTargets.forEach(target => {
                 target.textContent = '';
