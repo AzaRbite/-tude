@@ -41,22 +41,34 @@ document.addEventListener("DOMContentLoaded", function () {
         function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
-                point.style.fillOpacity = visible ? 1 : 0; 
+                point.style.fillOpacity = visible ? 1 : 0;
                 point.style.fill = visible ? "red" : "none";
                 point.style.cursor = estActif ? "pointer" : "default";
-                if (estActif) {
-                    point.addEventListener("click", verifierReponse);
-                } else {
-                    point.removeEventListener("click", verifierReponse);
-                }
             } else {
                 console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
             }
         }
 
+        function attacherEcouteur(pointId) {
+            const point = svgDoc.getElementById(pointId);
+            if (point) {
+                point.addEventListener("click", verifierReponse);
+            }
+        }
+
+        function detacherEcouteur(pointId) {
+            const point = svgDoc.getElementById(pointId);
+            if (point) {
+                point.removeEventListener("click", verifierReponse);
+            }
+        }
+
         function cacherTousLesPoints() {
             pointsDePression.forEach((point) => {
-                point.ids.forEach((id) => manipulerPoint(id, false));
+                point.ids.forEach((id) => {
+                    manipulerPoint(id, false);
+                    detacherEcouteur(id);
+                });
             });
             svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
@@ -82,15 +94,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
             switch (question.type) {
                 case "nommer":
-                    question.ids.forEach((id) => manipulerPoint(id, true, false));
+                    question.ids.forEach((id) => {
+                        manipulerPoint(id, true, false);
+                        attacherEcouteur(id);
+                    });
                     afficherBoutonReponse(question);
                     break;
                 case "identifier":
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
+                    question.ids.forEach((id) => {
+                        manipulerPoint(id, false, true);
+                        attacherEcouteur(id);
+                    });
                     ajouterZoneDeSaisie(question);
                     break;
                 case "choix":
-                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    question.ids.forEach((id) => {
+                        manipulerPoint(id, false, true);
+                    });
                     afficherOptionsDeChoix(question);
                     break;
                 default:
