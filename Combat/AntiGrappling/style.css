@@ -75,17 +75,12 @@ main {
     list-style-type: none;
 }
 
-.order-column li {
-    position: relative;
-    margin: 10px 0;
-    min-height: 60px;
-    border: 2px dashed #ed2c2c;
-    border-radius: 5px;
+.order-column li.dropped {
     display: flex;
-    align-items: center;
     justify-content: center; /* Centre le contenu horizontalement */
-    width: 100%;
-    box-sizing: border-box;
+    padding: 10px; /* Réduit la largeur de la section de drop */
+    width: 80%; /* Réduit la largeur de la section où l'élément est déposé */
+    margin: 0 auto; /* Centre l'élément dans la section */
 }
 
 .order-column li.dropped {
@@ -95,12 +90,10 @@ main {
 .order-column li.dropped .draggable {
     background-color: #ed2c2c; /* Fond rouge pour l'élément déposé */
     color: #ffffff;
-    width: auto; /* Retirer la largeur fixe pour permettre un ajustement */
-    padding: 10px 20px; /* Ajout de padding horizontal pour réduire la largeur */
-    margin: 0 auto; /* Centrer l'élément horizontalement */
-    height: auto; /* Hauteur dynamique */
-    border-radius: 5px;
+    width: 100%; /* Assure que l'élément prend toute la largeur de la section réduite */
+    padding: 10px 20px; /* Ajuste le padding pour réduire la taille */
     text-align: center;
+    border-radius: 5px;
     box-sizing: border-box;
 }
 
