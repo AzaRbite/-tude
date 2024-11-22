@@ -42,33 +42,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const point = svgDoc.getElementById(pointId);
             if (point) {
                 point.style.fillOpacity = visible ? 1 : 0;
-                point.style.fill = visible ? "red" : "none";
+                point.style.fill = "red";
                 point.style.cursor = estActif ? "pointer" : "default";
+                if (estActif) {
+                    point.addEventListener("click", verifierReponse);
+                } else {
+                    point.removeEventListener("click", verifierReponse);
+                }
             } else {
                 console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
             }
         }
 
-        function attacherEcouteur(pointId) {
-            const point = svgDoc.getElementById(pointId);
-            if (point) {
-                point.addEventListener("click", verifierReponse);
-            }
-        }
-
-        function detacherEcouteur(pointId) {
-            const point = svgDoc.getElementById(pointId);
-            if (point) {
-                point.removeEventListener("click", verifierReponse);
-            }
-        }
-
         function cacherTousLesPoints() {
             pointsDePression.forEach((point) => {
-                point.ids.forEach((id) => {
-                    manipulerPoint(id, false);
-                    detacherEcouteur(id);
-                });
+                point.ids.forEach((id) => manipulerPoint(id, false));
             });
             svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
@@ -96,21 +84,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 case "nommer":
                     question.ids.forEach((id) => {
                         manipulerPoint(id, true, false);
-                        attacherEcouteur(id);
                     });
                     afficherBoutonReponse(question);
                     break;
                 case "identifier":
                     question.ids.forEach((id) => {
                         manipulerPoint(id, false, true);
-                        attacherEcouteur(id);
                     });
                     ajouterZoneDeSaisie(question);
                     break;
                 case "choix":
-                    question.ids.forEach((id) => {
-                        manipulerPoint(id, false, true);
-                    });
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
                     afficherOptionsDeChoix(question);
                     break;
                 default:
@@ -226,12 +210,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function genererQuestionsAleatoires(nombre) {
-            const tempPoints = [...pointsDePression];
             questions = [];
-            while (questions.length < nombre && tempPoints.length > 0) {
-                const indexPoint = Math.floor(Math.random() * tempPoints.length);
-                const point = tempPoints.splice(indexPoint, 1)[0];
-                const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
+            for (let i = 0; i < nombre; i++) {
+                const indexPoint = Math.floor(Math.random() * pointsDePression.length);
+                const point = pointsDePression[indexPoint];
+
+                const templateIndex = Math.floor(Math.random() * templatesDeQuestions.length);
+                const template = templatesDeQuestions[templateIndex];
+
                 const question = {
                     texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
                     type: template.type,
