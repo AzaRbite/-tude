@@ -64,10 +64,9 @@ main {
 }
 
 .choice-container label {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: calc(100% - 30px); /* Assure que tous les choix ont la même largeur */
+    display: inline-block;
+    width: 100%; /* Assure que tous les choix ont la même largeur */
+    max-width: 500px; /* Largeur maximale uniforme */
     margin: 2px 0; /* Espacement réduit entre les choix */
     padding: 15px;
     background-color: #444;
@@ -76,6 +75,9 @@ main {
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
     text-align: left;
+    white-space: nowrap; /* Assure que le texte tient sur une seule ligne */
+    overflow: hidden; /* Coupe le texte qui dépasse */
+    text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
 }
 
 .choice-container label:hover {
@@ -86,6 +88,7 @@ main {
 .choice-container label input[type="radio"] {
     margin-right: 10px;
     margin-left: 0;
+    flex-shrink: 0; /* Empêche le bouton radio de rétrécir */
 }
 
 button {
@@ -105,7 +108,7 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 120px); /* Largeur réduite pour plus de compacité */
+    width: calc(100% - 100px); /* Largeur réduite pour plus de compacité */
     max-width: 300px; /* Largeur adaptée pour un style compact */
     margin: 10px auto;
     padding: 10px;
