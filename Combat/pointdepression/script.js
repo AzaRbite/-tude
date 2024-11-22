@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 case "nommer":
                     console.log("Type de question: nommer");
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
-                    ajouterZoneDeSaisie(question);
+                    ajouterZoneDeSaisie();
                     afficherBoutonReponse(question);
                     break;
 
@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     console.log("Type de question: identifier");
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
                     // Assurez-vous que la zone de saisie n'est pas ajoutée ici
-                    afficherBoutonReponse(question);
                     break;
 
                 case "choix":
@@ -116,9 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        function ajouterZoneDeSaisie(question) {
-            if (question.type !== "nommer") return;
-
+        function ajouterZoneDeSaisie() {
             console.log("Ajout de la zone de saisie pour le type nommer.");
 
             const input = document.createElement("input");
@@ -128,8 +125,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
+                const currentQuestion = questions[currentQuestionIndex];
                 const reponseCorrecte = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
+                    currentQuestion.ids.some((id) => p.ids.includes(id))
                 ).nom;
 
                 const variantes = {
@@ -148,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
+                    currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
                 } else {
                     donnerFeedback("Mauvaise réponse.", "#ff4c4c");
