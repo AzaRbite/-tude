@@ -87,14 +87,25 @@ main {
     width: 100%;
     box-sizing: border-box;
     padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
-    background-color: transparent; /* Par défaut transparent */
-    transition: background-color 0.3s; /* Animation douce pour les transitions */
+    background-color: transparent; /* Fond par défaut transparent */
+    transition: background-color 0.3s; /* Animation douce */
 }
 
 .order-column li.dropped {
-    background-color: #ed2c2c; /* Fond rouge pour les éléments déposés */
-    color: #ffffff; /* Texte blanc */
-    border: 2px solid #a30000; /* Bordure rouge foncé */
+    background-color: transparent; /* Conserve les bordures rayées */
+}
+
+.order-column li.dropped .draggable {
+    background-color: #ed2c2c; /* Fond rouge au centre */
+    color: #ffffff;
+    width: 95%; /* Ajustement pour garder visible la bordure rayée */
+    height: calc(100% - 8px); /* Réduction pour espacer les bords */
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Effet de profondeur */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
 
 .draggable-column li {
