@@ -30,6 +30,12 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
 
+        const templatesDeQuestions = [
+            { texte: (point) => `Cliquez sur le point ${point.nom}.`, type: "nommer" },
+            { texte: () => "Identifiez le point rouge visible.", type: "identifier" },
+            { texte: () => "Quel est ce point ?", type: "choix" },
+        ];
+
         let questions = [];
         let currentQuestionIndex = 0;
 
@@ -79,46 +85,81 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
-            // Rendre les points interactifs
-            question.ids.forEach((id) => manipulerPoint(id, true));
+            switch (question.type) {
+                case "nommer":
+                    question.ids.forEach((id) => manipulerPoint(id, true, false));
+                    afficherBoutonReponse(question);
+                    break;
 
-            // Ajoute un clic global pour détecter les mauvaises réponses
-            svgDoc.addEventListener("click", detecterMauvaiseReponse);
+                case "identifier":
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    ajouterZoneDeSaisie(question);
+                    break;
 
-            afficherBoutonReponse(question);
+                case "choix":
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    afficherOptionsDeChoix(question);
+                    break;
+
+                default:
+                    console.error("Type de question inconnu.");
+            }
         }
 
         function afficherBoutonReponse(question) {
             const buttonReponse = document.createElement("button");
             buttonReponse.textContent = "Voir la réponse";
             buttonReponse.onclick = () => {
-                question.ids.forEach((id) => manipulerPoint(id, true, true)); // Rend le point rouge visible
+                question.ids.forEach((id) => manipulerPoint(id, true, true));
                 donnerFeedback("Voici la réponse !", "#ff9800");
                 setTimeout(avancerQuestion, 3000);
             };
             container.appendChild(buttonReponse);
         }
 
-        function verifierReponse(event) {
-            const clickedId = event.target.id;
-            const question = questions[currentQuestionIndex];
+        function ajouterZoneDeSaisie(question) {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "Entrez le nom du point...";
 
-            if (question.ids.includes(clickedId)) {
-                question.ids.forEach((id) => manipulerPoint(id, true, true)); // Affiche le point rouge
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                setTimeout(avancerQuestion, 1500);
-            } else {
-                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
-            }
+            const button = document.createElement("button");
+            button.textContent = "Valider";
+            button.onclick = () => {
+                const reponseCorrecte = pointsDePression.find((p) =>
+                    question.ids.some((id) => p.ids.includes(id))
+                ).nom;
+                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
+                    donnerFeedback("Bonne réponse !", "#4caf50");
+                    setTimeout(avancerQuestion, 1500);
+                } else {
+                    donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                }
+            };
+
+            container.appendChild(input);
+            container.appendChild(button);
         }
 
-        function detecterMauvaiseReponse(event) {
-            const clickedId = event.target.id;
-            const question = questions[currentQuestionIndex];
+        function afficherOptionsDeChoix(question) {
+            const ul = document.createElement("ul");
 
-            if (!question.ids.includes(clickedId)) {
-                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
-            }
+            question.options.forEach((option) => {
+                const li = document.createElement("li");
+                li.textContent = option;
+                li.onclick = () => {
+                    if (option.toLowerCase() === pointsDePression.find((p) =>
+                        question.ids.some((id) => p.ids.includes(id))
+                    ).nom.toLowerCase()) {
+                        donnerFeedback("Bonne réponse !", "#4caf50");
+                        setTimeout(avancerQuestion, 1500);
+                    } else {
+                        donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                    }
+                };
+                ul.appendChild(li);
+            });
+
+            container.appendChild(ul);
         }
 
         function donnerFeedback(message, couleur) {
@@ -137,14 +178,30 @@ document.addEventListener("DOMContentLoaded", function () {
         function genererQuestionsAleatoires(nombre) {
             const tempPoints = [...pointsDePression];
             questions = [];
+
             while (questions.length < nombre && tempPoints.length > 0) {
                 const indexPoint = Math.floor(Math.random() * tempPoints.length);
                 const point = tempPoints.splice(indexPoint, 1)[0];
 
-                questions.push({
-                    texte: `Cliquez sur le point ${point.nom}.`,
+                const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
+                const question = {
+                    texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
+                    type: template.type,
                     ids: point.ids,
-                });
+                };
+
+                if (template.type === "choix") {
+                    question.options = pointsDePression
+                        .map((p) => p.nom)
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 3);
+                    if (!question.options.includes(point.nom)) {
+                        question.options.push(point.nom);
+                    }
+                    question.options.sort(() => Math.random() - 0.5);
+                }
+
+                questions.push(question);
             }
         }
 
@@ -152,3 +209,4 @@ document.addEventListener("DOMContentLoaded", function () {
         afficherQuestion(currentQuestionIndex);
     });
 });
+
