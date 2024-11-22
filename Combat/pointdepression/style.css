@@ -57,14 +57,17 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 700px;
+    max-width: 600px; /* Ajustez ici selon vos besoins */
     margin: 0 auto;
     list-style-type: none;
     padding: 0;
 }
 
 .choice-container label {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 500px; /* Limite de largeur uniforme */
     margin: 5px 0;
     padding: 10px;
     background-color: #444;
@@ -73,9 +76,6 @@ main {
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
     text-align: left;
-    white-space: nowrap; /* Assure que le texte reste sur une seule ligne */
-    overflow: hidden; /* Coupe le texte qui dépasse */
-    text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
 }
 
 .choice-container label:hover {
