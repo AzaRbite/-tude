@@ -65,8 +65,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 90%; /* Uniformiser la largeur des options */
-    margin: 5px 0; /* Réduction de l'espacement vertical */
+    width: 100%; /* Uniformiser la largeur des options */
+    margin: 3px 0; /* Réduction de l'espacement vertical */
     padding: 15px;
     background-color: #444;
     border-radius: 5px;
