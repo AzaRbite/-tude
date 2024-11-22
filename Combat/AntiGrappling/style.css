@@ -78,7 +78,7 @@ main {
 .order-column li {
     position: relative;
     margin: 10px 0;
-    min-height: 40px;
+    min-height: 60px;
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
@@ -86,7 +86,6 @@ main {
     justify-content: center; /* Centre le contenu horizontalement */
     width: 100%;
     box-sizing: border-box;
-    padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
     background-color: transparent; /* Fond par défaut transparent */
     transition: background-color 0.3s; /* Animation douce */
 }
@@ -96,16 +95,17 @@ main {
 }
 
 .order-column li.dropped .draggable {
-    background-color: #ed2c2c; /* Fond rouge au centre */
+    background-color: #ed2c2c; /* Fond rouge pour l'élément déposé */
     color: #ffffff;
-    width: 95%; /* Ajustement pour garder visible la bordure rayée */
-    height: calc(100% - 8px); /* Réduction pour espacer les bords */
+    width: auto; /* Ajustement pour ne pas occuper toute la largeur */
+    padding: 5px 20px;
+    height: auto; /* Ajustement dynamique selon le contenu */
     border-radius: 5px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); /* Effet de profondeur */
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    margin: auto; /* Centre verticalement et horizontalement */
 }
 
 .draggable-column li {
