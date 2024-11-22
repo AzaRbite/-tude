@@ -107,12 +107,12 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 120px); /* Largeur réduite pour plus de compacité */
+    width: calc(100% - 80px); /* Largeur réduite pour plus de compacité */
     max-width: 300px; /* Largeur adaptée pour un style compact */
     margin: 10px auto;
     padding: 10px;
     border-radius: 5px;
-    border: 2px solid #ffffff;
+    border: 1px solid #ffffff;
     background-color: #292929; /* Même couleur que le fond du contenu */
     color: #f0f0f0;
     text-align: center;
