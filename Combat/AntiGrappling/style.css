@@ -128,19 +128,25 @@ main {
 
 .order-column li.dropped {
     display: flex;
-    justify-content: center; /* Centre l'élément déposé */
-    padding: 10px; /* Réduit la taille de la zone */
-    width: 80%; /* Réduit la largeur de la zone où l'élément est déposé */
-    margin: 0 auto; /* Centre la zone à l'intérieur de la colonne */
+    justify-content: center; /* Centre l'élément horizontalement */
+    align-items: center; /* Centre l'élément verticalement */
+    padding: 0; /* Évite des décalages dus au padding */
+    width: 80%; /* Réduit la largeur de la zone de dépôt */
+    height: 40px; /* Assure que la hauteur correspond à celle de l'élément draggable */
+    margin: 0 auto; /* Centre l'élément dans la colonne */
+    box-sizing: border-box;
 }
 
 .order-column li.dropped .draggable {
     background-color: #ed2c2c; /* Fond rouge pour l'élément déposé */
     color: #ffffff;
-    width: 100%; /* Assure que l'élément occupe toute la largeur de la zone réduite */
-    padding: 10px 20px; /* Ajuste le padding pour réduire la taille */
+    width: 100%; /* S'assure que l'élément occupe toute la largeur disponible dans la zone réduite */
+    height: 100%; /* Remplit complètement la hauteur de la zone de dépôt */
     text-align: center;
     border-radius: 5px;
+    display: flex; /* Utilise flex pour aligner le texte au centre */
+    align-items: center; /* Centre verticalement le texte dans l'élément */
+    justify-content: center; /* Centre horizontalement le texte dans l'élément */
     box-sizing: border-box;
 }
 
