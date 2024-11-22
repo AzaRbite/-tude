@@ -95,11 +95,11 @@ main {
 .order-column li.dropped .draggable {
     background-color: #ed2c2c; /* Fond rouge pour l'élément déposé */
     color: #ffffff;
-    width: 50%; /* Réduction de la largeur de l'élément déposé */
+    width: auto; /* Retirer la largeur fixe pour permettre un ajustement */
+    padding: 10px 20px; /* Ajout de padding horizontal pour réduire la largeur */
+    margin: 0 auto; /* Centrer l'élément horizontalement */
     height: auto; /* Hauteur dynamique */
-    margin: auto; /* Centre l'élément à l'intérieur de la zone */
-    padding: 10px;
-    border-radius: 5px; /* Coins arrondis */
+    border-radius: 5px;
     text-align: center;
     box-sizing: border-box;
 }
