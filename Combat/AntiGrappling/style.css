@@ -7,6 +7,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    position: relative; /* Nécessaire pour positionner le bouton relatif au body */
 }
 
 header {
@@ -27,7 +28,7 @@ main {
 
 .back-button {
     position: absolute;
-    top: 50%;
+    top: 20px; /* Positionné en haut à gauche */
     left: 20px;
     background-color: #ed2c2c;
     color: #ffffff;
@@ -92,10 +93,11 @@ main {
     list-style-type: none;
 }
 
-.order-column li {
+.order-column li,
+.draggable {
     position: relative;
     margin: 10px 0;
-    min-height: 40px;
+    height: 40px; /* Assure une hauteur uniforme entre les éléments des deux colonnes */
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
@@ -103,36 +105,15 @@ main {
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px; /* Ajustement uniforme du padding */
-    background-position: center;
-}
-
-.draggable-column li {
-    position: relative;
-    margin: 5px 0;
-    list-style-type: none;
-}
-
-.draggable {
-    background-color: #ed2c2c;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: move;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
+    padding: 10px; /* Uniformisation du padding */
 }
 
 .order-column li.dropped {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px; /* Uniformisation du padding */
-    width: 80%;
-    height: 40px;
+    padding: 10px;
+    width: 100%; /* Ajustement pour remplir toute la largeur */
     margin: 0 auto;
     box-sizing: border-box;
 }
