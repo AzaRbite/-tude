@@ -57,9 +57,10 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 700px;
     margin: 0 auto;
-    padding: 0;
     list-style-type: none;
+    padding: 0;
 }
 
 .choice-container label {
@@ -72,9 +73,9 @@ main {
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
     text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nowrap; /* Assure que le texte reste sur une seule ligne */
+    overflow: hidden; /* Coupe le texte qui dépasse */
+    text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
 }
 
 .choice-container label:hover {
@@ -87,17 +88,69 @@ main {
     flex-shrink: 0;
 }
 
-.choice-container {
+button {
+    background-color: #ed2c2c;
+    color: #ffffff;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #a30000;
+}
+
+input[type="text"] {
+    width: calc(100% - 120px);
+    max-width: 300px;
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #ffffff;
+    background-color: #292929;
+    color: #f0f0f0;
+    text-align: center;
+}
+
+.navigation {
+    margin-top: 20px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: space-between;
 }
 
+#question-counter {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #ffffff;
+    font-size: 1.2em;
+    font-weight: bold;
+    transform: translateY(-50%);
+}
+
+.embed {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+/* Modification pour ajuster la largeur des choix */
 .choice-container label {
-    width: var(--choice-max-width);
-    text-align: left;
+    min-width: 100%; /* Par défaut, occupe toute la largeur du conteneur */
 }
 
+/* Dépendance sur la variable CSS */
 :root {
-    --choice-max-width: auto;
+    --max-label-width: auto;
+}
+.choice-container label {
+    width: var(--max-label-width);
 }
