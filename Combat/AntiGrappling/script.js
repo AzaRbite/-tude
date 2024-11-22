@@ -34,6 +34,14 @@ function setupDragAndDrop() {
                 target.insertBefore(draggable, afterElement);
             }
         });
+
+        target.addEventListener('drop', () => {
+            const draggable = document.querySelector('.dragging');
+            if (draggable) {
+                target.appendChild(draggable);
+                draggable.classList.remove('dragging', 'invisible');
+            }
+        });
     });
 }
 
