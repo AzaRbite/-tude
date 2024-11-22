@@ -96,8 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
             switch (question.type) {
                 case "nommer":
                     console.log("Type de question: nommer");
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    ajouterZoneDeSaisieEtButton();
+                    question.ids.forEach((id) => manipulerPoint(id, false, true)); // Empêche la validation via le SVG
+                    ajouterZoneDeSaisieEtButton(question);
                     break;
                 case "identifier":
                     console.log("Type de question: identifier");
@@ -114,21 +114,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        function ajouterZoneDeSaisieEtButton() {
+        function ajouterZoneDeSaisieEtButton(question) {
             console.log("Ajout de la zone de saisie pour le type nommer.");
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Entrez le nom du point...";
-            const button = document.createElement("button");
-            button.textContent = "Valider";
-            button.onclick = () => {
-                const currentQuestion = questions[currentQuestionIndex];
+            const validerButton = document.createElement("button");
+            validerButton.textContent = "Valider";
+            validerButton.onclick = () => {
                 const pointData = pointsDePression.find((p) =>
-                    currentQuestion.ids.some((id) => p.ids.includes(id))
+                    question.ids.some((id) => p.ids.includes(id))
                 );
                 if (pointData.reponses.some(r => r.toLowerCase() === input.value.trim().toLowerCase())) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
-                    currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
+                    question.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
                 } else {
                     donnerFeedback("Mauvaise réponse.", "#ff4c4c");
@@ -136,8 +135,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             };
 
+            const reponseButton = document.createElement("button");
+            reponseButton.textContent = "Obtenir la réponse";
+            reponseButton.onclick = () => {
+                const pointData = pointsDePression.find((p) =>
+                    question.ids.some((id) => p.ids.includes(id))
+                );
+                const reponseCorrecte = pointData.nom;
+                donnerFeedback(`Le point était : ${reponseCorrecte}. Passage à la question suivante.`, "#ff9800");
+                nombreDErreurs++;
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    afficherQuestion(currentQuestionIndex);
+                }, 2000);
+            };
+
             container.appendChild(input);
-            container.appendChild(button);
+            container.appendChild(validerButton);
+            container.appendChild(reponseButton);
         }
 
         function ajouterBoutonReponse(question) {
