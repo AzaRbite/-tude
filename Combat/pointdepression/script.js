@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
+        const variantes = {
+            "main": ["main", "mains", "entre index et le pouce"],
+            "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
+            "plexus brachial (jonction)": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
+        };
+
         function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
@@ -82,16 +88,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             switch (question.type) {
                 case "nommer":
-                    question.ids.forEach((id) => {
-                        manipulerPoint(id, true, false);
-                    });
+                    question.ids.forEach((id) => manipulerPoint(id, true, false));
                     ajouterZoneDeSaisie(question);
                     afficherBoutonReponse(question);
                     break;
                 case "identifier":
-                    question.ids.forEach((id) => {
-                        manipulerPoint(id, false, true);
-                    });
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
                     afficherBoutonReponse(question);
                     break;
                 case "choix":
@@ -111,25 +113,18 @@ document.addEventListener("DOMContentLoaded", function () {
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
-                const reponseCorrecte = pointsDePression.find((p) =>
+                const pointCorrect = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
-                ).nom;
+                );
 
-                const variantes = {
-                    "main": ["main", "mains", "entre index et le pouce"],
-                    "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
-                    "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
-                };
+                const reponseCorrecte = pointCorrect.nom.toLowerCase();
+                const variantesAcceptees = variantes[reponseCorrecte] || [];
+                const reponseEntree = input.value.trim().toLowerCase();
 
-                let reponseAcceptee = reponseCorrecte.toLowerCase();
-
-                if (variantes[reponseAcceptee]) {
-                    if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
-                        reponseAcceptee = input.value.trim().toLowerCase();
-                    }
-                }
-
-                if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
+                if (
+                    reponseEntree === reponseCorrecte ||
+                    variantesAcceptees.includes(reponseEntree)
+                ) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
@@ -164,9 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 li.textContent = option;
 
                 li.onclick = () => {
-                    if (option.toLowerCase() === pointsDePression.find((p) =>
+                    const pointCorrect = pointsDePression.find((p) =>
                         question.ids.some((id) => p.ids.includes(id))
-                    ).nom.toLowerCase()) {
+                    ).nom;
+
+                    if (option.toLowerCase() === pointCorrect.toLowerCase()) {
                         donnerFeedback("Bonne réponse !", "#4caf50");
                         question.ids.forEach((id) => manipulerPoint(id, true, true));
                         setTimeout(avancerQuestion, 1500);
