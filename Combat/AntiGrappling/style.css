@@ -78,13 +78,15 @@ main {
 .order-column li {
     position: relative;
     margin: 10px 0;
-    min-height: 30px; /* Réduction de la hauteur */
+    height: 40px; /* Hauteur constante pour uniformiser la taille des cases */
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
+    width: 100%; /* Assure une largeur uniforme */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
 }
 
 .order-column li::before {
@@ -98,11 +100,16 @@ main {
 .draggable {
     background-color: #ed2c2c;
     color: white;
-    padding: 5px; /* Réduction de la hauteur */
+    padding: 5px;
     margin: 5px 0;
     border-radius: 5px;
     cursor: move;
-    min-height: 30px; /* Assure que la hauteur est similaire aux zones de dépôt */
+    height: 40px; /* Hauteur constante pour correspondre aux zones de dépôt */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Assure une largeur uniforme */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
 }
 
 .valid.correct::after {
