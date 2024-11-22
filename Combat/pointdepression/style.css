@@ -1,5 +1,4 @@
 /* Styles généraux pour la page */
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -113,7 +112,6 @@ button.reponse:active {
 }
 
 /* Style pour la liste de choix */
-
 .choix-liste {
     list-style-type: none;
     padding: 0;
@@ -155,4 +153,3 @@ button.reponse:active {
     color: white;
     border-color: #d32f2f;
 }
-
