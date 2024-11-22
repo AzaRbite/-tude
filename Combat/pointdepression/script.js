@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const templatesDeQuestions = [
             { texte: (point) => `Nommer le point visible : ${point.nom}.`, type: "nommer" },
-            { texte: () => "Identifiez le point rouge visible.", type: "identifier" },
+            { texte: (point) => `Identifiez le point rouge pour ${point.nom}.`, type: "identifier" },
             { texte: () => "Quel est ce point ?", type: "choix" },
         ];
 
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function cacherTousLesPoints() {
             pointsDePression.forEach((point) => {
-                point.ids.forEach((id) => manipulerPoint(id, false));
+                point.ids.forEach((id) => manipulerPoint(id, false, false));
             });
             console.log("Tous les points sont cachés.");
         }
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
             container.innerHTML = ""; // Nettoyage du conteneur
 
             const questionDiv = document.createElement("div");
-            questionDiv.textContent = question.texte;
+            questionDiv.textContent = typeof question.texte === "function" ? question.texte(pointsDePression[index]) : question.texte;
             container.appendChild(questionDiv);
 
             const feedbackDiv = document.createElement("div");
@@ -93,14 +93,13 @@ document.addEventListener("DOMContentLoaded", function () {
             switch (question.type) {
                 case "nommer":
                     console.log("Type de question: nommer");
-                    question.ids.forEach((id) => manipulerPoint(id, true, false));
+                    question.ids.forEach((id) => manipulerPoint(id, true, true));
                     ajouterZoneDeSaisieEtButton();
                     break;
 
                 case "identifier":
                     console.log("Type de question: identifier");
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    // Aucun ajout de zone de saisie ici
+                    question.ids.forEach((id) => manipulerPoint(id, true, false));
                     break;
 
                 case "choix":
@@ -129,21 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     currentQuestion.ids.some((id) => p.ids.includes(id))
                 ).nom;
 
-                const variantes = {
-                    "main": ["main", "mains", "entre index et le pouce"],
-                    "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
-                    "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
-                };
-
-                let reponseAcceptee = reponseCorrecte.toLowerCase();
-
-                if (variantes[reponseAcceptee]) {
-                    if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
-                        reponseAcceptee = input.value.trim().toLowerCase();
-                    }
-                }
-
-                if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
+                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
