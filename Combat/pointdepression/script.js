@@ -62,58 +62,45 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function afficherQuestion(index) {
-            nettoyerZoneDeSaisie(); // Appel de la fonction pour nettoyer la zone de saisie
-            cacherTousLesPoints();
-            if (index >= questions.length) {
-                container.innerHTML = "Quiz terminé ! Félicitations !";
-                return;
-            }
+    cacherTousLesPoints();
+    if (index >= questions.length) {
+        container.innerHTML = "Quiz terminé ! Félicitations !";
+        return;
+    }
 
-            const question = questions[index];
-            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
-            container.innerHTML = "";
+    const question = questions[index];
+    compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+    container.innerHTML = "";
 
-            const questionDiv = document.createElement("div");
-            questionDiv.textContent = question.texte;
-            container.appendChild(questionDiv);
+    const questionDiv = document.createElement("div");
+    questionDiv.textContent = question.texte;
+    container.appendChild(questionDiv);
 
-            const feedbackDiv = document.createElement("div");
-            feedbackDiv.id = "feedback";
-            container.appendChild(feedbackDiv);
+    const feedbackDiv = document.createElement("div");
+    feedbackDiv.id = "feedback";
+    container.appendChild(feedbackDiv);
 
-            switch (question.type) {
-                case "nommer":
-                    question.ids.forEach((id) => {
-                        manipulerPoint(id, true, false);
-                    });
-                    ajouterZoneDeSaisie(question); // Ajoute la zone de saisie seulement pour "nommer"
-                    afficherBoutonReponse(question);
-                    break;
-                case "identifier":
-                    question.ids.forEach((id) => {
-                        manipulerPoint(id, false, true);
-                    });
-                    afficherBoutonReponse(question);
-                    break;
-                case "choix":
-                    question.ids.forEach((id) => manipulerPoint(id, false, true));
-                    afficherOptionsDeChoix(question);
-                    break;
-                default:
-                    console.error("Type de question inconnu.");
-            }
-        }
-
-        function nettoyerZoneDeSaisie() {
-            const inputs = document.querySelectorAll("input, button"); // Récupère toutes les boîtes de saisie et boutons
-            inputs.forEach((input) => input.remove()); // Supprime chaque élément trouvé
-        }
+    // Vérification stricte pour chaque type de question
+    switch (question.type) {
+        case "nommer":
+            question.ids.forEach((id) => manipulerPoint(id, true, false)); // Points activés pour cliquer
+            ajouterZoneDeSaisie(question); // Ajout de la boîte d'écriture uniquement ici
+            afficherBoutonReponse(question);
+            break;
+        case "identifier":
+            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Points visibles sans interaction
+            afficherBoutonReponse(question); // Uniquement le bouton "Voir la réponse"
+            break;
+        case "choix":
+            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Points visibles sans interaction
+            afficherOptionsDeChoix(question); // Options de choix affichées
+            break;
+        default:
+            console.error("Type de question inconnu.");
+    }
+}
 
         function ajouterZoneDeSaisie(question) {
-            if (question.type === "identifier") {
-                return; // Ne fais rien si la question est de type "identifier"
-            }
-
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Entrez le nom du point...";
@@ -121,25 +108,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
-                const reponseCorrecte = pointsDePression.find((p) =>
+                const pointCorrect = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
-                ).nom;
+                );
 
-                const variantes = {
-                    "main": ["main", "mains", "entre index et le pouce"],
-                    "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
-                    "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
-                };
+                const reponseCorrecte = pointCorrect.nom.toLowerCase();
+                const reponseEntree = input.value.trim().toLowerCase();
 
-                let reponseAcceptee = reponseCorrecte.toLowerCase();
-
-                if (variantes[reponseAcceptee]) {
-                    if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
-                        reponseAcceptee = input.value.trim().toLowerCase();
-                    }
-                }
-
-                if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
+                if (reponseEntree === reponseCorrecte) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
@@ -174,9 +150,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 li.textContent = option;
 
                 li.onclick = () => {
-                    if (option.toLowerCase() === pointsDePression.find((p) =>
+                    const pointCorrect = pointsDePression.find((p) =>
                         question.ids.some((id) => p.ids.includes(id))
-                    ).nom.toLowerCase()) {
+                    ).nom;
+
+                    if (option.toLowerCase() === pointCorrect.toLowerCase()) {
                         donnerFeedback("Bonne réponse !", "#4caf50");
                         question.ids.forEach((id) => manipulerPoint(id, true, true));
                         setTimeout(avancerQuestion, 1500);
@@ -211,9 +189,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function donnerFeedback(message, couleur) {
-            const feedbackDiv = document.getElementById("feedback");
-            feedbackDiv.textContent = message;
-            feedbackDiv.style.backgroundColor = couleur;
+            const feedback = document.getElementById("feedback");
+            if (feedback) {
+                feedback.textContent = message;
+                feedback.style.color = couleur;
+            }
         }
 
         function avancerQuestion() {
@@ -221,18 +201,38 @@ document.addEventListener("DOMContentLoaded", function () {
             afficherQuestion(currentQuestionIndex);
         }
 
-        function init() {
-            questions = templatesDeQuestions.map((template) => {
-                const questionType = template.type;
-                const ids = pointsDePression
-                    .filter((point) => point.nom.toLowerCase().includes(questionType))
-                    .map((point) => point.ids[0]);
-                return { texte: template.texte, type: questionType, ids: ids };
-            });
+        function genererQuestionsAleatoires(nombre) {
+            questions = [];
+            for (let i = 0; i < nombre; i++) {
+                const indexPoint = Math.floor(Math.random() * pointsDePression.length);
+                const point = pointsDePression[indexPoint];
 
-            afficherQuestion(currentQuestionIndex);
+                const templateIndex = Math.floor(Math.random() * templatesDeQuestions.length);
+                const template = templatesDeQuestions[templateIndex];
+
+                const question = {
+                    texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
+                    type: template.type,
+                    ids: point.ids,
+                };
+
+                if (template.type === "choix") {
+                    question.options = pointsDePression
+                        .map((p) => p.nom)
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 3);
+
+                    if (!question.options.includes(point.nom)) {
+                        question.options.push(point.nom);
+                    }
+                    question.options.sort(() => Math.random() - 0.5);
+                }
+
+                questions.push(question);
+            }
         }
 
-        init(); // Appelle init pour commencer
+        genererQuestionsAleatoires(10);
+        afficherQuestion(currentQuestionIndex);
     });
 });
