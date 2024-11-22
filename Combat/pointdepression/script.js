@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const templatesDeQuestions = [
             { texte: () => "Quel est le nom du point visible ?", type: "nommer" },
-            { texte: (point) => `Identifiez le point rouge pour ${point.nom}.`, type: "identifier" },
+            { texte: (point) => `Identifiez le point rouge: ${point.nom}.`, type: "identifier" },
             { texte: () => "Quel est ce point ?", type: "choix" },
         ];
 
