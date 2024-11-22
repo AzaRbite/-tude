@@ -97,6 +97,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
                 target.classList.remove('valid', 'correct', 'incorrect');
             });
             document.getElementById('draggable-steps').innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
+            document.querySelector('.order-column').style.backgroundColor = '#292929'; // Réinitialiser la couleur de fond
             setupDragAndDrop();
             restartButton.remove();
         });
