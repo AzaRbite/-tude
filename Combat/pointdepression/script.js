@@ -38,6 +38,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
+        function nettoyerZoneDeSaisie() {
+    const inputs = document.querySelectorAll("input, button"); // Récupère toutes les boîtes de saisie et boutons
+    inputs.forEach((input) => input.remove()); // Supprime chaque élément trouvé
+}
+
         function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
@@ -62,31 +67,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 function afficherQuestion(index) {
-    cacherTousLesPoints();
+    nettoyerZoneDeSaisie(); // Ajoute cette ligne pour nettoyer les éléments de saisie avant d'afficher la question
 
-    // Vérifie si toutes les questions ont été affichées
+    cacherTousLesPoints();
     if (index >= questions.length) {
         container.innerHTML = "Quiz terminé ! Félicitations !";
         return;
     }
 
     const question = questions[index];
-
-    // Met à jour le compteur
     compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
-
-    // Réinitialise le contenu du conteneur pour éviter d'avoir des éléments persistants
     container.innerHTML = "";
 
-    // Affiche le texte de la question
     const questionDiv = document.createElement("div");
     questionDiv.textContent = question.texte;
     container.appendChild(questionDiv);
 
-    // Ajoute une zone pour afficher les feedbacks
     const feedbackDiv = document.createElement("div");
     feedbackDiv.id = "feedback";
     container.appendChild(feedbackDiv);
+
+    // Le reste du code dans afficherQuestion reste inchangé
+}
 
     // Configure les éléments spécifiques à chaque type de question
 switch (question.type) {
@@ -113,8 +115,7 @@ switch (question.type) {
 
 function ajouterZoneDeSaisie(question) {
     if (question.type === "identifier") {
-        console.warn("Zone de saisie ignorée pour les questions de type 'identifier'.");
-        return; // Ne rien faire si le type est "identifier"
+        return; // Ne fais rien si la question est de type "identifier"
     }
 
     const input = document.createElement("input");
