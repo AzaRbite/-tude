@@ -51,43 +51,51 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentQuestionIndex = 0;
         let dernierPoint = null;
 
-        function genererQuestionsAleatoires(nombre) {
-            const tempPoints = [...pointsDePression];
-            questions = [];
-            while (questions.length < nombre && tempPoints.length > 0) {
-                const indexPoint = Math.floor(Math.random() * tempPoints.length);
-                const point = tempPoints[indexPoint];
+function genererQuestionsAleatoires(nombre) {
+    const tempPoints = [...pointsDePression];
+    questions = [];
+    while (questions.length < nombre && tempPoints.length > 0) {
+        const indexPoint = Math.floor(Math.random() * tempPoints.length);
+        const point = tempPoints[indexPoint];
 
-                if (point === dernierPoint) continue;
-
-                const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
-                const question = {
-                    texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
-                    type: template.type,
-                    ids: point.ids,
-                };
-
-                if (template.type === "choix") {
-                    question.options = pointsDePression
-                        .map((p) => p.nom)
-                        .sort(() => Math.random() - 0.5)
-                        .slice(0, 3);
-                    if (!question.options.includes(point.nom)) {
-                        question.options.push(point.nom);
-                    }
-                    question.options.sort(() => Math.random() - 0.5);
-                }
-
-                questions.push(question);
-                dernierPoint = point;
-
-                tempPoints.splice(indexPoint, 1);
-
-                if (tempPoints.length === 0 && questions.length < nombre) {
-                    tempPoints.push(...pointsDePression);
-                }
-            }
+        // Suppose qu'il y a un problème à cause de l'utilisation de `dernierPoint`
+        // Revérifier cette logique et s'assurer qu'elle n'empêche pas la sélection
+        if (point === dernierPoint) {
+            tempPoints.splice(indexPoint, 1);
+            continue;
         }
+
+        const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
+        const question = {
+            texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
+            type: template.type,
+            ids: point.ids,
+        };
+
+        if (template.type === "choix") {
+            question.options = pointsDePression
+                .map((p) => p.nom)
+                .sort(() => Math.random() - 0.5)
+                .slice(0, 3);
+            if (!question.options.includes(point.nom)) {
+                question.options.push(point.nom);
+            }
+            question.options.sort(() => Math.random() - 0.5);
+        }
+
+        questions.push(question);
+        dernierPoint = point;
+
+        tempPoints.splice(indexPoint, 1);
+
+        if (tempPoints.length === 0 && questions.length < nombre) {
+            tempPoints.push(...pointsDePression);
+        }
+    }
+}
+
+// Assurez-vous également d'appeler cette fonction correctement
+genererQuestionsAleatoires(10);
 
         function manipulerPoint(pointId, estActif) {
             const point = svgDoc.getElementById(pointId);
