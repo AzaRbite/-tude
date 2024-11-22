@@ -126,9 +126,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     question.ids.some((id) => p.ids.includes(id))
                 );
                 if (pointData.reponses.some(r => r.toLowerCase() === input.value.trim().toLowerCase())) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
+                    donnerFeedback("Bonne réponse ! Passons à la question suivante.", "#4caf50");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    setTimeout(avancerQuestion, 1500);
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        afficherQuestion(currentQuestionIndex);
+                    }, 2000);
                 } else {
                     donnerFeedback("Mauvaise réponse.", "#ff4c4c");
                     nombreDErreurs++;
@@ -193,12 +196,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         ).nom;
                         if (option.toLowerCase() === pointCorrect.toLowerCase()) {
                             label.classList.add("correct");
-                            donnerFeedback("Bonne réponse !", "#4caf50");
+                            donnerFeedback("Bonne réponse ! Passons à la question suivante.", "#4caf50");
                             question.ids.forEach((id) => manipulerPoint(id, true, true));
                             setTimeout(() => {
                                 currentQuestionIndex++;
                                 afficherQuestion(currentQuestionIndex);
-                            }, 1500);
+                            }, 2000);
                         } else {
                             label.classList.add("wrong");
                             donnerFeedback("Mauvaise réponse.", "#ff4c4c");
@@ -216,12 +219,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const targetId = event.target.id;
             const currentQuestion = questions[currentQuestionIndex];
             if (currentQuestion.ids.includes(targetId)) {
-                donnerFeedback("Bonne réponse !", "#4caf50");
+                donnerFeedback("Bonne réponse ! Passons à la question suivante.", "#4caf50");
                 currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
                 setTimeout(() => {
                     currentQuestionIndex++;
                     afficherQuestion(currentQuestionIndex);
-                }, 1500);
+                }, 2000);
             } else {
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
                 nombreDErreurs++;
