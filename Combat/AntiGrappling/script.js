@@ -25,10 +25,29 @@ function setupDragAndDrop() {
     dropTargets.forEach(target => {
         target.addEventListener('dragover', e => {
             e.preventDefault();
+            const afterElement = getDragAfterElement(target, e.clientY);
             const draggable = document.querySelector('.dragging');
-            target.appendChild(draggable);
+            if (afterElement == null) {
+                target.appendChild(draggable);
+            } else {
+                target.insertBefore(draggable, afterElement);
+            }
         });
     });
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 // Logique de validation
@@ -51,25 +70,31 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         const content = target.textContent.trim();
         if (content === correctOrder[index]) {
             target.classList.add('valid', 'correct');
+            target.classList.remove('valid', 'incorrect');
         } else {
             target.classList.add('valid', 'incorrect');
+            target.classList.remove('valid', 'correct');
         }
     });
 
-    const restartButton = document.createElement('button');
-    restartButton.classList.add('button');
-    restartButton.textContent = "Recommencer";
-    restartButton.addEventListener('click', () => {
-        dropTargets.forEach(target => {
-            target.textContent = '';
-            target.classList.remove('valid', 'correct', 'incorrect');
+    // Afficher le bouton de recommencement s'il n'existe pas déjà
+    if (!document.getElementById('restart-button')) {
+        const restartButton = document.createElement('button');
+        restartButton.id = 'restart-button';
+        restartButton.classList.add('button');
+        restartButton.textContent = "Recommencer";
+        restartButton.addEventListener('click', () => {
+            dropTargets.forEach(target => {
+                target.textContent = '';
+                target.classList.remove('valid', 'correct', 'incorrect');
+            });
+            document.getElementById('draggable-steps').innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
+            setupDragAndDrop();
+            restartButton.remove();
         });
-        document.getElementById('draggable-steps').innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
-        setupDragAndDrop(); // Remet en place les événements de drag and drop
-        restartButton.remove();
-    });
 
-    document.querySelector('.content').appendChild(restartButton);
+        document.querySelector('.content').appendChild(restartButton);
+    }
 });
 
 // Initialisation du drag and drop
