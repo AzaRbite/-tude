@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         ];
 
         const templatesDeQuestions = [
-            { texte: (point) => `Cliquez sur le point ${point.nom}.`, type: "nommer" },
+            { texte: (point) => `Nommer le point visible : ${point.nom}.`, type: "nommer" },
             { texte: () => "Identifiez le point rouge visible.", type: "identifier" },
             { texte: () => "Quel est ce point ?", type: "choix" },
         ];
@@ -99,7 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 case "identifier":
                     console.log("Type de question: identifier");
-                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    question.ids.forEach((id) => manipulerPoint(id, true, true));
+                    // Aucun ajout de zone de saisie ici
                     break;
 
                 case "choix":
