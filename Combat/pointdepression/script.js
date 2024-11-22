@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const label = document.createElement("label");
                 const radio = document.createElement("input");
                 radio.type = "radio";
-                radio.name = "choix";
+                radio.name = `choix-${currentQuestionIndex}`; // Assurez-vous que chaque question a un nom unique pour éviter des conflits
                 radio.value = option;
                 label.appendChild(radio);
                 label.appendChild(document.createTextNode(option));
@@ -187,7 +187,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             label.classList.add("correct");
                             donnerFeedback("Bonne réponse !", "#4caf50");
                             question.ids.forEach((id) => manipulerPoint(id, true, true));
-                            setTimeout(avancerQuestion, 1500);
+                            setTimeout(() => {
+                                currentQuestionIndex++;
+                                afficherQuestion(currentQuestionIndex);
+                            }, 1500);
                         } else {
                             label.classList.add("wrong");
                             donnerFeedback("Mauvaise réponse.", "#ff4c4c");
@@ -207,7 +210,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (currentQuestion.ids.includes(targetId)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
-                setTimeout(avancerQuestion, 1500);
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    afficherQuestion(currentQuestionIndex);
+                }, 1500);
             } else {
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
                 nombreDErreurs++;
@@ -229,11 +235,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 feedback.textContent = message;
                 feedback.style.color = couleur;
             }
-        }
-
-        function avancerQuestion() {
-            currentQuestionIndex++;
-            afficherQuestion(currentQuestionIndex);
         }
 
         function terminerQuiz() {
