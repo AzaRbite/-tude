@@ -59,14 +59,16 @@ main {
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
+    list-style-type: none; /* Supprime les puces de liste */
+    padding: 0; /* Supprime le padding par défaut de la liste */
 }
 
 .choice-container label {
-    display: inline-block;
+    display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 100%; /* Uniformiser avec le conteneur */
-    max-width: 500px; /* Largeur fixe pour tous les choix */
+    width: 100%; /* Uniformiser la largeur des options */
+    max-width: 500px; /* Largeur identique pour tous les choix */
     margin: 2px 0; /* Espacement réduit entre les choix */
     padding: 15px;
     background-color: #444;
@@ -84,7 +86,7 @@ main {
 
 .choice-container label input[type="radio"] {
     margin-right: 10px;
-    appearance: none; /* Supprime les points */
+    margin-left: 0;
 }
 
 button {
@@ -104,7 +106,7 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 120px); /* Nouvelle largeur réduite pour plus de compacité */
+    width: calc(100% - 120px); /* Largeur réduite pour plus de compacité */
     max-width: 300px; /* Largeur adaptée pour un style compact */
     margin: 10px auto;
     padding: 10px;
