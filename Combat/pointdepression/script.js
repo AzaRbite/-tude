@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         function nettoyerZoneDeSaisie() {
             const elementsASupprimer = container.querySelectorAll("input, button");
             elementsASupprimer.forEach((el) => el.remove());
+            console.log("Zone de saisie nettoyée.");
         }
 
         function manipulerPoint(pointId, estActif, visible = false) {
@@ -63,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
             pointsDePression.forEach((point) => {
                 point.ids.forEach((id) => manipulerPoint(id, false));
             });
-            svgDoc.addEventListener("click", detecterMauvaiseReponse);
+            console.log("Tous les points sont cachés.");
         }
 
         function afficherQuestion(index) {
@@ -71,10 +72,13 @@ document.addEventListener("DOMContentLoaded", function () {
             cacherTousLesPoints();
             if (index >= questions.length) {
                 container.innerHTML = "Quiz terminé ! Félicitations !";
+                console.log("Quiz terminé.");
                 return;
             }
 
             const question = questions[index];
+            console.log(`Affichage de la question ${index + 1}: ${question.texte}`);
+
             compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
             container.innerHTML = ""; // Nettoyage du conteneur
 
@@ -88,18 +92,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
             switch (question.type) {
                 case "nommer":
+                    console.log("Type de question: nommer");
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
                     ajouterZoneDeSaisie(question);
                     afficherBoutonReponse(question);
                     break;
 
                 case "identifier":
+                    console.log("Type de question: identifier");
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
-                    // Pas de zone de saisie pour "identifier"
+                    // Assurez-vous que la zone de saisie n'est pas ajoutée ici
                     afficherBoutonReponse(question);
                     break;
 
                 case "choix":
+                    console.log("Type de question: choix");
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
                     afficherOptionsDeChoix(question);
                     break;
@@ -110,7 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function ajouterZoneDeSaisie(question) {
-            if (question.type !== "nommer") return; // Assure que cela ne s'applique qu'aux questions "nommer"
+            if (question.type !== "nommer") return;
+
+            console.log("Ajout de la zone de saisie pour le type nommer.");
 
             const input = document.createElement("input");
             input.type = "text";
@@ -252,6 +261,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 questions.push(question);
             }
+
+            console.log(`${questions.length} questions générées :`, questions);
         }
 
         genererQuestionsAleatoires(10);
