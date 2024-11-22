@@ -118,20 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const feedbackDiv = document.createElement("div");
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
-
-            if (question.type === "nommer") {
-                question.ids.forEach((id) => manipulerPoint(id, true));
-            } else if (question.type === "identifier") {
-                question.ids.forEach((id) => manipulerPoint(id, true));
-                afficherChampDeSaisie(question);
-            } else if (question.type === "choix") {
-                question.ids.forEach((id) => manipulerPoint(id, true));
-                afficherChoix(question);
-            }
         }
 
         function gererCliqueNommer(e) {
-            console.log("Clique détecté sur le SVG"); // Debug global
+            console.log("Clique détecté sur le SVG");
 
             let cible = e.target;
             let cibleId = cible.getAttribute('id');
@@ -139,10 +129,11 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!cibleId) {
                 console.log("Cible sans ID : ", cible);
             } else {
-                console.log("Élément cliqué avec ID:", cibleId); // Debug
+                console.log("Élément cliqué avec ID:", cibleId);
             }
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
+                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 setTimeout(avancerQuestion, 1500);
             } else {
