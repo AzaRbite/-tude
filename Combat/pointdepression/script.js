@@ -145,21 +145,14 @@ document.addEventListener("DOMContentLoaded", function () {
             buttonReponse.textContent = "Voir la réponse";
             buttonReponse.classList.add("reveal-button");
             buttonReponse.onclick = () => {
-                const reponseCorrecte = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-
-                if (question.type === "identifier") {
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    svgDoc.removeEventListener("click", detecterMauvaiseReponse);
-                } else if (question.type === "nommer") {
-                    const input = container.querySelector("input");
-                    if (input) {
-                        input.value = reponseCorrecte;
-                    }
-                }
-
-                setTimeout(avancerQuestion, 2000);
+                question.ids.forEach((id) => manipulerPoint(id, true, true));
+                svgDoc.removeEventListener("click", detecterMauvaiseReponse);
+                donnerFeedback("Voici le point, passage à la question suivante.", "#ff9800");
+                nombreDErreurs++;
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    afficherQuestion(currentQuestionIndex);
+                }, 2000);
             };
 
             container.appendChild(buttonReponse);
