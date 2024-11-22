@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const templatesDeQuestions = [
             { texte: (point) => `Cliquez sur le point ${point.nom}.`, type: "nommer" },
             { texte: () => "Identifiez le point rouge visible.", type: "identifier" },
-            { texte: () => "Quel est ce point ?", type: "choix" },
+            { texte: () => "Quel est ce point ?", type: "choix" },
         ];
 
         let questions = [];
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
-                point.style.fillOpacity = visible ? 1 : 0; // Affiche le point seulement si visible est vrai
+                point.style.fillOpacity = visible ? 1 : 0; // Affiche ou cache le point
                 point.style.fill = "red";
                 point.style.cursor = estActif ? "pointer" : "default";
 
@@ -61,8 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 point.ids.forEach((id) => manipulerPoint(id, false));
             });
 
-            // Retire les mauvaises réponses globales
-            svgDoc.removeEventListener("click", detecterMauvaiseReponse);
+            svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
 
         function afficherQuestion(index) {
@@ -162,6 +161,24 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(ul);
         }
 
+        function verifierReponse(event) {
+            const targetId = event.target.id;
+            const currentQuestion = questions[currentQuestionIndex];
+            if (currentQuestion.ids.includes(targetId)) {
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                setTimeout(avancerQuestion, 1500);
+            } else {
+                donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+            }
+        }
+
+        function detecterMauvaiseReponse(event) {
+            const pointClique = event.target.id;
+            if (!pointsDePression.some((point) => point.ids.includes(pointClique))) {
+                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
+            }
+        }
+
         function donnerFeedback(message, couleur) {
             const feedback = document.getElementById("feedback");
             if (feedback) {
@@ -209,4 +226,3 @@ document.addEventListener("DOMContentLoaded", function () {
         afficherQuestion(currentQuestionIndex);
     });
 });
-
