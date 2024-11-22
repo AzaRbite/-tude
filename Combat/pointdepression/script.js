@@ -85,13 +85,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     question.ids.forEach((id) => {
                         manipulerPoint(id, true, false);
                     });
+                    ajouterZoneDeSaisie(question);
                     afficherBoutonReponse(question);
                     break;
                 case "identifier":
                     question.ids.forEach((id) => {
                         manipulerPoint(id, false, true);
                     });
-                    afficherBoutonReponse(question);
+                    ajouterZoneDeSaisie(question);
                     break;
                 case "choix":
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
@@ -107,7 +108,10 @@ document.addEventListener("DOMContentLoaded", function () {
             buttonReponse.textContent = "Voir la réponse";
             buttonReponse.onclick = () => {
                 question.ids.forEach((id) => manipulerPoint(id, true, true));
-                donnerFeedback("Voici la réponse !", "#ff9800");
+                const nomDuPoint = pointsDePression.find((p) =>
+                    question.ids.some((id) => p.ids.includes(id))
+                ).nom;
+                donnerFeedback(`Voici la réponse : ${nomDuPoint}`, "#ff9800");
                 setTimeout(avancerQuestion, 3000);
             };
             container.appendChild(buttonReponse);
