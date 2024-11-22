@@ -36,14 +36,23 @@ main {
     margin: 10px 0;
 }
 
-.content a {
-    color: #ed2c2c;
-    text-decoration: none;
+.button {
+    display: inline-block;
+    background-color: #ed2c2c;
+    color: #ffffff;
+    padding: 10px 20px;
     font-size: 1.1em;
-    transition: color 0.3s;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px 0;
 }
 
-.content a:hover {
+.button:hover {
+    background-color: #a30000;
     color: #ffffff;
 }
 
@@ -59,8 +68,4 @@ footer {
 footer a {
     color: #f0f0f0;
     text-decoration: none;
-}
-
-footer a:hover {
-    text-decoration: underline;
 }
