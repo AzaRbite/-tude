@@ -27,12 +27,7 @@ function setupDragAndDrop() {
         target.addEventListener('dragover', e => {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
-            const afterElement = getDragAfterElement(target, e.clientY);
-            if (afterElement == null) {
-                target.appendChild(draggable);
-            } else {
-                target.insertBefore(draggable, afterElement);
-            }
+            target.appendChild(draggable);
         });
     });
 }
