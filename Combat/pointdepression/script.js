@@ -66,95 +66,89 @@ document.addEventListener("DOMContentLoaded", function () {
             svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
 
-function afficherQuestion(index) {
-    nettoyerZoneDeSaisie(); // Assurez-vous que cette fonction est appelée pour nettoyer
+        function afficherQuestion(index) {
+            nettoyerZoneDeSaisie();
+            cacherTousLesPoints();
+            if (index >= questions.length) {
+                container.innerHTML = "Quiz terminé ! Félicitations !";
+                return;
+            }
 
-    cacherTousLesPoints();
-    if (index >= questions.length) {
-        container.innerHTML = "Quiz terminé ! Félicitations !";
-        return;
-    }
+            const question = questions[index];
+            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+            container.innerHTML = "";
 
-    const question = questions[index];
-    compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
-    container.innerHTML = "";
+            const questionDiv = document.createElement("div");
+            questionDiv.textContent = question.texte;
+            container.appendChild(questionDiv);
 
-    const questionDiv = document.createElement("div");
-    questionDiv.textContent = question.texte;
-    container.appendChild(questionDiv);
+            const feedbackDiv = document.createElement("div");
+            feedbackDiv.id = "feedback";
+            container.appendChild(feedbackDiv);
 
-    const feedbackDiv = document.createElement("div");
-    feedbackDiv.id = "feedback";
-    container.appendChild(feedbackDiv);
+            switch (question.type) {
+                case "nommer":
+                    question.ids.forEach((id) => manipulerPoint(id, true, false));
+                    ajouterZoneDeSaisie(question); // Ajout de la zone de saisie ici seulement
+                    afficherBoutonReponse(question);
+                    break;
 
-    switch (question.type) {
-        case "nommer":
-            question.ids.forEach((id) => manipulerPoint(id, true, false));
-            ajouterZoneDeSaisie(question); // Créer les éléments de saisie ici
-            afficherBoutonReponse(question);
-            break;
+                case "identifier":
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    // Pas de zone de saisie ici
+                    afficherBoutonReponse(question);
+                    break;
 
-        case "identifier":
-            question.ids.forEach((id) => manipulerPoint(id, false, true));
-            // Ne pas ajouter de zone de saisie ici
-            afficherBoutonReponse(question);
-            break;
+                case "choix":
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    afficherOptionsDeChoix(question);
+                    break;
 
-        case "choix":
-            question.ids.forEach((id) => manipulerPoint(id, false, true));
-            afficherOptionsDeChoix(question);
-            break;
-
-        default:
-            console.error("Type de question inconnu.");
-    }
-}
-
-function nettoyerZoneDeSaisie() {
-    const elementsASupprimer = container.querySelectorAll("input, button");
-    elementsASupprimer.forEach((el) => el.remove());
-}
-
-function ajouterZoneDeSaisie(question) {
-    if (question.type !== "nommer") return; // Ne créer la zone de saisie que pour "nommer"
-
-    const input = document.createElement("input");
-    input.type = "text";
-    input.placeholder = "Entrez le nom du point...";
-
-    const button = document.createElement("button");
-    button.textContent = "Valider";
-    button.onclick = () => {
-        const reponseCorrecte = pointsDePression.find((p) =>
-            question.ids.some((id) => p.ids.includes(id))
-        ).nom;
-
-        const variantes = {
-            "main": ["main", "mains", "entre index et le pouce"],
-            "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
-            "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
-        };
-
-        let reponseAcceptee = reponseCorrecte.toLowerCase();
-
-        if (variantes[reponseAcceptee]) {
-            if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
-                reponseAcceptee = input.value.trim().toLowerCase();
+                default:
+                    console.error("Type de question inconnu.");
             }
         }
 
-        if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
-            donnerFeedback("Bonne réponse !", "#4caf50");
-            question.ids.forEach((id) => manipulerPoint(id, true, true));
-            setTimeout(avancerQuestion, 1500);
-        } else {
-            donnerFeedback("Mauvaise réponse.", "#ff4c4c");
-        }
-    };
+        function ajouterZoneDeSaisie(question) {
+            if (question.type !== "nommer") return;
 
-    container.appendChild(input);
-    container.appendChild(button);
-}
+            const input = document.createElement("input");
+            input.type = "text";
+            input.placeholder = "Entrez le nom du point...";
+
+            const button = document.createElement("button");
+            button.textContent = "Valider";
+            button.onclick = () => {
+                const reponseCorrecte = pointsDePression.find((p) =>
+                    question.ids.some((id) => p.ids.includes(id))
+                ).nom;
+
+                const variantes = {
+                    "main": ["main", "mains", "entre index et le pouce"],
+                    "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
+                    "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
+                };
+
+                let reponseAcceptee = reponseCorrecte.toLowerCase();
+
+                if (variantes[reponseAcceptee]) {
+                    if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
+                        reponseAcceptee = input.value.trim().toLowerCase();
+                    }
+                }
+
+                if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
+                    donnerFeedback("Bonne réponse !", "#4caf50");
+                    question.ids.forEach((id) => manipulerPoint(id, true, true));
+                    setTimeout(avancerQuestion, 1500);
+                } else {
+                    donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                }
+            };
+
+            container.appendChild(input);
+            container.appendChild(button);
+        }
 
         function afficherBoutonReponse(question) {
             const buttonReponse = document.createElement("button");
