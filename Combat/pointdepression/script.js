@@ -29,11 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
 
-        const templatesDeQuestions = [
-            { texte: (point) => `Nommer le point visible : ${point.nom}.`, type: "nommer" },
-            { texte: (point) => `Identifiez le point rouge pour ${point.nom}.`, type: "identifier" },
-            { texte: () => "Quel est ce point ?", type: "choix" },
-        ];
+const templatesDeQuestions = [
+    { texte: () => "Quel est le nom du point visible ?", type: "nommer" },
+    { texte: (point) => `Identifiez le point rouge pour ${point.nom}.`, type: "identifier" },
+    { texte: () => "Quel est ce point ?", type: "choix" },
+];
 
         let questions = [];
         let currentQuestionIndex = 0;
