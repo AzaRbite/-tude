@@ -63,7 +63,8 @@ main {
 
 .choice-container label {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     width: 100%;
     margin: 5px 0;
     padding: 15px;
@@ -71,8 +72,8 @@ main {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-    box-sizing: border-box; /* Pour inclure le padding dans la largeur */
-    text-align: center;
+    box-sizing: border-box;
+    text-align: left;
 }
 
 .choice-container label:hover {
@@ -80,8 +81,9 @@ main {
     color: #ffffff;
 }
 
-input[type="radio"] {
+.choice-container label input[type="radio"] {
     margin-right: 10px;
+    margin-left: 0;
 }
 
 button {
@@ -94,8 +96,8 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     margin: 10px;
-    width: 100%; /* Rendre tous les boutons de la même largeur */
-    max-width: 600px; /* Limite la largeur si nécessaire */
+    width: auto;
+    max-width: 600px;
 }
 
 button:hover {
