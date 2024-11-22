@@ -119,10 +119,13 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
-            // Afficher le champ de saisie ou les choix en fonction du type de question
-            if (question.type === "identifier") {
+            if (question.type === "nommer") {
+                question.ids.forEach(id => manipulerPoint(id, true));
+            } else if (question.type === "identifier") {
+                question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
             } else if (question.type === "choix") {
+                question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChoix(question);
             }
         }
@@ -140,8 +143,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
-                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
                 donnerFeedback("Bonne réponse !", "#4caf50");
+                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge après la bonne réponse
                 setTimeout(avancerQuestion, 1500);
             } else {
                 donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
