@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Impossible de charger le document SVG.");
             return;
         }
-        console.log("SVG chargé et accessible.");
 
         const compteur = document.getElementById("compteur");
         const container = document.getElementById("questionnaire");
@@ -42,10 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
         function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
-                point.style.fillOpacity = visible ? 1 : 0; // Affiche ou cache le point
+                point.style.fillOpacity = visible ? 1 : 0; 
                 point.style.fill = "red";
                 point.style.cursor = estActif ? "pointer" : "default";
-
                 if (estActif) {
                     point.addEventListener("click", verifierReponse);
                 } else {
@@ -60,13 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
             pointsDePression.forEach((point) => {
                 point.ids.forEach((id) => manipulerPoint(id, false));
             });
-
             svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
 
         function afficherQuestion(index) {
             cacherTousLesPoints();
-
             if (index >= questions.length) {
                 container.innerHTML = "Quiz terminé ! Félicitations !";
                 return;
@@ -89,17 +85,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
                     afficherBoutonReponse(question);
                     break;
-
                 case "identifier":
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
                     ajouterZoneDeSaisie(question);
                     break;
-
                 case "choix":
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
                     afficherOptionsDeChoix(question);
                     break;
-
                 default:
                     console.error("Type de question inconnu.");
             }
@@ -127,7 +120,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 const reponseCorrecte = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
                 ).nom;
-                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
+
+                const variantes = {
+                    "main": ["main", "mains", "entre index et le pouce"],
+                    "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
+                    "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
+                };
+
+                let reponseAcceptee = reponseCorrecte.toLowerCase();
+
+                if (variantes[reponseAcceptee]) {
+                    if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
+                        reponseAcceptee = input.value.trim().toLowerCase();
+                    }
+                }
+
+                if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     setTimeout(avancerQuestion, 1500);
                 } else {
@@ -145,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
             question.options.forEach((option) => {
                 const li = document.createElement("li");
                 li.textContent = option;
+
                 li.onclick = () => {
                     if (option.toLowerCase() === pointsDePression.find((p) =>
                         question.ids.some((id) => p.ids.includes(id))
@@ -155,6 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         donnerFeedback("Mauvaise réponse.", "#ff4c4c");
                     }
                 };
+
                 ul.appendChild(li);
             });
 
@@ -195,11 +205,9 @@ document.addEventListener("DOMContentLoaded", function () {
         function genererQuestionsAleatoires(nombre) {
             const tempPoints = [...pointsDePression];
             questions = [];
-
             while (questions.length < nombre && tempPoints.length > 0) {
                 const indexPoint = Math.floor(Math.random() * tempPoints.length);
                 const point = tempPoints.splice(indexPoint, 1)[0];
-
                 const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
                 const question = {
                     texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
@@ -212,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         .map((p) => p.nom)
                         .sort(() => Math.random() - 0.5)
                         .slice(0, 3);
+
                     if (!question.options.includes(point.nom)) {
                         question.options.push(point.nom);
                     }
