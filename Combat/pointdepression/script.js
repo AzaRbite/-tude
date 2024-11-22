@@ -80,26 +80,22 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
-            switch (question.type) {
-                case "nommer":
-                    question.ids.forEach((id) => {
-                        manipulerPoint(id, true, false);
-                    });
-                    ajouterZoneDeSaisie(question);
-                    afficherBoutonReponse(question);
-                    break;
-                case "identifier":
-                    question.ids.forEach((id) => {
-                        manipulerPoint(id, false, true);
-                    });
-                    afficherBoutonReponse(question);
-                    break;
-                case "choix":
-                    question.ids.forEach((id) => manipulerPoint(id, false, true));
-                    afficherOptionsDeChoix(question);
-                    break;
-                default:
-                    console.error("Type de question inconnu.");
+            if (question.type === "nommer") {
+                question.ids.forEach((id) => {
+                    manipulerPoint(id, true, false);
+                });
+                ajouterZoneDeSaisie(question);
+            } else if (question.type === "identifier") {
+                question.ids.forEach((id) => {
+                    manipulerPoint(id, false, true);
+                });
+            } else if (question.type === "choix") {
+                question.ids.forEach((id) => manipulerPoint(id, false, true));
+                afficherOptionsDeChoix(question);
+            }
+
+            if (question.type !== "choix") {
+                afficherBoutonReponse(question);
             }
         }
 
