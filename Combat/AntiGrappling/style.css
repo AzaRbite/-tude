@@ -95,7 +95,7 @@ main {
 .order-column li.dropped .draggable {
     background-color: #ed2c2c; /* Fond rouge pour l'élément déposé */
     color: #ffffff;
-    width: 60%; /* Réduction de la largeur */
+    width: 50%; /* Réduction de la largeur de l'élément déposé */
     height: auto; /* Hauteur dynamique */
     margin: auto; /* Centre l'élément à l'intérieur de la zone */
     padding: 10px;
