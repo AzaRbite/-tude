@@ -68,7 +68,7 @@ main {
     width: 100%; /* Étend la largeur à 100% du conteneur parent */
     max-width: 600px; /* Limite la largeur maximale pour l'uniformité */
     margin: 5px 0; /* Ajoute un espacement plus large entre les choix */
-    padding: 10px; /* Taille verticale ajustée */
+    padding: 5px; /* Taille verticale ajustée */
     background-color: #444;
     border-radius: 5px;
     cursor: pointer;
