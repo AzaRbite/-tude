@@ -57,7 +57,7 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 700px; /* Augmentez la largeur maximale du conteneur */
+    max-width: 500px; /* Augmentez la largeur maximale du conteneur */
     margin: 0 auto;
     list-style-type: none; /* Supprime les puces de liste */
     padding: 0; /* Supprime le padding par défaut de la liste */
@@ -66,7 +66,7 @@ main {
 .choice-container label {
     display: inline-block;
     width: 100%; /* Étend la largeur à 100% du conteneur parent */
-    max-width: 600px; /* Limite la largeur maximale pour l'uniformité */
+    max-width: 500px; /* Limite la largeur maximale pour l'uniformité */
     margin: 5px 0; /* Ajoute un espacement plus large entre les choix */
     padding: 5px; /* Taille verticale ajustée */
     background-color: #444;
