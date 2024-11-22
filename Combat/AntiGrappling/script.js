@@ -26,13 +26,12 @@ function setupDragAndDrop() {
     dropTargets.forEach(target => {
         target.addEventListener('dragover', e => {
             e.preventDefault();
-            // Supprimez la logique de réarrangement automatique
         });
 
-        target.addEventListener('drop', () => {
+        target.addEventListener('drop', e => {
+            e.preventDefault();
             const draggable = document.querySelector('.dragging');
             if (draggable) {
-                // Conserve l'affichage dans l'ordre de dépôt sans réarrangement
                 target.appendChild(draggable);
                 draggable.classList.remove('dragging', 'invisible');
             }
