@@ -38,6 +38,11 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
+        function nettoyerZoneDeSaisie() {
+            const elementsASupprimer = container.querySelectorAll("input, button");
+            elementsASupprimer.forEach((el) => el.remove());
+        }
+
         function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
@@ -61,60 +66,51 @@ document.addEventListener("DOMContentLoaded", function () {
             svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
 
-      function afficherQuestion(index) {
-    cacherTousLesPoints();
+        function afficherQuestion(index) {
+            nettoyerZoneDeSaisie(); // Supprime tout input/bouton restant avant d'afficher la nouvelle question
+            cacherTousLesPoints();
+            if (index >= questions.length) {
+                container.innerHTML = "Quiz terminé ! Félicitations !";
+                return;
+            }
 
-    // Vérifie si toutes les questions ont été affichées
-    if (index >= questions.length) {
-        container.innerHTML = "Quiz terminé ! Félicitations !";
-        return;
-    }
+            const question = questions[index];
+            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+            container.innerHTML = "";
 
-    const question = questions[index];
+            const questionDiv = document.createElement("div");
+            questionDiv.textContent = question.texte;
+            container.appendChild(questionDiv);
 
-    // Met à jour le compteur
-    compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+            const feedbackDiv = document.createElement("div");
+            feedbackDiv.id = "feedback";
+            container.appendChild(feedbackDiv);
 
-    // Réinitialise le contenu du conteneur pour éviter d'avoir des éléments persistants
-    container.innerHTML = "";
+            switch (question.type) {
+                case "nommer":
+                    question.ids.forEach((id) => manipulerPoint(id, true, false));
+                    ajouterZoneDeSaisie(question);
+                    afficherBoutonReponse(question);
+                    break;
 
-    // Affiche le texte de la question
-    const questionDiv = document.createElement("div");
-    questionDiv.textContent = question.texte;
-    container.appendChild(questionDiv);
+                case "identifier":
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    afficherBoutonReponse(question);
+                    break;
 
-    // Ajoute une zone pour afficher les feedbacks
-    const feedbackDiv = document.createElement("div");
-    feedbackDiv.id = "feedback";
-    container.appendChild(feedbackDiv);
+                case "choix":
+                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    afficherOptionsDeChoix(question);
+                    break;
 
-    // Configure les éléments spécifiques à chaque type de question
-switch (question.type) {
-    case "nommer":
-        container.querySelectorAll("input, button").forEach((el) => el.remove()); // Nettoyage
-        question.ids.forEach((id) => manipulerPoint(id, true, false));
-        ajouterZoneDeSaisie(question);
-        afficherBoutonReponse(question);
-        break;
-
-    case "identifier":
-        container.querySelectorAll("input, button").forEach((el) => el.remove()); // Nettoyage
-        question.ids.forEach((id) => manipulerPoint(id, false, true));
-        afficherBoutonReponse(question);
-        break;
-
-    case "choix":
-        container.querySelectorAll("input, button").forEach((el) => el.remove()); // Nettoyage
-        question.ids.forEach((id) => manipulerPoint(id, false, true));
-        afficherOptionsDeChoix(question);
-        break;
-
-    default:
-        console.error("Type de question inconnu.");
-}
-}
+                default:
+                    console.error("Type de question inconnu.");
+            }
+        }
 
         function ajouterZoneDeSaisie(question) {
+            if (question.type === "identifier") return; // Ne rien faire pour le type "identifier"
+
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Entrez le nom du point...";
@@ -122,14 +118,25 @@ switch (question.type) {
             const button = document.createElement("button");
             button.textContent = "Valider";
             button.onclick = () => {
-                const pointCorrect = pointsDePression.find((p) =>
+                const reponseCorrecte = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
-                );
+                ).nom;
 
-                const reponseCorrecte = pointCorrect.nom.toLowerCase();
-                const reponseEntree = input.value.trim().toLowerCase();
+                const variantes = {
+                    "main": ["main", "mains", "entre index et le pouce"],
+                    "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
+                    "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
+                };
 
-                if (reponseEntree === reponseCorrecte) {
+                let reponseAcceptee = reponseCorrecte.toLowerCase();
+
+                if (variantes[reponseAcceptee]) {
+                    if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
+                        reponseAcceptee = input.value.trim().toLowerCase();
+                    }
+                }
+
+                if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
@@ -248,5 +255,6 @@ switch (question.type) {
 
         genererQuestionsAleatoires(10);
         afficherQuestion(currentQuestionIndex);
+
     });
 });
