@@ -61,43 +61,44 @@ document.addEventListener("DOMContentLoaded", function () {
             svgDoc.addEventListener("click", detecterMauvaiseReponse);
         }
 
-        function afficherQuestion(index) {
-            cacherTousLesPoints();
-            if (index >= questions.length) {
-                container.innerHTML = "Quiz terminé ! Félicitations !";
-                return;
-            }
+function afficherQuestion(index) {
+    cacherTousLesPoints();
+    if (index >= questions.length) {
+        container.innerHTML = "Quiz terminé ! Félicitations !";
+        return;
+    }
 
-            const question = questions[index];
-            compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
-            container.innerHTML = "";
+    const question = questions[index];
+    compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+    container.innerHTML = "";
 
-            const questionDiv = document.createElement("div");
-            questionDiv.textContent = question.texte;
-            container.appendChild(questionDiv);
+    const questionDiv = document.createElement("div");
+    questionDiv.textContent = question.texte;
+    container.appendChild(questionDiv);
 
-            const feedbackDiv = document.createElement("div");
-            feedbackDiv.id = "feedback";
-            container.appendChild(feedbackDiv);
+    const feedbackDiv = document.createElement("div");
+    feedbackDiv.id = "feedback";
+    container.appendChild(feedbackDiv);
 
-            switch (question.type) {
-                case "nommer":
-                    question.ids.forEach((id) => manipulerPoint(id, true, false));
-                    ajouterZoneDeSaisie(question);
-                    afficherBoutonReponse(question);
-                    break;
-                case "identifier":
-                    question.ids.forEach((id) => manipulerPoint(id, false, true));
-                    afficherBoutonReponse(question);
-                    break;
-                case "choix":
-                    question.ids.forEach((id) => manipulerPoint(id, false, true));
-                    afficherOptionsDeChoix(question);
-                    break;
-                default:
-                    console.error("Type de question inconnu.");
-            }
-        }
+    // Vérification stricte pour chaque type de question
+    switch (question.type) {
+        case "nommer":
+            question.ids.forEach((id) => manipulerPoint(id, true, false)); // Points activés pour cliquer
+            ajouterZoneDeSaisie(question); // Ajout de la boîte d'écriture uniquement ici
+            afficherBoutonReponse(question);
+            break;
+        case "identifier":
+            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Points visibles sans interaction
+            afficherBoutonReponse(question); // Uniquement le bouton "Voir la réponse"
+            break;
+        case "choix":
+            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Points visibles sans interaction
+            afficherOptionsDeChoix(question); // Options de choix affichées
+            break;
+        default:
+            console.error("Type de question inconnu.");
+    }
+}
 
         function ajouterZoneDeSaisie(question) {
             const input = document.createElement("input");
