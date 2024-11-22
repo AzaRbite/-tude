@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentQuestionIndex = 0;
 
         function nettoyerZoneDeSaisie() {
-            const elementsASupprimer = container.querySelectorAll("input, button, .reveal-button");
+            const elementsASupprimer = container.querySelectorAll("input, button, .reveal-button, ul.choice-container");
             elementsASupprimer.forEach((el) => el.remove());
             console.log("Zone de saisie nettoyée.");
         }
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(`Affichage de la question ${index + 1}: ${question.texte}`);
 
             compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
-            container.innerHTML = ""; // Nettoyage du conteneur
+            container.innerHTML = "";
 
             const questionDiv = document.createElement("div");
             questionDiv.textContent = typeof question.texte === "function" ? question.texte(pointsDePression[index]) : question.texte;
@@ -92,20 +92,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
             switch (question.type) {
                 case "nommer":
-                    console.log("Type de question: nommer");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
                     ajouterZoneDeSaisieEtButton();
                     ajouterBoutonReponse(question);
                     break;
 
                 case "identifier":
-                    console.log("Type de question: identifier");
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
                     ajouterBoutonReponse(question);
                     break;
 
                 case "choix":
-                    console.log("Type de question: choix");
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
                     afficherOptionsDeChoix(question);
                     break;
@@ -115,119 +112,46 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        function ajouterZoneDeSaisieEtButton() {
-            console.log("Ajout de la zone de saisie pour le type nommer.");
+        function afficherOptionsDeChoix(question) {
+            const ul = document.createElement("ul");
+            ul.classList.add("choice-container");
 
-            const input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Entrez le nom du point...";
+            question.options.forEach((option) => {
+                const li = document.createElement("li");
+                const label = document.createElement("label");
+                const radio = document.createElement("input");
+                radio.type = "radio";
+                radio.name = "choix";
+                radio.value = option;
 
-            const button = document.createElement("button");
-            button.textContent = "Valider";
-            button.onclick = () => {
-                const currentQuestion = questions[currentQuestionIndex];
-                const reponseCorrecte = pointsDePression.find((p) =>
-                    currentQuestion.ids.some((id) => p.ids.includes(id))
-                ).nom;
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(option));
+                li.appendChild(label);
 
-                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
-                    currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
-                    setTimeout(avancerQuestion, 1500);
-                } else {
-                    donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                ul.appendChild(li);
+            });
+
+            container.appendChild(ul);
+
+            ajusterLargeurDesChoix();
+        }
+
+        function ajusterLargeurDesChoix() {
+            const labels = container.querySelectorAll(".choice-container label");
+            let maxWidth = 0;
+
+            labels.forEach(label => {
+                const labelWidth = label.scrollWidth;
+                if (labelWidth > maxWidth) {
+                    maxWidth = labelWidth;
                 }
-            };
+            });
 
-            container.appendChild(input);
-            container.appendChild(button);
-        }
+            labels.forEach(label => {
+                label.style.minWidth = `${maxWidth}px`;
+            });
 
-        function ajouterBoutonReponse(question) {
-            const buttonReponse = document.createElement("button");
-            buttonReponse.textContent = "Voir la réponse";
-            buttonReponse.classList.add("reveal-button");
-            buttonReponse.onclick = () => {
-                const reponseCorrecte = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-                
-                if (question.type === "identifier") {
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
-                } else if (question.type === "nommer") {
-                    const input = container.querySelector("input");
-                    if (input) {
-                        input.value = reponseCorrecte;
-                    }
-                }
-
-                setTimeout(avancerQuestion, 2000);
-            };
-
-            container.appendChild(buttonReponse);
-        }
-
-function afficherOptionsDeChoix(question) {
-    const ul = document.createElement("ul");
-    ul.classList.add("choice-container"); // Ajoutez la classe ici
-
-    question.options.forEach((option) => {
-        const li = document.createElement("li");
-        const label = document.createElement("label");
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = "choix";
-        radio.value = option;
-        label.appendChild(radio);
-        label.appendChild(document.createTextNode(option));
-        li.appendChild(label);
-
-        label.onclick = () => {
-            const pointCorrect = pointsDePression.find((p) =>
-                question.ids.some((id) => p.ids.includes(id))
-            ).nom;
-
-            if (option.toLowerCase() === pointCorrect.toLowerCase()) {
-                label.classList.add("correct");
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                question.ids.forEach((id) => manipulerPoint(id, true, true));
-                setTimeout(avancerQuestion, 1500);
-            } else {
-                label.classList.add("wrong");
-                donnerFeedback("Mauvaise réponse.", "#ff4c4c");
-            }
-        };
-
-        ul.appendChild(li);
-    });
-
-    container.appendChild(ul);
-}
-        function verifierReponse(event) {
-            const targetId = event.target.id;
-            const currentQuestion = questions[currentQuestionIndex];
-            if (currentQuestion.ids.includes(targetId)) {
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
-                setTimeout(avancerQuestion, 1500);
-            } else {
-                donnerFeedback("Mauvaise réponse.", "#ff4c4c");
-            }
-        }
-
-        function detecterMauvaiseReponse(event) {
-            const pointClique = event.target.id;
-            if (!pointsDePression.some((point) => point.ids.includes(pointClique))) {
-                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
-            }
-        }
-
-        function donnerFeedback(message, couleur) {
-            const feedback = document.getElementById("feedback");
-            if (feedback) {
-                feedback.textContent = message;
-                feedback.style.color = couleur;
-            }
+            console.log(`Largeur maximale ajustée : ${maxWidth}px`);
         }
 
         function avancerQuestion() {
