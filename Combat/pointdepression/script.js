@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Impossible de charger le document SVG.");
             return;
         }
-        console.log("SVG chargé et accessible."); // Log pour confirmer le chargement
+        console.log("SVG chargé et accessible.");
 
         const compteur = document.getElementById("compteur");
         const container = document.getElementById("questionnaire");
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"] },
             { nom: "Radial", ids: ["Radial", "Radial2"] },
             { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
-            { nom: "Sciatique", ids: ["Sciatique", "Sciatique"] },
+            { nom: "Sciatique", ids: ["Sciatique", "Sciatique2"] },
             { nom: "Derrière le lobe d'oreille", ids: ["LobeOreille", "LobeOreille2"] },
             { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(feedbackDiv);
 
             if (question.type === "nommer") {
-                question.ids.forEach((id) => manipulerPoint(id, false));
+                question.ids.forEach((id) => manipulerPoint(id, true));
             } else if (question.type === "identifier") {
                 question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
@@ -143,7 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
-                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 setTimeout(avancerQuestion, 1500);
             } else {
