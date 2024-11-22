@@ -179,21 +179,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 label.appendChild(document.createTextNode(option));
                 li.appendChild(label);
                 label.onclick = () => {
-                    const pointCorrect = pointsDePression.find((p) =>
-                        question.ids.some((id) => p.ids.includes(id))
-                    ).nom;
-                    if (option.toLowerCase() === pointCorrect.toLowerCase()) {
-                        label.classList.add("correct");
-                        donnerFeedback("Bonne réponse !", "#4caf50");
-                        question.ids.forEach((id) => manipulerPoint(id, true, true));
-                        setTimeout(() => avancerQuestion(), 1500);
-                    } else {
-                        if (!label.classList.contains("wrong")) { // Empêche le double comptage
+                    if (!label.classList.contains("handled")) { // Vérifie si déjà cliqué
+                        const pointCorrect = pointsDePression.find((p) =>
+                            question.ids.some((id) => p.ids.includes(id))
+                        ).nom;
+                        if (option.toLowerCase() === pointCorrect.toLowerCase()) {
+                            label.classList.add("correct");
+                            donnerFeedback("Bonne réponse !", "#4caf50");
+                            question.ids.forEach((id) => manipulerPoint(id, true, true));
+                            setTimeout(avancerQuestion, 1500);
+                        } else {
                             label.classList.add("wrong");
                             donnerFeedback("Mauvaise réponse.", "#ff4c4c");
                             nombreDErreurs++;
                         }
                     }
+                    label.classList.add("handled"); // Marque comme déjà cliqué
                 };
                 ul.appendChild(li);
             });
@@ -206,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (currentQuestion.ids.includes(targetId)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
-                setTimeout(() => avancerQuestion(), 1500);
+                setTimeout(avancerQuestion, 1500);
             } else {
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
                 nombreDErreurs++;
@@ -231,10 +232,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function avancerQuestion() {
-            if (currentQuestionIndex < questions.length) {
-                currentQuestionIndex++;
-                afficherQuestion(currentQuestionIndex);
-            }
+            currentQuestionIndex++;
+            afficherQuestion(currentQuestionIndex);
         }
 
         function terminerQuiz() {
