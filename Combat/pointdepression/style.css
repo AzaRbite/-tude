@@ -39,7 +39,6 @@ main {
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    text-align: center;
 }
 
 .content {
@@ -54,22 +53,24 @@ main {
 .choice-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch; /* S'assurer que les éléments enfants s'étendent */
     width: 100%;
+    list-style-type: none;
+    padding: 0;
 }
 
 .choice-container label {
     display: flex;
-    justify-content: center; /* Centre le contenu */
-    width: 100%;
-    max-width: 500px; /* Largeur maximale uniforme */
+    align-items: center;
+    width: auto;
     margin: 5px 0;
     padding: 15px;
     background-color: #444;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-    box-sizing: border-box; /* Inclut le padding dans la largeur */
+    box-sizing: border-box;
+    text-align: left;
 }
 
 .choice-container label:hover {
@@ -79,6 +80,10 @@ main {
 
 .choice-container label input[type="radio"] {
     margin-right: 10px;
+}
+
+.choice-container label span {
+    flex-grow: 1; /* Permet au texte de remplir l'espace disponible */
 }
 
 button {
@@ -98,7 +103,7 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 85px); /* Largeur réduite pour un style compact */
+    width: calc(100% - 80px);
     max-width: 300px;
     margin: 10px auto;
     padding: 10px;
@@ -123,14 +128,4 @@ input[type="text"] {
     font-size: 1.2em;
     font-weight: bold;
     transform: translateY(-50%);
-}
-
-.embed {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    margin: 20px auto;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #ffffff;
 }
