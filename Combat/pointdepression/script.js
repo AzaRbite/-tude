@@ -32,8 +32,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const templatesDeQuestions = [
             { texte: (point) => `Cliquez sur le point ${point.nom}.`, type: "nommer" },
-            { texte: () => "Identifiez le point rouge visible.", type: "identifier" },
-            { texte: () => "Quel est ce point ?", type: "choix" },
         ];
 
         let questions = [];
@@ -45,6 +43,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 point.style.fillOpacity = estActif ? 1 : 0;
                 point.style.fill = estActif ? "red" : "none";
                 point.style.cursor = estActif ? "pointer" : "default";
+
+                // Ajoute ou enlève l'événement de clic
+                if (estActif) {
+                    point.addEventListener("click", verifierReponse);
+                } else {
+                    point.removeEventListener("click", verifierReponse);
+                }
             } else {
                 console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
             }
@@ -76,15 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(feedbackDiv);
 
             if (question.type === "nommer") {
-                // Affiche uniquement la question sans permettre de cliquer sur le point pour valider
-                question.ids.forEach(id => manipulerPoint(id, false));
+                question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherBoutonReponse(question);
-            } else if (question.type === "identifier") {
-                question.ids.forEach(id => manipulerPoint(id, true));
-                afficherChampDeSaisie(question);
-            } else if (question.type === "choix") {
-                question.ids.forEach(id => manipulerPoint(id, true));
-                afficherChoix(question);
             }
         }
 
@@ -92,61 +90,23 @@ document.addEventListener("DOMContentLoaded", function () {
             const buttonReponse = document.createElement("button");
             buttonReponse.textContent = "Voir la réponse";
             buttonReponse.onclick = () => {
-                const reponse = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-                donnerFeedback(`La réponse est : ${reponse}`, "#ff9800");
+                question.ids.forEach((id) => manipulerPoint(id, true));
+                donnerFeedback("Voici la réponse !", "#ff9800");
+                setTimeout(avancerQuestion, 3000);
             };
-
             container.appendChild(buttonReponse);
         }
 
-        function afficherChampDeSaisie(question) {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Entrez votre réponse...";
+        function verifierReponse(event) {
+            const clickedId = event.target.id;
+            const question = questions[currentQuestionIndex];
 
-            const button = document.createElement("button");
-            button.textContent = "Valider";
-            button.onclick = () => {
-                const reponseCorrecte = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-                if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
-                    setTimeout(avancerQuestion, 1500);
-                } else {
-                    donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
-                }
-            };
-
-            container.appendChild(input);
-            container.appendChild(button);
-        }
-
-        function afficherChoix(question) {
-            const ul = document.createElement("ul");
-            ul.className = "choix-liste";
-
-            question.options.forEach(option => {
-                const li = document.createElement("li");
-                li.textContent = option;
-
-                li.onclick = () => {
-                    if (option.toLowerCase() === pointsDePression.find(p => p.ids.includes(question.ids[0])).nom.toLowerCase()) {
-                        li.classList.add("correct");
-                        donnerFeedback("Bonne réponse !", "#4caf50");
-                        setTimeout(avancerQuestion, 1500);
-                    } else {
-                        li.classList.add("wrong");
-                        donnerFeedback("Mauvaise réponse. Essayez encore !", "#ff4c4c");
-                    }
-                };
-
-                ul.appendChild(li);
-            });
-
-            container.appendChild(ul);
+            if (question.ids.includes(clickedId)) {
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                setTimeout(avancerQuestion, 1500);
+            } else {
+                donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
+            }
         }
 
         function donnerFeedback(message, couleur) {
@@ -167,28 +127,14 @@ document.addEventListener("DOMContentLoaded", function () {
             questions = [];
             while (questions.length < nombre && tempPoints.length > 0) {
                 const indexPoint = Math.floor(Math.random() * tempPoints.length);
-                const point = tempPoints[indexPoint];
+                const point = tempPoints.splice(indexPoint, 1)[0];
 
-                const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
-                const question = {
-                    texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
+                const template = templatesDeQuestions[0]; // Limité à "nommer" pour cette correction
+                questions.push({
+                    texte: template.texte(point),
                     type: template.type,
                     ids: point.ids,
-                };
-
-                if (template.type === "choix") {
-                    question.options = pointsDePression
-                        .map((p) => p.nom)
-                        .sort(() => Math.random() - 0.5)
-                        .slice(0, 3);
-                    if (!question.options.includes(point.nom)) {
-                        question.options.push(point.nom);
-                    }
-                    question.options.sort(() => Math.random() - 0.5);
-                }
-
-                questions.push(question);
-                tempPoints.splice(indexPoint, 1);
+                });
             }
         }
 
