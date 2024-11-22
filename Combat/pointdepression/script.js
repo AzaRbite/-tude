@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         label.classList.add("correct");
                         donnerFeedback("Bonne réponse !", "#4caf50");
                         question.ids.forEach((id) => manipulerPoint(id, true, true));
-                        setTimeout(avancerQuestion, 1500);
+                        setTimeout(() => avancerQuestion(), 1500);
                     } else {
                         if (!label.classList.contains("wrong")) { // Empêche le double comptage
                             label.classList.add("wrong");
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (currentQuestion.ids.includes(targetId)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
-                setTimeout(avancerQuestion, 1500);
+                setTimeout(() => avancerQuestion(), 1500);
             } else {
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
                 nombreDErreurs++;
@@ -231,8 +231,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function avancerQuestion() {
-            currentQuestionIndex++;
-            afficherQuestion(currentQuestionIndex);
+            if (currentQuestionIndex < questions.length) {
+                currentQuestionIndex++;
+                afficherQuestion(currentQuestionIndex);
+            }
         }
 
         function terminerQuiz() {
