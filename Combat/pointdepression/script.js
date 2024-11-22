@@ -136,19 +136,26 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        function gererCliqueNommer(e) {
-            const cible = e.target.closest('[id]');
-            const cibleId = cible ? cible.id : null;
-            console.log("Élément cliqué avec ID:", cibleId); // Debug
+function gererCliqueNommer(e) {
+    let cible = e.target;
+    let cibleId = cible.getAttribute('id');
 
-            if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
-                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                setTimeout(avancerQuestion, 1500);
-            } else {
-                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-            }
-        }
+    // Vérifier si l'événement est capturé au niveau de l'élément correct
+    while (!cibleId && cible.parentElement) {
+        cible = cible.parentElement;
+        cibleId = cible.getAttribute('id');
+    }
+
+    console.log("Élément cliqué avec ID:", cibleId); // Debug
+
+    if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
+        questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
+        donnerFeedback("Bonne réponse !", "#4caf50");
+        setTimeout(avancerQuestion, 1500);
+    } else {
+        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+    }
+}
 
         function afficherChampDeSaisie(question) {
             const input = document.createElement("input");
