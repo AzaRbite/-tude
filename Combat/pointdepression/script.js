@@ -63,38 +63,50 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function afficherQuestion(index) {
     cacherTousLesPoints();
+
+    // Vérifie si toutes les questions ont été affichées
     if (index >= questions.length) {
         container.innerHTML = "Quiz terminé ! Félicitations !";
         return;
     }
 
     const question = questions[index];
+
+    // Met à jour le compteur
     compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+
+    // Réinitialise le contenu du conteneur pour éviter d'avoir des éléments persistants
     container.innerHTML = "";
 
+    // Affiche le texte de la question
     const questionDiv = document.createElement("div");
     questionDiv.textContent = question.texte;
     container.appendChild(questionDiv);
 
+    // Ajoute une zone pour afficher les feedbacks
     const feedbackDiv = document.createElement("div");
     feedbackDiv.id = "feedback";
     container.appendChild(feedbackDiv);
 
-    // Vérification stricte pour chaque type de question
+    // Configure les éléments spécifiques à chaque type de question
     switch (question.type) {
         case "nommer":
-            question.ids.forEach((id) => manipulerPoint(id, true, false)); // Points activés pour cliquer
-            ajouterZoneDeSaisie(question); // Ajout de la boîte d'écriture uniquement ici
-            afficherBoutonReponse(question);
+            question.ids.forEach((id) => manipulerPoint(id, true, false)); // Activer le clic sur les points
+            ajouterZoneDeSaisie(question); // Ajouter la boîte d'écriture et bouton "Valider"
+            afficherBoutonReponse(question); // Ajouter le bouton "Voir la réponse"
             break;
+
         case "identifier":
-            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Points visibles sans interaction
-            afficherBoutonReponse(question); // Uniquement le bouton "Voir la réponse"
+            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Affiche les points rouges
+            // Pas d'ajout de boîte d'écriture ici
+            afficherBoutonReponse(question); // Ajouter le bouton "Voir la réponse"
             break;
+
         case "choix":
-            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Points visibles sans interaction
-            afficherOptionsDeChoix(question); // Options de choix affichées
+            question.ids.forEach((id) => manipulerPoint(id, false, true)); // Affiche les points rouges
+            afficherOptionsDeChoix(question); // Ajouter les options de choix
             break;
+
         default:
             console.error("Type de question inconnu.");
     }
