@@ -33,19 +33,19 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
-        function attacherEcouteursAchaqueElement() {
-            pointsDePression.forEach(point => {
-                point.ids.forEach(id => {
-                    const element = svgDoc.getElementById(id);
-                    if (element) {
-                        element.addEventListener("click", gererCliqueNommer);
-                        console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
-                    } else {
-                        console.error(`ID de point non trouvé dans le SVG : ${id}`);
-                    }
-                });
-            });
-        }
+ function attacherEcouteursAchaqueElement() {
+    pointsDePression.forEach(point => {
+        point.ids.forEach(id => {
+            const element = svgDoc.getElementById(id);
+            if (element) {
+                element.addEventListener("click", gererCliqueNommer);
+                console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
+            } else {
+                console.error(`ID de point non trouvé dans le SVG : ${id}`);
+            }
+        });
+    });
+}
 
         function genererQuestionsAleatoires(nombre) {
             const tempPoints = [...pointsDePression];
