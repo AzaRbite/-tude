@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
-        function manipulerPoint(pointId, estActif) {
+        function manipulerPoint(pointId, estActif, visible = false) {
             const point = svgDoc.getElementById(pointId);
             if (point) {
-                point.style.fillOpacity = 0; // Toujours caché par défaut
+                point.style.fillOpacity = visible ? 1 : 0; // Affiche le point seulement si visible est vrai
                 point.style.fill = "red";
                 point.style.cursor = estActif ? "pointer" : "default";
 
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const buttonReponse = document.createElement("button");
             buttonReponse.textContent = "Voir la réponse";
             buttonReponse.onclick = () => {
-                question.ids.forEach((id) => manipulerPoint(id, true));
+                question.ids.forEach((id) => manipulerPoint(id, true, true)); // Rend le point rouge visible
                 donnerFeedback("Voici la réponse !", "#ff9800");
                 setTimeout(avancerQuestion, 3000);
             };
@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const question = questions[currentQuestionIndex];
 
             if (question.ids.includes(clickedId)) {
+                question.ids.forEach((id) => manipulerPoint(id, true, true)); // Affiche le point rouge
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 setTimeout(avancerQuestion, 1500);
             } else {
