@@ -39,13 +39,30 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
+        function cacherTousLesPoints() {
+            pointsDePression.forEach((point) => {
+                point.ids.forEach((id) => manipulerPoint(id, false));
+            });
+        }
+
+        function manipulerPoint(pointId, estActif) {
+            const point = svgDoc.getElementById(pointId);
+            if (point) {
+                point.style.fillOpacity = estActif ? 1 : 0;
+                point.style.fill = estActif ? "red" : "none";
+                point.style.cursor = estActif ? "pointer" : "default";
+            } else {
+                console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
+            }
+        }
+
         function attacherEcouteursAchaqueElement() {
             pointsDePression.forEach(point => {
                 point.ids.forEach(id => {
                     const element = svgDoc.getElementById(id);
                     if (element) {
                         element.addEventListener("click", gererCliqueNommer);
-                        console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
+                        manipulerPoint(id, false);
                     } else {
                         console.error(`ID de point non trouvé dans le SVG : ${id}`);
                     }
@@ -59,7 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
             while (questions.length < nombre && tempPoints.length > 0) {
                 const indexPoint = Math.floor(Math.random() * tempPoints.length);
                 const point = tempPoints[indexPoint];
-
                 const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
                 const question = {
                     texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
@@ -81,23 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 questions.push(question);
                 tempPoints.splice(indexPoint, 1);
             }
-        }
-
-        function manipulerPoint(pointId, estActif) {
-            const point = svgDoc.getElementById(pointId);
-            if (point) {
-                point.style.fillOpacity = estActif ? 1 : 0;
-                point.style.fill = estActif ? "red" : "none";
-                point.style.cursor = estActif ? "pointer" : "default";
-            } else {
-                console.error(`ID de point non trouvé dans le SVG : ${pointId}`);
-            }
-        }
-
-        function cacherTousLesPoints() {
-            pointsDePression.forEach((point) => {
-                point.ids.forEach((id) => manipulerPoint(id, false));
-            });
         }
 
         function afficherQuestion(index) {
@@ -127,27 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
             } else if (question.type === "choix") {
                 question.ids.forEach(id => manipulerPoint(id, true));
                 afficherChoix(question);
-            }
-        }
-
-        function gererCliqueNommer(e) {
-            console.log("Clique détecté sur le SVG");
-
-            let cible = e.target;
-            let cibleId = cible.getAttribute('id');
-
-            if (!cibleId) {
-                console.log("Cible sans ID : ", cible);
-            } else {
-                console.log("Élément cliqué avec ID:", cibleId);
-            }
-
-            if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
-                donnerFeedback("Bonne réponse !", "#4caf50");
-                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge après la bonne réponse
-                setTimeout(avancerQuestion, 1500);
-            } else {
-                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
             }
         }
 
@@ -207,6 +185,16 @@ document.addEventListener("DOMContentLoaded", function () {
             if (feedback) {
                 feedback.textContent = message;
                 feedback.style.color = couleur;
+            }
+        }
+
+        function gererCliqueNommer(e) {
+            const cibleId = e.target.getAttribute("id");
+            if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                setTimeout(avancerQuestion, 1500);
+            } else {
+                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
             }
         }
 
