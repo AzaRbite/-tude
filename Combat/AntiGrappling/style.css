@@ -28,8 +28,7 @@ main {
 .back-button {
     position: absolute;
     top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
+    left: 20px; /*  transform: translateY(-50%);*/
     background-color: #ed2c2c;
     color: #ffffff;
     padding: 15px 30px;
