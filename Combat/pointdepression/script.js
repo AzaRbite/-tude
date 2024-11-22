@@ -14,14 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const pointsDePression = [
             { nom: "Infra-orbital", ids: ["Infra-orbital"] },
+            { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"] },
             { nom: "Jugulaire", ids: ["Jugulaire"] },
+            { nom: "Médian", ids: ["Median", "Median2"] },
             { nom: "Fémoral", ids: ["Femoral", "Femoral2"] },
             { nom: "Tibial", ids: ["Tibial", "Tibial2"] },
-            { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
+            { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"] },
+            { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"] },
+            { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"] },
+            { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"] },
             { nom: "Radial", ids: ["Radial", "Radial2"] },
-            { nom: "Main", ids: ["Main", "Main2"] },
-            { nom: "Lobe", ids: ["Lobe"] },
-            { nom: "Plexus", ids: ["Plexus1", "Plexus2"] },
+            { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
+            { nom: "Sciatique", ids: ["Sciatique", "Sciatique"] },
+            { nom: "Derrière le lobe d'oreille", ids: ["LobeOreille", "LobeOreille2"] },
+            { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
 
         const templatesDeQuestions = [
@@ -33,19 +39,19 @@ document.addEventListener("DOMContentLoaded", function () {
         let questions = [];
         let currentQuestionIndex = 0;
 
- function attacherEcouteursAchaqueElement() {
-    pointsDePression.forEach(point => {
-        point.ids.forEach(id => {
-            const element = svgDoc.getElementById(id);
-            if (element) {
-                element.addEventListener("click", gererCliqueNommer);
-                console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
-            } else {
-                console.error(`ID de point non trouvé dans le SVG : ${id}`);
-            }
-        });
-    });
-}
+        function attacherEcouteursAchaqueElement() {
+            pointsDePression.forEach(point => {
+                point.ids.forEach(id => {
+                    const element = svgDoc.getElementById(id);
+                    if (element) {
+                        element.addEventListener("click", gererCliqueNommer);
+                        console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
+                    } else {
+                        console.error(`ID de point non trouvé dans le SVG : ${id}`);
+                    }
+                });
+            });
+        }
 
         function genererQuestionsAleatoires(nombre) {
             const tempPoints = [...pointsDePression];
