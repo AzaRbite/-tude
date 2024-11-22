@@ -10,16 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const compteur = document.getElementById("compteur");
-        if (!compteur) {
-            console.error("Élément 'compteur' introuvable dans le DOM.");
-            return;
-        }
-
         const container = document.getElementById("questionnaire");
-        if (!container) {
-            console.error("Élément 'questionnaire' introuvable dans le DOM.");
-            return;
-        }
 
         const pointsDePression = [
             { nom: "Infra-orbital", ids: ["Infra-orbital"] },
@@ -31,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Main", ids: ["Main", "Main2"] },
             { nom: "Lobe", ids: ["Lobe"] },
             { nom: "Plexus", ids: ["Plexus1", "Plexus2"] },
-            // Ajouter d'autres points au besoin
         ];
 
         const templatesDeQuestions = [
@@ -44,13 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentQuestionIndex = 0;
 
         function attacherEcouteursAchaqueElement() {
-            const elements = svgDoc.querySelectorAll('*');
-            elements.forEach((element) => {
-                const elementId = element.getAttribute('id');
-                if (elementId) {
-                    element.addEventListener("click", gererCliqueNommer);
-                    console.log(`Écouteur attaché à l'élément avec ID : ${elementId}`);
-                }
+            pointsDePression.forEach(point => {
+                point.ids.forEach(id => {
+                    const element = svgDoc.getElementById(id);
+                    if (element) {
+                        element.addEventListener("click", gererCliqueNommer);
+                        console.log(`Écouteur attaché à l'élément avec ID : ${id}`);
+                    } else {
+                        console.error(`ID de point non trouvé dans le SVG : ${id}`);
+                    }
+                });
             });
         }
 
@@ -60,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
             while (questions.length < nombre && tempPoints.length > 0) {
                 const indexPoint = Math.floor(Math.random() * tempPoints.length);
                 const point = tempPoints[indexPoint];
-                
+
                 const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
                 const question = {
                     texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
@@ -80,12 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 questions.push(question);
-
                 tempPoints.splice(indexPoint, 1);
-
-                if (tempPoints.length === 0 && questions.length < nombre) {
-                    tempPoints.push(...pointsDePression);
-                }
             }
         }
 
@@ -139,11 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
         function gererCliqueNommer(e) {
             let cible = e.target;
             let cibleId = cible.getAttribute('id');
-
-            while (!cibleId && cible.parentElement) {
-                cible = cible.parentElement;
-                cibleId = cible.getAttribute('id');
-            }
 
             console.log("Élément cliqué avec ID:", cibleId); // Debug
 
