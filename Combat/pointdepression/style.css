@@ -65,8 +65,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 100%;
-    margin: 5px 0;
+    min-width: 100%; /* Utilisation de la largeur maximale de la liste */
     padding: 15px;
     background-color: #444;
     border-radius: 5px;
@@ -96,12 +95,22 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     margin: 10px;
-    width: auto;
-    max-width: 600px;
 }
 
 button:hover {
     background-color: #a30000;
+}
+
+input[type="text"] {
+    width: calc(100% - 40px); /* Prend la largeur totale disponible moins le padding */
+    max-width: 600px; /* Aligner la largeur avec le conteneur de choix */
+    margin: 10px auto;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #ffffff;
+    background-color: #292929; /* Même couleur que le fond du contenu */
+    color: #f0f0f0;
+    text-align: center;
 }
 
 .navigation {
