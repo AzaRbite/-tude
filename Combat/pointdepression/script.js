@@ -111,33 +111,49 @@ switch (question.type) {
 }
 }
 
-        function ajouterZoneDeSaisie(question) {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.placeholder = "Entrez le nom du point...";
+function ajouterZoneDeSaisie(question) {
+    if (question.type === "identifier") {
+        console.warn("Zone de saisie ignorée pour les questions de type 'identifier'.");
+        return; // Ne rien faire si le type est "identifier"
+    }
 
-            const button = document.createElement("button");
-            button.textContent = "Valider";
-            button.onclick = () => {
-                const pointCorrect = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                );
+    const input = document.createElement("input");
+    input.type = "text";
+    input.placeholder = "Entrez le nom du point...";
 
-                const reponseCorrecte = pointCorrect.nom.toLowerCase();
-                const reponseEntree = input.value.trim().toLowerCase();
+    const button = document.createElement("button");
+    button.textContent = "Valider";
+    button.onclick = () => {
+        const reponseCorrecte = pointsDePression.find((p) =>
+            question.ids.some((id) => p.ids.includes(id))
+        ).nom;
 
-                if (reponseEntree === reponseCorrecte) {
-                    donnerFeedback("Bonne réponse !", "#4caf50");
-                    question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    setTimeout(avancerQuestion, 1500);
-                } else {
-                    donnerFeedback("Mauvaise réponse.", "#ff4c4c");
-                }
-            };
+        const variantes = {
+            "main": ["main", "mains", "entre index et le pouce"],
+            "lobe d'oreille": ["lobe", "oreille", "lobes d'oreille"],
+            "plexus brachial jonction": ["plexus brachial jonction", "plexus brachial", "brachial jonction"]
+        };
 
-            container.appendChild(input);
-            container.appendChild(button);
+        let reponseAcceptee = reponseCorrecte.toLowerCase();
+
+        if (variantes[reponseAcceptee]) {
+            if (variantes[reponseAcceptee].includes(input.value.trim().toLowerCase())) {
+                reponseAcceptee = input.value.trim().toLowerCase();
+            }
         }
+
+        if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
+            donnerFeedback("Bonne réponse !", "#4caf50");
+            question.ids.forEach((id) => manipulerPoint(id, true, true));
+            setTimeout(avancerQuestion, 1500);
+        } else {
+            donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+        }
+    };
+
+    container.appendChild(input);
+    container.appendChild(button);
+}
 
         function afficherBoutonReponse(question) {
             const buttonReponse = document.createElement("button");
