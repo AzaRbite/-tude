@@ -26,37 +26,18 @@ function setupDragAndDrop() {
     dropTargets.forEach(target => {
         target.addEventListener('dragover', e => {
             e.preventDefault();
-            const draggable = document.querySelector('.dragging');
-            const afterElement = getDragAfterElement(target, e.clientY);
-            if (afterElement == null) {
-                target.appendChild(draggable);
-            } else {
-                target.insertBefore(draggable, afterElement);
-            }
+            // Supprimez la logique de réarrangement automatique
         });
 
         target.addEventListener('drop', () => {
             const draggable = document.querySelector('.dragging');
             if (draggable) {
+                // Conserve l'affichage dans l'ordre de dépôt sans réarrangement
                 target.appendChild(draggable);
                 draggable.classList.remove('dragging', 'invisible');
             }
         });
     });
-}
-
-function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
-
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 document.getElementById('validate-easy').addEventListener('click', function() {
@@ -74,7 +55,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
     ];
 
     const dropTargets = document.querySelectorAll('.drop-target li');
-    
+
     dropTargets.forEach((target, index) => {
         const content = target.textContent.trim();
         if (content === correctOrder[index]) {
@@ -91,6 +72,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.id = 'restart-button';
         restartButton.classList.add('button');
         restartButton.textContent = "Recommencer";
+        
         restartButton.addEventListener('click', () => {
             dropTargets.forEach(target => {
                 target.textContent = '';
