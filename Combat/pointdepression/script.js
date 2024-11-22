@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const point = svgDoc.getElementById(pointId);
             if (point) {
                 point.style.fillOpacity = visible ? 1 : 0; 
-                point.style.fill = "red";
+                point.style.fill = visible ? "red" : "none";
                 point.style.cursor = estActif ? "pointer" : "default";
                 if (estActif) {
                     point.addEventListener("click", verifierReponse);
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     afficherBoutonReponse(question);
                     break;
                 case "identifier":
-                    question.ids.forEach((id) => manipulerPoint(id, false, true));
+                    question.ids.forEach((id) => manipulerPoint(id, true, true));
                     ajouterZoneDeSaisie(question);
                     break;
                 case "choix":
@@ -137,6 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (input.value.trim().toLowerCase() === reponseAcceptee.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
+                    question.ids.forEach((id) => manipulerPoint(id, true, true));
                     setTimeout(avancerQuestion, 1500);
                 } else {
                     donnerFeedback("Mauvaise réponse.", "#ff4c4c");
@@ -159,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         question.ids.some((id) => p.ids.includes(id))
                     ).nom.toLowerCase()) {
                         donnerFeedback("Bonne réponse !", "#4caf50");
+                        question.ids.forEach((id) => manipulerPoint(id, true, true));
                         setTimeout(avancerQuestion, 1500);
                     } else {
                         donnerFeedback("Mauvaise réponse.", "#ff4c4c");
@@ -176,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const currentQuestion = questions[currentQuestionIndex];
             if (currentQuestion.ids.includes(targetId)) {
                 donnerFeedback("Bonne réponse !", "#4caf50");
+                currentQuestion.ids.forEach((id) => manipulerPoint(id, true, true));
                 setTimeout(avancerQuestion, 1500);
             } else {
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
