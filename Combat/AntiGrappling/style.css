@@ -94,11 +94,10 @@ main {
     list-style-type: none;
 }
 
-.order-column li,
-.draggable {
+.order-column li {
     position: relative;
     margin: 10px 0;
-    height: 40px; /* Assure une hauteur uniforme entre les éléments des deux colonnes */
+    min-height: 40px;
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
@@ -106,7 +105,22 @@ main {
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px; /* Uniformisation du padding */
+    padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
+    background-position: center; /* Aligne le background au centre */
+}
+
+.draggable {
+    background-color: #ed2c2c;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: move;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* Assure que l'élément occupe toute la largeur disponible */
+    box-sizing: border-box;
 }
 
 .correct::after {
