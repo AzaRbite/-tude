@@ -12,20 +12,6 @@ body {
 header {
     background-color: #292929;
     padding: 20px;
-    text-align: center;body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #393939;
-    color: #f0f0f0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-header {
-    background-color: #292929;
-    padding: 20px;
     text-align: center;
     width: 100%;
 }
@@ -108,7 +94,7 @@ main {
 
 .order-column li {
     position: relative;
-    margin: 10px 0;
+    margin: 5px 0; /* Réduction de la marge verticale entre les éléments */
     min-height: 40px;
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
@@ -136,128 +122,6 @@ main {
 
 .dragging {
     opacity: 0.5; /* Assure que seul l'élément glissé change de visibilité */
-}
-
-.footer {
-    background-color: #292929;
-    text-align: center;
-    padding: 10px;
-    width: 100%;
-    margin-top: auto;
-    color: #f0f0f0;
-}
-
-    width: 100%;
-}
-
-main {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    width: 100%;
-}
-
-.back-button {
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    background-color: #ed2c2c;
-    color: #ffffff;
-    padding: 15px 30px;
-    font-size: 1.1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.back-button:hover {
-    background-color: #a30000;
-}
-
-.content {
-    background-color: #292929;
-    padding: 40px;
-    max-width: 800px;
-    width: 90%;
-    margin: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    text-align: center;
-}
-
-.hidden {
-    display: none;
-}
-
-.button {
-    font-size: 1em;
-    padding: 10px 20px;
-    background-color: #ed2c2c;
-    color: #ffffff;
-    display: inline-block;
-    border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-    cursor: pointer;
-    margin: 5px;
-    border: none;
-}
-
-.button:hover {
-    background-color: #a30000;
-}
-
-.columns {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.order-column,
-.draggable-column {
-    width: 40%;
-}
-
-.order-column ol,
-.draggable-column ul {
-    padding: 0;
-    list-style-type: none;
-}
-
-.order-column li {
-    position: relative;
-    margin: 10px 0;
-    min-height: 40px;
-    border: 2px dashed #ed2c2c;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px; /* Ajustement uniforme du padding */
-    background-position: center;
-}
-
-.draggable-column li {
-    position: relative;
-    margin: 5px 0;
-    list-style-type: none;
-}
-
-.draggable {
-    background-color: #ed2c2c;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: move;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
 }
 
 .order-column li.dropped {
