@@ -12,15 +12,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const container = document.getElementById("questionnaire");
         const pointsDePression = [
             { nom: "Infra-orbital", ids: ["Infra-orbital"], reponses: ["infra-orbital", "infra"] },
-            { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"], reponses: ["plexus brachial origine", "plexus brachial", "brachial origine"] },
+            { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"], reponses: ["plexus brachial origine", "brachial origine"] },
             { nom: "Jugulaire", ids: ["Jugulaire"], reponses: ["jugulaire"] },
             { nom: "Médian", ids: ["Median", "Median2"], reponses: ["médian", "median"] },
             { nom: "Fémoral", ids: ["Femoral", "Femoral2"], reponses: ["fémoral", "femoral", "femur"] },
             { nom: "Tibial", ids: ["Tibial", "Tibial2"], reponses: ["tibial"] },
             { nom: "Angle mandibulaire", ids: ["AngleMandibulaire", "AngleMandibulaire2"], reponses: ["angle mandibulaire", "mandibulaire"] },
             { nom: "Hypoglosse", ids: ["Hypoglosse", "Hypoglosse2"], reponses: ["hypoglosse"] },
-            { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"], reponses: ["plexus brachial clavicule", "plexus brachial", "brachial clavicule"] },
-            { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"], reponses: ["plexus brachial jonction", "plexus brachial", "brachial jonction"] },
+            { nom: "Plexus brachial (clavicule)", ids: ["Plexusbracialclavicule", "Plexusbracialclavicule2"], reponses: ["plexus brachial clavicule", "brachial clavicule"] },
+            { nom: "Plexus brachial (jonction)", ids: ["PlexusBrachialJonction", "PlexusBrachialJonction2"], reponses: ["plexus brachial jonction", "brachial jonction"] },
             { nom: "Radial", ids: ["Radial", "Radial2"], reponses: ["radial"] },
             { nom: "Cubital", ids: ["Cubital", "Cubital2"], reponses: ["cubital"] },
             { nom: "Sciatique", ids: ["Sciatique", "Sciatique2"], reponses: ["sciatique"] },
