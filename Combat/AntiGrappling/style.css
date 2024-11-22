@@ -97,15 +97,15 @@ main {
 .order-column li.dropped .draggable {
     background-color: #ed2c2c; /* Fond rouge pour l'élément déposé */
     color: #ffffff;
-    width: auto; /* Ajustement pour ne pas occuper toute la largeur */
-    padding: 5px 20px;
+    width: 80%; /* Réduction de la largeur à 80% de la section */
     height: auto; /* Ajustement dynamique selon le contenu */
-    border-radius: 5px;
+    padding: 10px;
+    margin: auto; /* Centre l'élément horizontalement et verticalement */
+    border-radius: 5px; /* Coins arrondis */
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; /* Centre le contenu de l'élément */
     box-sizing: border-box;
-    margin: auto; /* Centre verticalement et horizontalement */
 }
 
 .draggable-column li {
