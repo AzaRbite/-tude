@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     question.ids.forEach((id) => {
                         manipulerPoint(id, false, true);
                     });
-                    ajouterZoneDeSaisie(question);
+                    afficherBoutonReponse(question);
                     break;
                 case "choix":
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
