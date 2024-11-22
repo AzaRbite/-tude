@@ -94,14 +94,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 case "nommer":
                     console.log("Type de question: nommer");
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
-                    ajouterZoneDeSaisie();
-                    afficherBoutonReponse(question);
+                    ajouterZoneDeSaisieEtButton();
                     break;
 
                 case "identifier":
                     console.log("Type de question: identifier");
                     question.ids.forEach((id) => manipulerPoint(id, false, true));
-                    // Assurez-vous que la zone de saisie n'est pas ajoutée ici
                     break;
 
                 case "choix":
@@ -115,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        function ajouterZoneDeSaisie() {
+        function ajouterZoneDeSaisieEtButton() {
             console.log("Ajout de la zone de saisie pour le type nommer.");
 
             const input = document.createElement("input");
@@ -155,20 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             container.appendChild(input);
             container.appendChild(button);
-        }
-
-        function afficherBoutonReponse(question) {
-            const buttonReponse = document.createElement("button");
-            buttonReponse.textContent = "Voir la réponse";
-            buttonReponse.onclick = () => {
-                question.ids.forEach((id) => manipulerPoint(id, true, true));
-                const nomDuPoint = pointsDePression.find((p) =>
-                    question.ids.some((id) => p.ids.includes(id))
-                ).nom;
-                donnerFeedback(`Voici la réponse : ${nomDuPoint}`, "#ff9800");
-                setTimeout(avancerQuestion, 3000);
-            };
-            container.appendChild(buttonReponse);
         }
 
         function afficherOptionsDeChoix(question) {
