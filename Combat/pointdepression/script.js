@@ -29,17 +29,17 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Entre pouce et l'index sur la main", ids: ["Main", "Main2"] },
         ];
 
-const templatesDeQuestions = [
-    { texte: () => "Quel est le nom du point visible ?", type: "nommer" },
-    { texte: (point) => `Identifiez le point rouge pour ${point.nom}.`, type: "identifier" },
-    { texte: () => "Quel est ce point ?", type: "choix" },
-];
+        const templatesDeQuestions = [
+            { texte: () => "Quel est le nom du point visible ?", type: "nommer" },
+            { texte: (point) => `Identifiez le point rouge pour ${point.nom}.`, type: "identifier" },
+            { texte: () => "Quel est ce point ?", type: "choix" },
+        ];
 
         let questions = [];
         let currentQuestionIndex = 0;
 
         function nettoyerZoneDeSaisie() {
-            const elementsASupprimer = container.querySelectorAll("input, button");
+            const elementsASupprimer = container.querySelectorAll("input, button, .reveal-button");
             elementsASupprimer.forEach((el) => el.remove());
             console.log("Zone de saisie nettoyée.");
         }
@@ -95,11 +95,13 @@ const templatesDeQuestions = [
                     console.log("Type de question: nommer");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
                     ajouterZoneDeSaisieEtButton();
+                    ajouterBoutonReponse(question);
                     break;
 
                 case "identifier":
                     console.log("Type de question: identifier");
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
+                    ajouterBoutonReponse(question);
                     break;
 
                 case "choix":
@@ -139,6 +141,30 @@ const templatesDeQuestions = [
 
             container.appendChild(input);
             container.appendChild(button);
+        }
+
+        function ajouterBoutonReponse(question) {
+            const buttonReponse = document.createElement("button");
+            buttonReponse.textContent = "Voir la réponse";
+            buttonReponse.classList.add("reveal-button");
+            buttonReponse.onclick = () => {
+                const reponseCorrecte = pointsDePression.find((p) =>
+                    question.ids.some((id) => p.ids.includes(id))
+                ).nom;
+                
+                if (question.type === "identifier") {
+                    question.ids.forEach((id) => manipulerPoint(id, true, true));
+                } else if (question.type === "nommer") {
+                    const input = container.querySelector("input");
+                    if (input) {
+                        input.value = reponseCorrecte;
+                    }
+                }
+
+                setTimeout(avancerQuestion, 2000);
+            };
+
+            container.appendChild(buttonReponse);
         }
 
         function afficherOptionsDeChoix(question) {
