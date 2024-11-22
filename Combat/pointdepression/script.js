@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     svgObject.addEventListener("load", function () {
         const svgDoc = svgObject.contentDocument || svgObject.getSVGDocument();
-
         if (!svgDoc) {
             console.error("Impossible de charger le document SVG.");
             return;
         }
+        console.log("SVG chargé et accessible."); // Log pour confirmer le chargement
 
         const compteur = document.getElementById("compteur");
         const container = document.getElementById("questionnaire");
@@ -131,10 +131,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function gererCliqueNommer(e) {
+            console.log("Clique détecté sur le SVG"); // Debug global
+
             let cible = e.target;
             let cibleId = cible.getAttribute('id');
 
-            console.log("Élément cliqué avec ID:", cibleId); // Debug
+            if (!cibleId) {
+                console.log("Cible sans ID : ", cible);
+            } else {
+                console.log("Élément cliqué avec ID:", cibleId); // Debug
+            }
 
             if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
                 questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
