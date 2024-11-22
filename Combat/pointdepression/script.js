@@ -169,24 +169,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function afficherOptionsDeChoix(question) {
     const ul = document.createElement("ul");
-    ul.classList.add("choix-liste"); // Ajoutez la classe ici
+    ul.classList.add("choice-container"); // Ajoutez la classe ici
 
     question.options.forEach((option) => {
         const li = document.createElement("li");
-        li.textContent = option;
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "choix";
+        radio.value = option;
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(option));
+        li.appendChild(label);
 
-        li.onclick = () => {
+        label.onclick = () => {
             const pointCorrect = pointsDePression.find((p) =>
                 question.ids.some((id) => p.ids.includes(id))
             ).nom;
 
             if (option.toLowerCase() === pointCorrect.toLowerCase()) {
-                li.classList.add("correct"); // Ajoutez la classe correct si la réponse est bonne
+                label.classList.add("correct");
                 donnerFeedback("Bonne réponse !", "#4caf50");
                 question.ids.forEach((id) => manipulerPoint(id, true, true));
                 setTimeout(avancerQuestion, 1500);
             } else {
-                li.classList.add("wrong"); // Ajoutez la classe wrong si la réponse est mauvaise
+                label.classList.add("wrong");
                 donnerFeedback("Mauvaise réponse.", "#ff4c4c");
             }
         };
@@ -196,7 +203,6 @@ function afficherOptionsDeChoix(question) {
 
     container.appendChild(ul);
 }
-
         function verifierReponse(event) {
             const targetId = event.target.id;
             const currentQuestion = questions[currentQuestionIndex];
