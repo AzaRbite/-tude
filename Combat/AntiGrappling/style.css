@@ -42,7 +42,7 @@ main {
 
 .button {
     font-size: 1em;
-    padding: 10px 0; /* Ajustement pour que le bouton remplisse l'espace vertical */
+    padding: 10px 20px;
     background-color: #ed2c2c;
     color: #ffffff;
     display: inline-block;
@@ -51,7 +51,7 @@ main {
     cursor: pointer;
     margin: 5px;
     border: none; /* Suppression du contour noir */
-    width: calc(100% - 10px); /* Prend toute la largeur disponible avec espace pour la marge */
+    width: 150px; /* Réduction de la largeur des boutons */
 }
 
 .button:hover {
@@ -73,20 +73,25 @@ main {
 .draggable-column ul {
     padding: 0;
     list-style-type: none;
+    position: relative; /* Permet d'aligner correctement les éléments */
 }
 
 .order-column li {
     position: relative;
     margin: 10px 0;
-    height: 40px;
+    min-height: 40px;
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%; /* Assure une largeur uniforme */
+    width: 100%;
     box-sizing: border-box;
     padding-right: 30px; /* Pour laisser de l'espace pour les icônes */
+}
+
+.draggable-column li {
+    position: relative;
 }
 
 .order-column li::before {
@@ -108,14 +113,14 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%; /* Assure une largeur uniforme */
+    width: calc(100% - 10px); /* Ajustement pour remplir la largeur */
     box-sizing: border-box;
 }
 
 .valid.correct::after {
     content: '';
     position: absolute;
-    right: -25px; /* Position à l'extérieur à droite */
+    right: -25px;
     width: 20px;
     height: 20px;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="green"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>');
@@ -126,7 +131,7 @@ main {
 .valid.incorrect::after {
     content: '';
     position: absolute;
-    right: -25px; /* Position à l'extérieur à droite */
+    right: -25px;
     width: 20px;
     height: 20px;
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
