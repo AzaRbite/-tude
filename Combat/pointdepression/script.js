@@ -89,6 +89,11 @@ document.addEventListener("DOMContentLoaded", function () {
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
 
+            if (question.type === "identifier") {
+                // Pour activer les mauvaises réponses lorsqu'on clique ailleurs
+                svgDoc.addEventListener("click", detecterMauvaiseReponse);
+            }
+
             switch (question.type) {
                 case "nommer":
                     console.log("Type de question: nommer");
@@ -98,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 case "identifier":
                     console.log("Type de question: identifier");
                     question.ids.forEach((id) => manipulerPoint(id, true, false));
-                    document.addEventListener('click', detecterMauvaiseReponse);  // Ajout pour détecter les mauvaises réponses
+                    ajouterBoutonReponse(question);
                     break;
                 case "choix":
                     console.log("Type de question: choix");
@@ -147,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (question.type === "identifier") {
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    document.removeEventListener('click', detecterMauvaiseReponse);  // Retrait du détecteur de mauvaises réponses
+                    svgDoc.removeEventListener("click", detecterMauvaiseReponse); // Retire l'écouteur après la réponse
                 } else if (question.type === "nommer") {
                     const input = container.querySelector("input");
                     if (input) {
@@ -208,9 +213,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function detecterMauvaiseReponse(event) {
-            const pointClique = event.target.id;
+            const target = event.target;
             const currentQuestion = questions[currentQuestionIndex];
-            if (!currentQuestion.ids.includes(pointClique) && svgDoc.contains(event.target)) {
+            // Vérifie que l'événement provient du SVG et que ce n'est pas le point correct
+            if (!currentQuestion.ids.includes(target.id) && target.closest('svg')) {
                 donnerFeedback("Mauvaise réponse !", "#ff4c4c");
                 nombreDErreurs++;
             }
