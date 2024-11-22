@@ -90,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
             container.appendChild(feedbackDiv);
 
             if (question.type === "identifier") {
-                // Pour activer les mauvaises réponses lorsqu'on clique ailleurs
                 svgDoc.addEventListener("click", detecterMauvaiseReponse);
             }
 
@@ -152,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (question.type === "identifier") {
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
-                    svgDoc.removeEventListener("click", detecterMauvaiseReponse); // Retire l'écouteur après la réponse
+                    svgDoc.removeEventListener("click", detecterMauvaiseReponse);
                 } else if (question.type === "nommer") {
                     const input = container.querySelector("input");
                     if (input) {
@@ -168,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function afficherOptionsDeChoix(question) {
             const ul = document.createElement("ul");
-            ul.classList.add("choice-container"); // Ajoutez la classe ici
+            ul.classList.add("choice-container");
             question.options.forEach((option) => {
                 const li = document.createElement("li");
                 const label = document.createElement("label");
@@ -189,9 +188,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         question.ids.forEach((id) => manipulerPoint(id, true, true));
                         setTimeout(avancerQuestion, 1500);
                     } else {
-                        label.classList.add("wrong");
-                        donnerFeedback("Mauvaise réponse.", "#ff4c4c");
-                        nombreDErreurs++;
+                        if (!label.classList.contains("wrong")) { // Empêche le double comptage
+                            label.classList.add("wrong");
+                            donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                            nombreDErreurs++;
+                        }
                     }
                 };
                 ul.appendChild(li);
@@ -215,7 +216,6 @@ document.addEventListener("DOMContentLoaded", function () {
         function detecterMauvaiseReponse(event) {
             const target = event.target;
             const currentQuestion = questions[currentQuestionIndex];
-            // Vérifie que l'événement provient du SVG et que ce n'est pas le point correct
             if (!currentQuestion.ids.includes(target.id) && target.closest('svg')) {
                 donnerFeedback("Mauvaise réponse !", "#ff4c4c");
                 nombreDErreurs++;
