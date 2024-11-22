@@ -96,10 +96,11 @@ switch (question.type) {
         afficherBoutonReponse(question);
         break;
 
-    case "identifier":
-        question.ids.forEach((id) => manipulerPoint(id, false, true));
-        afficherBoutonReponse(question);
-        break;
+case "identifier":
+    question.ids.forEach((id) => manipulerPoint(id, false, true));
+    container.querySelectorAll("input, button").forEach((el) => el.remove()); // Supprime les zones de saisie et boutons inutiles
+    afficherBoutonReponse(question);
+    break;
 
     case "choix":
         question.ids.forEach((id) => manipulerPoint(id, false, true));
