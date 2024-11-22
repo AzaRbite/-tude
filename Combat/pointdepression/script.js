@@ -9,18 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Attacher un écouteur d'événement à chaque élément de l'arbre SVG
-        function attacherEcouteursAchaqueElement() {
-            const elements = svgDoc.querySelectorAll('*');
-            elements.forEach((element) => {
-                const elementId = element.getAttribute('id');
-                if (elementId) {
-                    element.addEventListener("click", gererCliqueNommer);
-                    console.log(`Écouteur attaché à l'élément avec ID : ${elementId}`);
-                }
-            });
-        }
-
         const compteur = document.getElementById("compteur");
         if (!compteur) {
             console.error("Élément 'compteur' introuvable dans le DOM.");
@@ -39,6 +27,11 @@ document.addEventListener("DOMContentLoaded", function () {
             { nom: "Fémoral", ids: ["Femoral", "Femoral2"] },
             { nom: "Tibial", ids: ["Tibial", "Tibial2"] },
             { nom: "Cubital", ids: ["Cubital", "Cubital2"] },
+            { nom: "Radial", ids: ["Radial", "Radial2"] },
+            { nom: "Main", ids: ["Main", "Main2"] },
+            { nom: "Lobe", ids: ["Lobe"] },
+            { nom: "Plexus", ids: ["Plexus1", "Plexus2"] },
+            // Ajouter d'autres points au besoin
         ];
 
         const templatesDeQuestions = [
@@ -49,53 +42,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let questions = [];
         let currentQuestionIndex = 0;
-        let dernierPoint = null;
 
-function genererQuestionsAleatoires(nombre) {
-    const tempPoints = [...pointsDePression];
-    questions = [];
-    while (questions.length < nombre && tempPoints.length > 0) {
-        const indexPoint = Math.floor(Math.random() * tempPoints.length);
-        const point = tempPoints[indexPoint];
-
-        // Suppose qu'il y a un problème à cause de l'utilisation de `dernierPoint`
-        // Revérifier cette logique et s'assurer qu'elle n'empêche pas la sélection
-        if (point === dernierPoint) {
-            tempPoints.splice(indexPoint, 1);
-            continue;
+        function attacherEcouteursAchaqueElement() {
+            const elements = svgDoc.querySelectorAll('*');
+            elements.forEach((element) => {
+                const elementId = element.getAttribute('id');
+                if (elementId) {
+                    element.addEventListener("click", gererCliqueNommer);
+                    console.log(`Écouteur attaché à l'élément avec ID : ${elementId}`);
+                }
+            });
         }
 
-        const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
-        const question = {
-            texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
-            type: template.type,
-            ids: point.ids,
-        };
+        function genererQuestionsAleatoires(nombre) {
+            const tempPoints = [...pointsDePression];
+            questions = [];
+            while (questions.length < nombre && tempPoints.length > 0) {
+                const indexPoint = Math.floor(Math.random() * tempPoints.length);
+                const point = tempPoints[indexPoint];
+                
+                const template = templatesDeQuestions[Math.floor(Math.random() * templatesDeQuestions.length)];
+                const question = {
+                    texte: typeof template.texte === "function" ? template.texte(point) : template.texte,
+                    type: template.type,
+                    ids: point.ids,
+                };
 
-        if (template.type === "choix") {
-            question.options = pointsDePression
-                .map((p) => p.nom)
-                .sort(() => Math.random() - 0.5)
-                .slice(0, 3);
-            if (!question.options.includes(point.nom)) {
-                question.options.push(point.nom);
+                if (template.type === "choix") {
+                    question.options = pointsDePression
+                        .map((p) => p.nom)
+                        .sort(() => Math.random() - 0.5)
+                        .slice(0, 3);
+                    if (!question.options.includes(point.nom)) {
+                        question.options.push(point.nom);
+                    }
+                    question.options.sort(() => Math.random() - 0.5);
+                }
+
+                questions.push(question);
+
+                tempPoints.splice(indexPoint, 1);
+
+                if (tempPoints.length === 0 && questions.length < nombre) {
+                    tempPoints.push(...pointsDePression);
+                }
             }
-            question.options.sort(() => Math.random() - 0.5);
         }
-
-        questions.push(question);
-        dernierPoint = point;
-
-        tempPoints.splice(indexPoint, 1);
-
-        if (tempPoints.length === 0 && questions.length < nombre) {
-            tempPoints.push(...pointsDePression);
-        }
-    }
-}
-
-// Assurez-vous également d'appeler cette fonction correctement
-genererQuestionsAleatoires(10);
 
         function manipulerPoint(pointId, estActif) {
             const point = svgDoc.getElementById(pointId);
@@ -134,7 +126,7 @@ genererQuestionsAleatoires(10);
             container.appendChild(feedbackDiv);
 
             if (question.type === "nommer") {
-                // Caché par défaut, il s'affichera après un clic correct
+                question.ids.forEach((id) => manipulerPoint(id, false));
             } else if (question.type === "identifier") {
                 question.ids.forEach((id) => manipulerPoint(id, true));
                 afficherChampDeSaisie(question);
@@ -144,27 +136,25 @@ genererQuestionsAleatoires(10);
             }
         }
 
-function gererCliqueNommer(e) {
-    let cible = e.target;
-    let cibleId = cible.getAttribute('id');
+        function gererCliqueNommer(e) {
+            let cible = e.target;
+            let cibleId = cible.getAttribute('id');
 
-    // Déboguer pour afficher toute la chaîne des parents jusqu'à obtenir un ID
-    while (!cibleId && cible.parentElement) {
-        console.log("Remontée: ", cible.tagName, cible.parentElement.tagName);
-        cible = cible.parentElement;
-        cibleId = cible.getAttribute('id');
-    }
+            while (!cibleId && cible.parentElement) {
+                cible = cible.parentElement;
+                cibleId = cible.getAttribute('id');
+            }
 
-    console.log("Élément cliqué avec ID:", cibleId); // Debug
+            console.log("Élément cliqué avec ID:", cibleId); // Debug
 
-    if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
-        questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
-        donnerFeedback("Bonne réponse !", "#4caf50");
-        setTimeout(avancerQuestion, 1500);
-    } else {
-        donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
-    }
-}
+            if (cibleId && questions[currentQuestionIndex].ids.includes(cibleId)) {
+                questions[currentQuestionIndex].ids.forEach(id => manipulerPoint(id, true)); // Affiche le point rouge
+                donnerFeedback("Bonne réponse !", "#4caf50");
+                setTimeout(avancerQuestion, 1500);
+            } else {
+                donnerFeedback("Mauvaise réponse, réessayez !", "#ff4c4c");
+            }
+        }
 
         function afficherChampDeSaisie(question) {
             const input = document.createElement("input");
@@ -179,7 +169,7 @@ function gererCliqueNommer(e) {
                 ).nom;
                 if (input.value.trim().toLowerCase() === reponseCorrecte.toLowerCase()) {
                     donnerFeedback("Bonne réponse !", "#4caf50");
-                    avancerQuestion();
+                    setTimeout(avancerQuestion, 1500);
                 } else {
                     donnerFeedback("Mauvaise réponse. Réessayez.", "#ff4c4c");
                 }
@@ -230,7 +220,6 @@ function gererCliqueNommer(e) {
             afficherQuestion(currentQuestionIndex);
         }
 
-        // Attacher les écouteurs à chaque élément dès le début
         attacherEcouteursAchaqueElement();
         genererQuestionsAleatoires(10);
         afficherQuestion(currentQuestionIndex);
