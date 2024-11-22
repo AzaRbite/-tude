@@ -118,6 +118,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const feedbackDiv = document.createElement("div");
             feedbackDiv.id = "feedback";
             container.appendChild(feedbackDiv);
+
+            // Afficher le champ de saisie ou les choix en fonction du type de question
+            if (question.type === "identifier") {
+                afficherChampDeSaisie(question);
+            } else if (question.type === "choix") {
+                afficherChoix(question);
+            }
         }
 
         function gererCliqueNommer(e) {
