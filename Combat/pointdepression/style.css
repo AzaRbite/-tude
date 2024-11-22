@@ -67,8 +67,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 100%; /* Uniformiser la largeur des options */
-    max-width: 500px; /* Largeur identique pour tous les choix */
+    width: calc(100% - 30px); /* Assure que tous les choix ont la même largeur */
     margin: 2px 0; /* Espacement réduit entre les choix */
     padding: 15px;
     background-color: #444;
