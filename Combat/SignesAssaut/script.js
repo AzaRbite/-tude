@@ -45,14 +45,12 @@ const questions = [
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedQuestions = [];
-let answeredQuestions = [];
 
 function initializeQuiz() {
-    // Mélanger toutes les questions
-    selectedQuestions = [...questions].sort(() => Math.random() - 0.5);
+    // Mélanger et sélectionner 10 questions uniques
+    selectedQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
     currentQuestionIndex = 0;
     score = 0;
-    answeredQuestions = [];
     showQuestion();
 }
 
@@ -65,7 +63,7 @@ function showQuestion() {
     choicesContainer.innerHTML = '';
 
     // Afficher le compteur de questions
-    counterElement.innerText = `Question ${answeredQuestions.length + 1} sur 10`;
+    counterElement.innerText = `Question ${currentQuestionIndex + 1} sur 10`;
 
     const currentQuestion = selectedQuestions[currentQuestionIndex];
     questionElement.innerText = currentQuestion.question;
@@ -81,6 +79,7 @@ function showQuestion() {
                 input.type = 'radio';
                 input.name = 'choice';
                 input.value = choice;
+                input.onclick = () => submitAnswer(choice); // Change immédiatement après sélection
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(choice));
                 choicesContainer.appendChild(label);
@@ -92,13 +91,13 @@ function showQuestion() {
                 input.type = 'radio';
                 input.name = 'choice';
                 input.value = option === 'Vrai';
+                input.onclick = () => submitAnswer(input.value); // Change immédiatement après sélection
                 label.appendChild(input);
                 label.appendChild(document.createTextNode(option));
                 choicesContainer.appendChild(label);
             });
         }
         
-        // Ajout d'un espace entre les questions et les choix de réponse
         choicesContainer.style.marginBottom = "20px";
 
     } else if (currentQuestion.type === 'situation') {
@@ -113,15 +112,11 @@ function showQuestion() {
     }
 }
 
-function submitAnswer() {
+function submitAnswer(userAnswer) {
     const currentQuestion = selectedQuestions[currentQuestionIndex];
-    let userAnswer;
 
     if (currentQuestion.type === 'multiple_choice' || currentQuestion.type === 'true_false') {
-        const selectedOption = document.querySelector('input[name="choice"]:checked');
-        if (selectedOption) {
-            userAnswer = currentQuestion.type === 'true_false' ? selectedOption.value === 'true' : selectedOption.value;
-        }
+        userAnswer = currentQuestion.type === 'true_false' ? userAnswer === 'true' : userAnswer;
 
         // Vérification de la réponse et gestion du score
         if (userAnswer == currentQuestion.answer) {
@@ -129,11 +124,10 @@ function submitAnswer() {
         } else {
             alert('Réponse incorrecte.');
         }
-        answeredQuestions.push(currentQuestion);
 
         // Passer à la question suivante
-        if (answeredQuestions.length < 10) {
-            currentQuestionIndex = (currentQuestionIndex + 1) % selectedQuestions.length;
+        if (currentQuestionIndex < selectedQuestions.length - 1) {
+            currentQuestionIndex++;
             showQuestion();
         } else {
             showResults();
@@ -142,8 +136,6 @@ function submitAnswer() {
 }
 
 function validateScenario(userAnswer, correctAnswer) {
-    // Ici, vous pouvez éventuellement valider la réponse pour les scénarios
-    // Simple exemple : comparer les mots clés
     const userKeywords = userAnswer.toLowerCase().split(/\W+/);
     const correctKeywords = correctAnswer.toLowerCase().split(/\W+/);
     
@@ -155,11 +147,8 @@ function validateScenario(userAnswer, correctAnswer) {
         alert('Réponse incorrecte ou incomplète.');
     }
 
-    answeredQuestions.push(selectedQuestions[currentQuestionIndex]);
-
-    // Passer à la question suivante
-    if (answeredQuestions.length < 10) {
-        currentQuestionIndex = (currentQuestionIndex + 1) % selectedQuestions.length;
+    if (currentQuestionIndex < selectedQuestions.length - 1) {
+        currentQuestionIndex++;
         showQuestion();
     } else {
         showResults();
@@ -184,4 +173,3 @@ function restartQuiz() {
 }
 
 document.addEventListener('DOMContentLoaded', initializeQuiz);
-
