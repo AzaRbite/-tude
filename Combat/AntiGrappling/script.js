@@ -58,14 +58,13 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
     dropTargets.forEach((target, index) => {
         const content = target.textContent.trim();
-        target.classList.remove('correct', 'incorrect'); // Assurez-vous de réinitialiser les classes
+        // Réinitialiser les classes pour assurer qu'aucun SVG n'est ajouté plusieurs fois
+        target.classList.remove('correct', 'incorrect');
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
-            target.classList.remove('incorrect');
         } else {
             target.classList.add('incorrect');
-            target.classList.remove('correct');
         }
     });
 
