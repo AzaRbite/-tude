@@ -3,10 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const scenarioOutput = document.getElementById('scenario-output');
 
     generateScenarioButton.addEventListener('click', function() {
-        const agentId = '01JDFQPX8N52632XWP99VTWJEY'; // Utiliser l'ID de l'agent depuis l'URL
-        const commandId = '/signesprecurseursassault';
+        const agentId = '01JDFQPX8N52632XWP99VTWJEY'; // Utiliser l'ID correct depuis Taskade
+        const commandId = '/signesprecurseursassault'; // Vérifiez que cette commande est bien configurée
 
-        fetch(`/ai/taskade/${agentId}/command/${commandId}`, {
+        // Exemple de requête à l'API (vous devrez ajuster en fonction de votre configuration serveur)
+        fetch(`/api/generate_scenario/${agentId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
