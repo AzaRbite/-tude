@@ -8,8 +8,51 @@ document.getElementById('advanced-level').addEventListener('click', function() {
     document.getElementById('easy-mode').classList.add('hidden');
 });
 
-function initializeDraggableSteps(containerId) {
-    const steps = [
+function setupDragAndDrop() {
+    const draggables = document.querySelectorAll('.draggable');
+    const dropTargets = document.querySelectorAll('.drop-target');
+
+    draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', () => {
+            draggable.classList.add('dragging');
+            setTimeout(() => draggable.classList.add('invisible'), 0);
+        });
+
+        draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging', 'invisible');
+        });
+    });
+
+    dropTargets.forEach(target => {
+        target.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
+
+        target.addEventListener('drop', e => {
+            e.preventDefault();
+            const draggable = document.querySelector('.dragging');
+            if (draggable) {
+                const existingChild = target.querySelector('.draggable');
+                if (existingChild) {
+                    // Échanger l'élément avec celui existant
+                    draggable.parentNode.appendChild(existingChild);
+                }
+                target.appendChild(draggable);
+                draggable.classList.remove('dragging', 'invisible');
+            }
+        });
+    });
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function initializeDraggableSteps() {
+    const correctOrder = [
         "Abaissez votre centre de gravité",
         "Décidez du niveau de défense à utiliser",
         "Établir quel membre est libre",
@@ -22,21 +65,68 @@ function initializeDraggableSteps(containerId) {
         "Évadez-vous ou attaquez à nouveau"
     ];
 
-    const shuffledSteps = steps.sort(() => Math.random() - 0.5);
-    const container = document.getElementById(containerId);
-    container.innerHTML = shuffledSteps.map(step => `<li class="draggable" draggable="true">${step}</li>`).join('');
+    const steps = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`);
+    shuffle(steps);
+    const draggableStepsContainer = document.getElementById('draggable-steps');
+    draggableStepsContainer.innerHTML = steps.join('');
+    setupDragAndDrop();
 }
 
-function initializeAdvancedInputZones() {
-    const inputZone = document.getElementById('input-zone');
-    inputZone.innerHTML = Array(10).fill(null).map((_, i) => `
-        <li>
-            <input type="text" placeholder="Étape ${i + 1}">
-        </li>
-    `).join('');
+function initializeDropTargets() {
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.innerHTML = '';
+
+    for (let i = 1; i <= 10; i++) {
+        dropZone.innerHTML += `<li class="drop-target"><span class="number">${i}.</span></li>`;
+    }
 }
 
-// Initialisation des modes
-initializeDraggableSteps('draggable-steps');
-initializeDraggableSteps('draggable-steps-advanced');
-initializeAdvancedInputZones();
+document.getElementById('validate-easy').addEventListener('click', function() {
+    const correctOrder = [
+        "Abaissez votre centre de gravité",
+        "Décidez du niveau de défense à utiliser",
+        "Établir quel membre est libre",
+        "Choisissez une cible",
+        "Sélectionnez une technique de frappe",
+        "Frappez pour assoupir votre agresseur",
+        "Libérez-vous de la saisie, si nécessaire",
+        "Attaque avec une combinaison de techniques",
+        "Évaluer les dommages",
+        "Évadez-vous ou attaquez à nouveau"
+    ];
+
+    const dropTargets = document.querySelectorAll('.drop-target');
+
+    dropTargets.forEach((target, index) => {
+        const draggable = target.querySelector('.draggable');
+        const content = draggable ? draggable.textContent.trim() : '';
+
+        target.classList.remove('correct', 'incorrect');
+
+        if (content === correctOrder[index]) {
+            target.classList.add('correct');
+        } else if (content) {
+            target.classList.add('incorrect');
+        }
+    });
+
+    if (!document.getElementById('restart-button')) {
+        const restartButton = document.createElement('button');
+        restartButton.id = 'restart-button';
+        restartButton.classList.add('button');
+        restartButton.textContent = "Recommencer";
+
+        restartButton.addEventListener('click', () => {
+            initializeDropTargets();
+            initializeDraggableSteps();
+            document.querySelector('.order-column').style.backgroundColor = '#292929';
+            restartButton.remove();
+        });
+
+        document.querySelector('.content').appendChild(restartButton);
+    }
+});
+
+// Initialisation au chargement de la page
+initializeDropTargets();
+initializeDraggableSteps();
