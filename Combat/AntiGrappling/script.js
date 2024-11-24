@@ -32,6 +32,11 @@ function setupDragAndDrop() {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
             if (draggable) {
+                const existingChild = target.querySelector('.draggable');
+                if (existingChild) {
+                    // Échanger l'élément avec celui existant
+                    draggable.parentNode.appendChild(existingChild);
+                }
                 target.appendChild(draggable);
                 draggable.classList.remove('dragging', 'invisible');
             }
