@@ -116,8 +116,9 @@ main {
 
 .number {
     position: absolute;
-    left: -25px; /* Décalage pour les numéros à l'extérieur */
+    left: -30px; /* Décalage pour les numéros à l'extérieur */
     color: #f0f0f0;
+    pointer-events: none; /* Permet de cliquer à travers les numéros */
 }
 
 .draggable {
