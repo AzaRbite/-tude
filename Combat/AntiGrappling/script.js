@@ -88,18 +88,15 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         const draggable = target.querySelector('.draggable');
         const content = draggable ? draggable.textContent.trim() : '';
         
-        // Log pour aider au diagnostic
-        console.log(`Index: ${index}, Contenu: "${content}", Ordre Correct: "${correctOrder[index]}"`);
+        console.log(`Index: ${index}, Contenu: "${content}", Ordre Correct: "${correctOrder[index] || 'undefined'}"`);
         
         // Réinitialiser les classes pour éviter les problèmes d'affichage
         target.classList.remove('correct', 'incorrect');
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
-            console.log(`Correct à l'index ${index}`);
         } else if (content) { // Ne marquer que les cases non vides
             target.classList.add('incorrect');
-            console.log(`Incorrect à l'index ${index}`);
         }
     });
 
