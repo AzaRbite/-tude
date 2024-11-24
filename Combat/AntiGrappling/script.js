@@ -163,6 +163,26 @@ document.getElementById('validate-advanced').addEventListener('click', function(
         // Append new feedback
         input.parentNode.appendChild(feedback);
     });
+
+    // Add restart button for advanced level
+    if (!document.getElementById('restart-advanced-button')) {
+        const restartAdvancedButton = document.createElement('button');
+        restartAdvancedButton.id = 'restart-advanced-button';
+        restartAdvancedButton.classList.add('button');
+        restartAdvancedButton.textContent = "Recommencer";
+
+        restartAdvancedButton.addEventListener('click', () => {
+            inputFields.forEach(input => {
+                input.value = '';
+                if (input.nextSibling) {
+                    input.nextSibling.remove(); // Remove feedback
+                }
+            });
+            restartAdvancedButton.remove();
+        });
+
+        document.querySelector('.content').appendChild(restartAdvancedButton);
+    }
 });
 
 // Initialisation au chargement de la page
