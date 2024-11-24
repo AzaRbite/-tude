@@ -48,7 +48,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         "Choisissez une cible",
         "Sélectionnez une technique de frappe",
         "Frappez pour assoupir votre agresseur",
-        "Libérez-vous de la saisie, si nécessaire",
+        "Libérez-bous de la saisie, si nécessaire",
         "Attaque avec une combinaison de techniques",
         "Évaluer les dommages",
         "Évadez-vous ou attaquez à nouveau"
