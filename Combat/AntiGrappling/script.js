@@ -31,15 +31,9 @@ function setupDragAndDrop() {
         target.addEventListener('drop', e => {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
-            const existingItem = target.querySelector('.draggable');
             if (draggable) {
-                if (existingItem) {
-                    const parent = draggable.parentElement;
-                    target.replaceChild(draggable, existingItem);
-                    parent.appendChild(existingItem);
-                } else {
-                    target.appendChild(draggable);
-                }
+                target.innerHTML = ''; // Vider le contenu actuel pour éviter les doublons
+                target.appendChild(draggable);
                 draggable.classList.remove('dragging', 'invisible');
             }
         });
@@ -64,11 +58,11 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
     dropTargets.forEach((target, index) => {
         const content = target.textContent.trim();
-        target.classList.remove('correct', 'incorrect'); // Retirer toutes les classes avant d'en ajouter de nouvelles
+        target.classList.remove('correct', 'incorrect'); // Assurez-vous de réinitialiser les classes
         if (content === correctOrder[index]) {
-            target.classList.add('valid', 'correct');
+            target.classList.add('correct');
         } else {
-            target.classList.add('valid', 'incorrect');
+            target.classList.add('incorrect');
         }
     });
 
@@ -81,9 +75,9 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.addEventListener('click', () => {
             // Réinitialiser les drop targets
             dropTargets.forEach(target => {
-                target.innerHTML = '';
-                target.className = '';
-                target.style.height = '40px';
+                target.innerHTML = ''; // Vider le contenu
+                target.className = ''; // Reset class
+                target.style.height = '40px'; // Réinitialiser la hauteur
             });
 
             // Réinitialiser la colonne des éléments glissables
