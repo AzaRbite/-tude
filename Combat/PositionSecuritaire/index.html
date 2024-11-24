@@ -10,6 +10,7 @@
     <header>
         <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
         <h1>Questionnaire sur les Positions Sécuritaires</h1>
+        <div id="question-counter"></div>
     </header>
     <main>
         <div class="content">
@@ -17,26 +18,38 @@
                 <div class="question" data-question="1">
                     <h2>Questions à choix multiples : Position Parlementaire</h2>
                     <p>Quelle est la position correcte des pieds ?</p>
-                    <div>
-                        <input type="radio" id="q1a1" name="q1" value="Les pieds collés">
-                        <label for="q1a1">Les pieds collés</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="q1a2" name="q1" value="Les pieds aux largeurs des épaules à 45 degrés">
-                        <label for="q1a2">Les pieds aux largeurs des épaules à 45 degrés</label>
+                    <div class="choice-container">
+                        <label>
+                            <input type="radio" id="q1a1" name="q1" value="Les pieds collés">
+                            Les pieds collés
+                        </label>
+                        <label>
+                            <input type="radio" id="q1a2" name="q1" value="Les pieds aux largeurs des épaules à 45 degrés">
+                            Les pieds aux largeurs des épaules à 45 degrés
+                        </label>
+                        <label>
+                            <input type="radio" id="q1a3" name="q1" value="Les pieds serrés ensemble">
+                            Les pieds serrés ensemble
+                        </label>
+                        <label>
+                            <input type="radio" id="q1a4" name="q1" value="Un pied devant l'autre">
+                            Un pied devant l'autre
+                        </label>
                     </div>
                 </div>
 
                 <div class="question hidden" data-question="2">
                     <h2>Questions vrai ou faux</h2>
                     <p>Dans la position parlementaire, le poids du corps repose principalement sur les talons.</p>
-                    <div>
-                        <input type="radio" id="q2a1" name="q2" value="Vrai">
-                        <label for="q2a1">Vrai</label>
-                    </div>
-                    <div>
-                        <input type="radio" id="q2a2" name="q2" value="Faux">
-                        <label for="q2a2">Faux</label>
+                    <div class="choice-container">
+                        <label>
+                            <input type="radio" id="q2a1" name="q2" value="Vrai">
+                            Vrai
+                        </label>
+                        <label>
+                            <input type="radio" id="q2a2" name="q2" value="Faux">
+                            Faux
+                        </label>
                     </div>
                 </div>
 
