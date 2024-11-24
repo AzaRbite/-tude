@@ -100,7 +100,7 @@ footer {
 }
 
 /* Style pour les zones de texte des questions de scénario */
-.scenario-textarea {
+.question-box {
     width: 100%;
     max-width: 500px; /* Limite la largeur des zones de texte */
     margin: 10px 0;
