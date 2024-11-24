@@ -140,18 +140,15 @@ main {
 }
 
 .advanced-input {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    font-size: 1em;
+    width: 80%; /* Réduction de la taille de la boîte */
+    padding: 8px;
+    margin: 5px auto; /* Centrer la boîte */
+    font-size: 0.9em; /* Taille du texte légèrement réduite */
     background-color: #3a3a3a;
     border: 2px dashed #ed2c2c;
     color: #ffffff;
     border-radius: 5px;
-}
-
-.advanced-input::placeholder {
-    color: #cccccc;
+    display: block; /* Pour s'assurer que chaque input est traité comme un bloc */
 }
 
 .correct::after,
