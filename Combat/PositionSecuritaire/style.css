@@ -14,6 +14,25 @@ header {
     padding: 20px;
     text-align: center;
     width: 100%;
+    position: relative;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #ed2c2c;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #a30000;
 }
 
 main {
@@ -23,13 +42,12 @@ main {
     align-items: center;
     padding: 20px;
     width: 100%;
-    position: relative;
 }
 
 .content {
     background-color: #292929;
     padding: 40px;
-    max-width: 800px;
+    max-width: 600px;
     width: 90%;
     margin: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
