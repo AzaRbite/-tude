@@ -46,14 +46,14 @@ let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 let questionOrder = shuffleArray(questions).slice(0, 10);
-let isWaiting = false;  // Variable pour contrôler l'attente entre les questions
+let isWaiting = false;
 
 function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
 function showQuestion(index) {
-    const quizDiv = document.getElementById('quiz');
+    const quizDiv = document.getElementById('quiz-container');
     quizDiv.innerHTML = '';
 
     const questionData = questionOrder[index];
@@ -62,14 +62,31 @@ function showQuestion(index) {
     questionEl.innerHTML = `<p style="font-size: 1.5em;">${questionData.question}</p><div class="choice-container"></div>`;
 
     const choiceContainer = questionEl.querySelector('.choice-container');
-    const shuffledChoices = shuffleArray([...questionData.choices]);
+    
+    if (questionData.choices) {
+        questionData.choices.forEach(choice => {
+            const choiceLabel = document.createElement('label');
+            choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
+            choiceLabel.addEventListener('click', () => checkAnswer(index, choice));
+            choiceContainer.appendChild(choiceLabel);
+        });
+    } else if (questionData.type === "situation") {
+        const instructions = document.createElement('p');
+        instructions.innerText = `Trouver ${questionData.correctKeywords.length} signes perturbateurs :`;
+        choiceContainer.appendChild(instructions);
+        
+        const inputBoxes = questionData.correctKeywords.map(() => {
+            const textarea = document.createElement('textarea');
+            choiceContainer.appendChild(textarea);
+            return textarea;
+        });
 
-    shuffledChoices.forEach(choice => {
-        const choiceLabel = document.createElement('label');
-        choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
-        choiceLabel.addEventListener('click', () => checkAnswer(index, choice));
-        choiceContainer.appendChild(choiceLabel);
-    });
+        const validateButton = document.createElement('button');
+        validateButton.textContent = 'Valider';
+        validateButton.style.display = 'inline-block';
+        validateButton.onclick = () => validateScenario(inputBoxes, questionData.correctKeywords);
+        choiceContainer.appendChild(validateButton);
+    }
 
     quizDiv.appendChild(questionEl);
 
@@ -78,29 +95,48 @@ function showQuestion(index) {
 }
 
 function checkAnswer(index, selectedValue) {
-    if (isWaiting) return;  // Empêcher l'avance multiple
+    if (isWaiting) return;
 
     const questionData = questionOrder[index];
-    const resultDiv = document.getElementById('results');
+    const resultDiv = document.getElementById('result-container');
     const isCorrect = selectedValue === questionData.correct;
 
     if (isCorrect) {
         correctAnswers++;
-        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse ! Passage à la question suivante...</p>';
-        setTimeout(() => nextQuestion(), 2000); // 2 secondes pour une bonne réponse
+        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse !</p>';
+        setTimeout(() => nextQuestion(), 2000);
     } else {
         incorrectAnswers++;
         resultDiv.innerHTML = `<p style="color: red;">Mauvaise réponse. La bonne réponse était : ${questionData.correct}</p>`;
-        setTimeout(() => nextQuestion(), 5000); // 5 secondes pour une mauvaise réponse
+        setTimeout(() => nextQuestion(), 5000);
     }
 
-    isWaiting = true;  // Définir l'état d'attente
+    resultDiv.style.display = 'block';
+    isWaiting = true;
+}
+
+function validateScenario(inputBoxes, correctKeywords) {
+    const userInputs = inputBoxes.map(input => input.value.toLowerCase().trim());
+    const matchedKeywords = userInputs.filter(input => correctKeywords.includes(input));
+    
+    const resultDiv = document.getElementById('result-container');
+    if (matchedKeywords.length === correctKeywords.length) {
+        correctAnswers++;
+        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse ! Tous les signes perturbateurs ont été identifiés.</p>';
+    } else {
+        incorrectAnswers++;
+        resultDiv.innerHTML = `<p style="color: red;">Mauvaise réponse. Signes manquants : ${correctKeywords.filter(kw => !matchedKeywords.includes(kw)).join(', ')}</p>`;
+    }
+
+    resultDiv.style.display = 'block';
+    isWaiting = true;
+    setTimeout(() => nextQuestion(), 5000);
 }
 
 function nextQuestion() {
-    const resultDiv = document.getElementById('results');
-    resultDiv.innerHTML = '';  // Effacer le message précédent
-    isWaiting = false;  // Réinitialiser l'état d'attente
+    const resultDiv = document.getElementById('result-container');
+    resultDiv.style.display = 'none';
+    isWaiting = false;
 
     if (currentQuestionIndex < questionOrder.length - 1) {
         currentQuestionIndex++;
@@ -111,13 +147,12 @@ function nextQuestion() {
 }
 
 function endQuiz() {
-    const quizDiv = document.getElementById('quiz');
+    const quizDiv = document.getElementById('quiz-container');
     const totalQuestions = questionOrder.length;
     quizDiv.innerHTML = `
         <h2>Quiz Terminé</h2>
         <p>Vous avez fait ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
         <button onclick="restartQuiz()">Recommencer</button>
-        <button onclick="window.location.href='/Etude/Combat';">Retour à Combats</button>
     `;
 }
 
@@ -133,10 +168,6 @@ window.onload = () => {
     const header = document.querySelector('header');
     const counterDiv = document.createElement('div');
     counterDiv.id = 'question-counter';
-    counterDiv.style.position = 'absolute';
-    counterDiv.style.top = '70%';
-    counterDiv.style.transform = 'translateY(-50%)';
-    counterDiv.style.right = '20px';
     counterDiv.style.color = '#ffffff';
     counterDiv.style.fontSize = '1.2em';
     counterDiv.style.fontWeight = 'bold';
@@ -144,4 +175,3 @@ window.onload = () => {
 
     showQuestion(currentQuestionIndex);
 };
-
