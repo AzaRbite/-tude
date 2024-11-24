@@ -96,6 +96,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
             const originalItems = draggableStepsContainer.querySelectorAll('.draggable');
             originalItems.forEach(item => {
                 item.style.backgroundColor = ''; // Supprimer le fond rouge
+                item.classList.remove('invalid', 'highlight', 'some-other-class'); // Supprimer toute autre classe
             });
 
             // Réinitialiser la couleur de fond
