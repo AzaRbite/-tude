@@ -23,12 +23,12 @@ main {
     align-items: center;
     padding: 20px;
     width: 100%;
-    position: relative; /* Nécessaire pour positionner les éléments absolus */
+    position: relative;
 }
 
 .back-button {
     position: absolute;
-    top: 30px; /* Aligné avec le titre */
+    top: 30px;
     left: 20px;
     background-color: #ed2c2c;
     color: #ffffff;
@@ -85,7 +85,7 @@ main {
 .order-column,
 .draggable-column {
     width: 40%;
-    background-color: #292929; /* Assure que le fond reste sombre */
+    background-color: #292929;
     padding: 10px;
     border-radius: 5px;
 }
@@ -98,7 +98,7 @@ main {
 
 .order-column li {
     position: relative;
-    margin: 5px 0; /* Réduction de la marge verticale entre les éléments */
+    margin: 5px 0;
     min-height: 40px;
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
@@ -112,7 +112,7 @@ main {
 
 .draggable-column li {
     position: relative;
-    margin: 10px 0; /* Espacement augmenté pour la colonne des éléments glissables */
+    margin: 10px 0;
     border-radius: 5px;
     display: flex;
     align-items: center;
@@ -133,21 +133,11 @@ main {
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
+    transition: background-color 0.3s;
 }
 
 .dragging {
     opacity: 0.5;
-}
-
-.order-column li.dropped {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    width: 80%;
-    height: 40px;
-    margin: 0 auto;
-    box-sizing: border-box;
 }
 
 .order-column li.dropped .draggable {
