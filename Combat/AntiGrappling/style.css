@@ -84,23 +84,26 @@ main {
 }
 
 .order-column,
-.draggable-column {
+.draggable-column,
+.advanced-input-column {
     width: 40%;
     background-color: #292929;
     padding: 10px;
     border-radius: 5px;
-    position: relative;
-    min-height: 500px;
+    position: relative; /* Pour permettre un positionnement absolu des numéros */
+    min-height: 400px;
 }
 
 .order-column ol,
-.draggable-column ul {
+.draggable-column ul,
+.advanced-input-column ol {
     padding: 0;
     list-style-type: none;
 }
 
 .order-column li,
-.draggable-column li {
+.draggable-column li,
+.advanced-input-column li {
     position: relative;
     margin: 5px 0;
     min-height: 40px;
@@ -115,11 +118,15 @@ main {
     height: auto;
 }
 
+.advanced-input-column li {
+    background-color: #292929;
+}
+
 .number {
     position: absolute;
-    left: -30px;
+    left: -30px; /* Décalage pour les numéros à l'extérieur */
     color: #f0f0f0;
-    pointer-events: none;
+    pointer-events: none; /* Permet de cliquer à travers les numéros */
 }
 
 .draggable {
@@ -135,19 +142,7 @@ main {
     width: 100%;
     box-sizing: border-box;
     transition: background-color 0.3s;
-    position: absolute;
 }
-
-.draggable:nth-child(1) { top: 0px; }
-.draggable:nth-child(2) { top: 50px; }
-.draggable:nth-child(3) { top: 100px; }
-.draggable:nth-child(4) { top: 150px; }
-.draggable:nth-child(5) { top: 200px; }
-.draggable:nth-child(6) { top: 250px; }
-.draggable:nth-child(7) { top: 300px; }
-.draggable:nth-child(8) { top: 350px; }
-.draggable:nth-child(9) { top: 400px; }
-.draggable:nth-child(10) { top: 450px; }
 
 .dragging {
     opacity: 0.5;
@@ -170,6 +165,17 @@ main {
 
 .incorrect::after {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
+}
+
+.advanced-input {
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #f0f0f0;
+    padding-left: 10px;
+    box-sizing: border-box;
 }
 
 footer {
