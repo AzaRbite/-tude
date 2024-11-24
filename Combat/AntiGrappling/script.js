@@ -60,12 +60,13 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         const content = target.textContent.trim();
         target.classList.remove('correct', 'incorrect'); // Assurez-vous de réinitialiser les classes
 
+        // Ajout conditionnel pour éviter les doublons
         if (content === correctOrder[index]) {
-            if (!target.classList.contains('correct')) { // Ajout conditionnel pour éviter les doublons
+            if (!target.classList.contains('correct')) {
                 target.classList.add('correct');
             }
         } else {
-            if (!target.classList.contains('incorrect')) { // Ajout conditionnel pour éviter les doublons
+            if (!target.classList.contains('incorrect')) {
                 target.classList.add('incorrect');
             }
         }
@@ -82,7 +83,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
             dropTargets.forEach(target => {
                 target.innerHTML = ''; // Vider le contenu
                 target.className = ''; // Reset class
-                target.style.height = '40px'; // Réinitialiser la hauteur
+                target.style.height = '60px'; // Réinitialiser la hauteur
             });
 
             // Réinitialiser la colonne des éléments glissables
