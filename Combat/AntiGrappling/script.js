@@ -93,7 +93,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
-        } else if (content) { // Ne marquer que les cases non vides
+        } else {  // Ajouter "incorrect" même si le contenu est vide pour une vérification claire
             target.classList.add('incorrect');
         }
     });
@@ -105,7 +105,16 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.textContent = "Recommencer";
 
         restartButton.addEventListener('click', () => {
-            initializeDraggableSteps(); // Réinitialiser et mélanger les éléments
+            // Réinitialiser les drop targets
+            dropTargets.forEach(target => {
+                target.innerHTML = ''; // Vider le contenu
+                target.className = ''; // Reset class
+                target.style.height = ''; // Réinitialiser la hauteur automatiquement
+            });
+
+            // Réinitialiser et mélanger les éléments dans la colonne glissable
+            initializeDraggableSteps();
+
             document.querySelector('.order-column').style.backgroundColor = '#292929';
             restartButton.remove();
         });
@@ -114,4 +123,5 @@ document.getElementById('validate-easy').addEventListener('click', function() {
     }
 });
 
+// Initialisation au chargement de la page
 initializeDraggableSteps();
