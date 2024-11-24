@@ -45,12 +45,14 @@ const questions = [
 let currentQuestionIndex = 0;
 let score = 0;
 let selectedQuestions = [];
+let answeredQuestions = [];
 
 function initializeQuiz() {
-    // Mélanger et sélectionner 10 questions aléatoires
-    selectedQuestions = questions.sort(() => Math.random() - 0.5).slice(0, 10);
+    // Mélanger toutes les questions
+    selectedQuestions = [...questions].sort(() => Math.random() - 0.5);
     currentQuestionIndex = 0;
     score = 0;
+    answeredQuestions = [];
     showQuestion();
 }
 
@@ -63,33 +65,51 @@ function showQuestion() {
     choicesContainer.innerHTML = '';
 
     // Afficher le compteur de questions
-    counterElement.innerText = `Question ${currentQuestionIndex + 1} sur 10`;
+    counterElement.innerText = `Question ${answeredQuestions.length + 1} sur 10`;
 
     const currentQuestion = selectedQuestions[currentQuestionIndex];
     questionElement.innerText = currentQuestion.question;
+    questionElement.style.fontSize = "1.5em"; // Augmente la taille de la question
 
-    if (currentQuestion.type === 'multiple_choice') {
-        currentQuestion.choices.forEach(choice => {
-            const label = document.createElement('label');
-            const input = document.createElement('input');
-            input.type = 'radio';
-            input.name = 'choice';
-            input.value = choice;
-            label.appendChild(input);
-            label.appendChild(document.createTextNode(choice));
-            choicesContainer.appendChild(label);
-        });
-    } else if (currentQuestion.type === 'true_false') {
-        ['Vrai', 'Faux'].forEach(option => {
-            const label = document.createElement('label');
-            const input = document.createElement('input');
-            input.type = 'radio';
-            input.name = 'choice';
-            input.value = option === 'Vrai';
-            label.appendChild(input);
-            label.appendChild(document.createTextNode(option));
-            choicesContainer.appendChild(label);
-        });
+    if (currentQuestion.type === 'multiple_choice' || currentQuestion.type === 'true_false') {
+        choicesContainer.style.marginTop = "20px";
+        
+        if (currentQuestion.type === 'multiple_choice') {
+            currentQuestion.choices.forEach(choice => {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'choice';
+                input.value = choice;
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(choice));
+                choicesContainer.appendChild(label);
+            });
+        } else if (currentQuestion.type === 'true_false') {
+            ['Vrai', 'Faux'].forEach(option => {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'choice';
+                input.value = option === 'Vrai';
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(option));
+                choicesContainer.appendChild(label);
+            });
+        }
+        
+        // Ajout d'un espace entre les questions et les choix de réponse
+        choicesContainer.style.marginBottom = "20px";
+
+    } else if (currentQuestion.type === 'situation') {
+        const input = document.createElement('textarea');
+        input.name = 'situation';
+        input.placeholder = 'Écrire ici vos observations des signes perturbateurs...';
+        choicesContainer.appendChild(input);
+        const validateButton = document.createElement('button');
+        validateButton.textContent = 'Valider';
+        validateButton.onclick = () => validateScenario(input.value, currentQuestion.answer);
+        choicesContainer.appendChild(validateButton);
     }
 }
 
@@ -102,16 +122,44 @@ function submitAnswer() {
         if (selectedOption) {
             userAnswer = currentQuestion.type === 'true_false' ? selectedOption.value === 'true' : selectedOption.value;
         }
-    }
 
-    if (userAnswer == currentQuestion.answer) {
+        // Vérification de la réponse et gestion du score
+        if (userAnswer == currentQuestion.answer) {
+            score++;
+        } else {
+            alert('Réponse incorrecte.');
+        }
+        answeredQuestions.push(currentQuestion);
+
+        // Passer à la question suivante
+        if (answeredQuestions.length < 10) {
+            currentQuestionIndex = (currentQuestionIndex + 1) % selectedQuestions.length;
+            showQuestion();
+        } else {
+            showResults();
+        }
+    }
+}
+
+function validateScenario(userAnswer, correctAnswer) {
+    // Ici, vous pouvez éventuellement valider la réponse pour les scénarios
+    // Simple exemple : comparer les mots clés
+    const userKeywords = userAnswer.toLowerCase().split(/\W+/);
+    const correctKeywords = correctAnswer.toLowerCase().split(/\W+/);
+    
+    const matches = userKeywords.filter(word => correctKeywords.includes(word)).length;
+
+    if (matches > 2) { // exemple simple de validation
         score++;
     } else {
-        alert('Réponse incorrecte.');
+        alert('Réponse incorrecte ou incomplète.');
     }
 
-    if (currentQuestionIndex < selectedQuestions.length - 1) {
-        currentQuestionIndex++;
+    answeredQuestions.push(selectedQuestions[currentQuestionIndex]);
+
+    // Passer à la question suivante
+    if (answeredQuestions.length < 10) {
+        currentQuestionIndex = (currentQuestionIndex + 1) % selectedQuestions.length;
         showQuestion();
     } else {
         showResults();
@@ -136,3 +184,4 @@ function restartQuiz() {
 }
 
 document.addEventListener('DOMContentLoaded', initializeQuiz);
+
