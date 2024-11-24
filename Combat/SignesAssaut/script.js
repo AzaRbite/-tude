@@ -150,6 +150,12 @@ function showQuestion(index) {
         choiceContainer.appendChild(validateButton);
     }
 
+    const resultDiv = document.createElement('div');
+    resultDiv.id = 'result-container';
+    resultDiv.style.display = 'none';
+    resultDiv.style.marginTop = '20px';
+    choiceContainer.appendChild(resultDiv);
+
     quizDiv.appendChild(questionEl);
 
     const counterDiv = document.getElementById('question-counter');
