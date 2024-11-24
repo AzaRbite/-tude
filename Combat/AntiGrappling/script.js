@@ -9,11 +9,11 @@ document.getElementById('advanced-level').addEventListener('click', function() {
 });
 
 function initializeAdvancedMode() {
-    const advancedColumn = document.getElementById('advanced-steps');
-    advancedColumn.innerHTML = '';
+    const advancedContainer = document.getElementById('advanced-steps');
+    advancedContainer.innerHTML = '';
 
     for (let i = 1; i <= 10; i++) {
-        advancedColumn.innerHTML += `<li class="order-row"><span class="number">${i}.</span><textarea rows="1"></textarea></li>`;
+        advancedContainer.innerHTML += `<li class="advanced-step"><span class="number">${i}.</span><textarea rows="1"></textarea></li>`;
     }
 }
 
