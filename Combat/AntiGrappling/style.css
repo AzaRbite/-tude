@@ -137,6 +137,7 @@ main {
 
 .dragging {
     opacity: 0.5;
+    z-index: 1000; /* Assurez-vous que l'élément glissant est au-dessus des autres */
 }
 
 .advanced-input {
@@ -149,6 +150,11 @@ main {
     color: #ffffff;
     border-radius: 5px;
     display: block; /* Pour s'assurer que chaque input est traité comme un bloc */
+    position: relative; /* Pour le positionnement des numéros */
+}
+
+.advanced-input + .number {
+    left: -15px; /* Ajustez la position des numéros pour les rapprocher des champs de texte */
 }
 
 .correct::after,
