@@ -10,7 +10,7 @@ document.getElementById('advanced-level').addEventListener('click', function() {
 
 function setupDragAndDrop() {
     const draggables = document.querySelectorAll('.draggable');
-    const dropTargets = document.querySelectorAll('.drop-target');
+    const dropTargets = document.querySelectorAll('.order-column li');
 
     draggables.forEach(draggable => {
         draggable.addEventListener('dragstart', () => {
@@ -60,7 +60,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         "Évadez-vous ou attaquez à nouveau"
     ];
 
-    const dropTargets = document.querySelectorAll('.drop-target li');
+    const dropTargets = document.querySelectorAll('.order-column li');
 
     dropTargets.forEach((target, index) => {
         const content = target.textContent.trim();
@@ -83,7 +83,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
             // Réinitialiser les drop targets
             dropTargets.forEach(target => {
                 target.innerHTML = ''; // Vider le contenu
-                target.className = 'drop-target'; // Réinitialiser les classes
+                target.className = ''; // Reset class
                 target.style.height = '40px'; // Réinitialiser la hauteur
             });
 
