@@ -387,7 +387,6 @@ function showQuestion(index) {
     const choiceContainer = questionEl.querySelector('.choice-container');
 
     if (questionData.type === 'multiple_choice') {
-        // Shuffle the choices before rendering
         const shuffledChoices = shuffleArray([...questionData.choices]);
         shuffledChoices.forEach(choice => {
             const choiceLabel = document.createElement('label');
@@ -456,7 +455,24 @@ function checkAnswer(index, selectedValue) {
 
 function validateScenario(inputBoxes, correctKeywords) {
     const userInputs = inputBoxes.map(input => input.value.toLowerCase().trim());
-    const matchedKeywords = userInputs.filter(input => correctKeywords.map(kw => kw.toLowerCase()).includes(input));
+    const keywordVariants = {
+        'destruction d\'objets': ['objet cassé', 'brisé'],
+        'fixation de l\'arme du policier': ['fixe arme', 'regarde arme'],
+        'usage d\'alcool': ['sous influence alcool', 'ivresse'],
+        'refuse de communiquer': ['ne parle pas', 'silence total'],
+        'clignement des yeux rapide': ['cligne vite', 'pas de clignement'],
+        // Ajoutez d'autres variantes si nécessaire
+    };
+
+    const matchedKeywords = userInputs.filter(input => {
+        return correctKeywords.some(keyword => {
+            if (input.includes(keyword)) return true;
+            if (keywordVariants[keyword]) {
+                return keywordVariants[keyword].some(variant => input.includes(variant));
+            }
+            return false;
+        });
+    });
 
     const resultDiv = document.getElementById('result-container');
 
@@ -465,7 +481,8 @@ function validateScenario(inputBoxes, correctKeywords) {
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse ! Tous les signes perturbateurs ont été identifiés.</p>';
     } else {
         incorrectAnswers++;
-        resultDiv.innerHTML = `<p style="color: red;">Mauvaise réponse. Signes manquants : ${correctKeywords.filter(kw => !matchedKeywords.includes(kw.toLowerCase())).join(', ')}</p>`;
+        const missingKeywords = correctKeywords.filter(kw => !matchedKeywords.includes(kw.toLowerCase()));
+        resultDiv.innerHTML = `<p style="color: red;">Mauvaise réponse. Signes manquants : ${missingKeywords.join(', ')}</p>`;
     }
 
     resultDiv.style.display = 'block';
@@ -514,3 +531,4 @@ window.onload = () => {
     header.appendChild(counterDiv);
     showQuestion(currentQuestionIndex);
 };
+
