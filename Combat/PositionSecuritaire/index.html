@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Questionnaire sur les Positions Sécuritaires</title>
+</head>
+<body>
+    <header>
+        <h1>Questionnaire sur les Positions Sécuritaires</h1>
+    </header>
+    <main>
+        <div class="content">
+            <form id="quiz-form">
+                <section>
+                    <h2>Questions à choix multiples</h2>
+                    <p>Quelle est la position correcte des pieds dans la position parlementaire ?</p>
+                    <div>
+                        <input type="radio" id="q1a1" name="q1" value="Les pieds collés">
+                        <label for="q1a1">Les pieds collés</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q1a2" name="q1" value="Les pieds aux largeurs des épaules à 45 degrés">
+                        <label for="q1a2">Les pieds aux largeurs des épaules à 45 degrés</label>
+                    </div>
+
+                    <p>Où doivent se situer les mains dans la position défensive ?</p>
+                    <div>
+                        <input type="radio" id="q2a1" name="q2" value="À la hauteur des genoux">
+                        <label for="q2a1">À la hauteur des genoux</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q2a2" name="q2" value="À la hauteur du torse ou plus haut">
+                        <label for="q2a2">À la hauteur du torse ou plus haut</label>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Questions vrai ou faux</h2>
+                    <p>Dans la position parlementaire, le poids du corps repose principalement sur les talons.</p>
+                    <div>
+                        <input type="radio" id="q3a1" name="q3" value="Vrai">
+                        <label for="q3a1">Vrai</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q3a2" name="q3" value="Faux">
+                        <label for="q3a2">Faux</label>
+                    </div>
+
+                    <p>La position défensive nécessite que les paumes soient tournées vers le sujet.</p>
+                    <div>
+                        <input type="radio" id="q4a1" name="q4" value="Vrai">
+                        <label for="q4a1">Vrai</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="q4a2" name="q4" value="Faux">
+                        <label for="q4a2">Faux</label>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Questions de correspondance</h2>
+                    <p>Associez chaque caractéristique à la bonne position (parlementaire ou défensive).</p>
+                    <label>
+                        <span>Main haute et paume vers le sujet:</span>
+                        <select name="q5">
+                            <option value="parlementaire">Parlementaire</option>
+                            <option value="défensive">Défensive</option>
+                        </select>
+                    </label>
+                    <label>
+                        <span>Poids du corps sur la plante des pieds:</span>
+                        <select name="q6">
+                            <option value="parlementaire">Parlementaire</option>
+                            <option value="défensive">Défensive</option>
+                        </select>
+                    </label>
+                </section>
+
+                <section>
+                    <h2>Questions ouvertes</h2>
+                    <p>Décrivez en vos propres mots la différence principale entre la position parlementaire et la position défensive.</p>
+                    <textarea name="q7" rows="4"></textarea>
+                </section>
+
+                <section>
+                    <h2>Questions de scénario</h2>
+                    <p>Vous êtes dans une situation de tension, quelle position sécuritaire adoptez-vous et pourquoi ?</p>
+                    <textarea name="q8" rows="4"></textarea>
+                </section>
+
+                <section>
+                    <h2>Questions de remplissage des blancs</h2>
+                    <p>Dans la position ___________, le poids est principalement réparti sur la plante des pieds.</p>
+                    <input type="text" name="q9">
+                </section>
+
+                <button type="submit" class="button">Soumettre</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>Merci d'avoir complété le questionnaire !</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
