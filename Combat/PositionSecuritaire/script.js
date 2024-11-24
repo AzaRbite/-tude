@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const questions = document.querySelectorAll('.question');
     let currentQuestion = 0;
     let errors = 0;
@@ -7,17 +7,16 @@ document.addEventListener('DOMContentLoaded', function() {
         questions.forEach((question, i) => {
             question.classList.toggle('hidden', i !== index);
         });
+        document.getElementById('question-counter').textContent = `Question ${index + 1} de ${questions.length}`;
     }
 
     function showCorrection(questionElement, correctAnswer) {
         const selectedOption = questionElement.querySelector('input[type="radio"]:checked');
         if (selectedOption) {
-            const label = questionElement.querySelector(`label[for="${selectedOption.id}"]`);
-            const feedback = document.createElement('span');
-            feedback.style.display = 'block';
+            const feedback = document.createElement('div');
             feedback.style.marginTop = '10px';
             feedback.style.color = selectedOption.value === correctAnswer ? 'green' : 'red';
-            feedback.textContent = selectedOption.value === correctAnswer ? 'Correct!' : `Incorrect! Correct answer: ${correctAnswer}`;
+            feedback.textContent = selectedOption.value === correctAnswer ? 'Correct!' : `Incorrect! Réponse correcte: ${correctAnswer}`;
             questionElement.appendChild(feedback);
 
             if (selectedOption.value !== correctAnswer) {
@@ -35,15 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    document.getElementById('quiz-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        alert(`Questionnaire terminé avec ${errors} erreur(s). Merci!`);
-        this.reset();
-        errors = 0;
-        currentQuestion = 0;
-        showQuestion(currentQuestion);
-    });
-
     questions.forEach((question, index) => {
         question.querySelectorAll('input[type="radio"]').forEach(input => {
             input.addEventListener('change', () => {
@@ -51,6 +41,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(goToNextQuestion, 2000);
             });
         });
+    });
+
+    document.getElementById('quiz-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        alert(`Questionnaire terminé avec ${errors} erreur(s). Merci!`);
+        this.reset();
+        errors = 0;
+        currentQuestion = 0;
+        showQuestion(currentQuestion);
     });
 
     showQuestion(currentQuestion);
