@@ -110,7 +110,7 @@ main {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
-    height: 60px; /* Définit une hauteur suffisante pour contenir les éléments */
+    height: auto; /* Ajustement automatique de la hauteur */
 }
 
 .draggable {
@@ -137,8 +137,8 @@ main {
     content: '';
     position: absolute;
     right: -30px;
-    width: 40px; /* Taille doublée */
-    height: 40px; /* Taille doublée */
+    width: 20px;
+    height: 20px;
     background-repeat: no-repeat;
     background-size: contain;
 }
