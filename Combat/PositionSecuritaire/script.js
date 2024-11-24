@@ -16,6 +16,7 @@ let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 let questionOrder = shuffleArray(questions).slice(0, 5);
+let isWaiting = false;  // Variable pour contrôler l'attente entre les questions
 
 function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
@@ -46,6 +47,8 @@ function showQuestion(index) {
 }
 
 function checkAnswer(index, selectedValue) {
+    if (isWaiting) return;  // Empêcher l'avance multiple
+
     const questionData = questionOrder[index];
     const resultDiv = document.getElementById('results');
     const isCorrect = selectedValue === questionData.correct;
@@ -57,10 +60,12 @@ function checkAnswer(index, selectedValue) {
         incorrectAnswers++;
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Passage à la question suivante...</p>';
     }
-    
+
+    isWaiting = true;  // Définir l'état d'attente
     setTimeout(() => {
         resultDiv.innerHTML = '';
         nextQuestion();
+        isWaiting = false;  // Réinitialiser l'état d'attente après le délai
     }, 2000);
 }
 
