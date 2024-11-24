@@ -93,7 +93,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
-        } else {  // Ajouter "incorrect" même si le contenu est vide pour une vérification claire
+        } else if (content) { // Ne marquer que les cases non vides
             target.classList.add('incorrect');
         }
     });
