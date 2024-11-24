@@ -78,14 +78,25 @@ button:hover,
     background-color: #a30000;
 }
 
+.choice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 .choice-container label {
     display: block;
     margin: 10px 0;
     padding: 10px;
+    width: 80%; /* Réduction de la largeur */
+    max-width: 400px; /* Limite de la largeur */
     background-color: #444;
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
+    text-align: left; /* Alignement à gauche */
+    box-sizing: border-box;
 }
 
 .choice-container input {
