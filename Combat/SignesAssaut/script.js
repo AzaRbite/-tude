@@ -113,6 +113,7 @@ function showQuestion(index) {
     const questionData = questionOrder[index];
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
+
     questionEl.innerHTML = `<p style="font-size: 1.5em;">${questionData.question}</p><div class="choice-container"></div>`;
 
     const choiceContainer = questionEl.querySelector('.choice-container');
@@ -138,6 +139,7 @@ function showQuestion(index) {
 
         const inputBoxes = questionData.correctKeywords.map(() => {
             const textarea = document.createElement('textarea');
+            textarea.className = 'question-box'; // Ajoutez la classe pour le style CSS
             choiceContainer.appendChild(textarea);
             return textarea;
         });
@@ -150,6 +152,7 @@ function showQuestion(index) {
     }
 
     quizDiv.appendChild(questionEl);
+
     const counterDiv = document.getElementById('question-counter');
     counterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
 }
@@ -170,6 +173,7 @@ function checkAnswer(index, selectedValue) {
     }
 
     resultDiv.style.display = 'block';
+
     isWaiting = true;
     setTimeout(() => nextQuestion(), isCorrect ? 2000 : 5000);
 }
@@ -188,6 +192,7 @@ function validateScenario(inputBoxes, correctKeywords) {
     }
 
     resultDiv.style.display = 'block';
+
     isWaiting = true;
     setTimeout(() => nextQuestion(), 5000);
 }
@@ -195,6 +200,7 @@ function validateScenario(inputBoxes, correctKeywords) {
 function nextQuestion() {
     const resultDiv = document.getElementById('result-container');
     resultDiv.style.display = 'none';
+
     isWaiting = false;
     if (currentQuestionIndex < questionOrder.length - 1) {
         currentQuestionIndex++;
@@ -233,3 +239,4 @@ window.onload = () => {
 
     showQuestion(currentQuestionIndex);
 };
+
