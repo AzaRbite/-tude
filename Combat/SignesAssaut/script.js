@@ -113,8 +113,7 @@ function showQuestion(index) {
     const questionData = questionOrder[index];
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
-
-    questionEl.innerHTML = `<p style="font-size: 1.5em;">${questionData.question}</p><div class="choice-container"></div>`;
+    questionEl.innerHTML = `<p style="font-size: 1.5em;">${questionData.question}</p><div class="choice-container ${questionData.type === 'true_false' ? 'true-false' : ''}"></div>`;
 
     const choiceContainer = questionEl.querySelector('.choice-container');
 
@@ -139,14 +138,14 @@ function showQuestion(index) {
 
         const inputBoxes = questionData.correctKeywords.map(() => {
             const textarea = document.createElement('textarea');
-            textarea.className = 'question-box'; // Ajoutez la classe pour le style CSS
+            textarea.className = 'question-box';
             choiceContainer.appendChild(textarea);
             return textarea;
         });
 
         const validateButton = document.createElement('button');
+        validateButton.className = 'validate-button';
         validateButton.textContent = 'Valider';
-        validateButton.style.display = 'inline-block';
         validateButton.onclick = () => validateScenario(inputBoxes, questionData.correctKeywords);
         choiceContainer.appendChild(validateButton);
     }
@@ -183,6 +182,7 @@ function validateScenario(inputBoxes, correctKeywords) {
     const matchedKeywords = userInputs.filter(input => correctKeywords.map(kw => kw.toLowerCase()).includes(input));
 
     const resultDiv = document.getElementById('result-container');
+
     if (matchedKeywords.length === correctKeywords.length) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse ! Tous les signes perturbateurs ont été identifiés.</p>';
@@ -192,7 +192,6 @@ function validateScenario(inputBoxes, correctKeywords) {
     }
 
     resultDiv.style.display = 'block';
-
     isWaiting = true;
     setTimeout(() => nextQuestion(), 5000);
 }
@@ -200,8 +199,8 @@ function validateScenario(inputBoxes, correctKeywords) {
 function nextQuestion() {
     const resultDiv = document.getElementById('result-container');
     resultDiv.style.display = 'none';
-
     isWaiting = false;
+
     if (currentQuestionIndex < questionOrder.length - 1) {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
@@ -236,7 +235,5 @@ window.onload = () => {
     counterDiv.style.fontSize = '1.2em';
     counterDiv.style.fontWeight = 'bold';
     header.appendChild(counterDiv);
-
     showQuestion(currentQuestionIndex);
 };
-
