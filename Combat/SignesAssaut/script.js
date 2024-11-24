@@ -43,134 +43,105 @@ const questions = [
 ];
 
 let currentQuestionIndex = 0;
-let score = 0;
-let selectedQuestions = [];
+let correctAnswers = 0;
+let incorrectAnswers = 0;
+let questionOrder = shuffleArray(questions).slice(0, 10);
+let isWaiting = false;  // Variable pour contrôler l'attente entre les questions
 
-function initializeQuiz() {
-    // Mélanger et sélectionner 10 questions uniques
-    selectedQuestions = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
-    currentQuestionIndex = 0;
-    score = 0;
-    showQuestion();
+function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
 }
 
-function showQuestion() {
-    const questionElement = document.getElementById('question-display');
-    const choicesContainer = document.getElementById('choices-container');
-    const counterElement = document.getElementById('question-counter');
+function showQuestion(index) {
+    const quizDiv = document.getElementById('quiz');
+    quizDiv.innerHTML = '';
 
-    // Effacer l'affichage précédent
-    choicesContainer.innerHTML = '';
+    const questionData = questionOrder[index];
+    const questionEl = document.createElement('div');
+    questionEl.className = 'question';
+    questionEl.innerHTML = `<p style="font-size: 1.5em;">${questionData.question}</p><div class="choice-container"></div>`;
 
-    // Afficher le compteur de questions
-    counterElement.innerText = `Question ${currentQuestionIndex + 1} sur 10`;
+    const choiceContainer = questionEl.querySelector('.choice-container');
+    const shuffledChoices = shuffleArray([...questionData.choices]);
 
-    const currentQuestion = selectedQuestions[currentQuestionIndex];
-    questionElement.innerText = currentQuestion.question;
-    questionElement.style.fontSize = "1.5em"; // Augmente la taille de la question
+    shuffledChoices.forEach(choice => {
+        const choiceLabel = document.createElement('label');
+        choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
+        choiceLabel.addEventListener('click', () => checkAnswer(index, choice));
+        choiceContainer.appendChild(choiceLabel);
+    });
 
-    if (currentQuestion.type === 'multiple_choice' || currentQuestion.type === 'true_false') {
-        choicesContainer.style.marginTop = "20px";
-        
-        if (currentQuestion.type === 'multiple_choice') {
-            currentQuestion.choices.forEach(choice => {
-                const label = document.createElement('label');
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = 'choice';
-                input.value = choice;
-                input.onclick = () => submitAnswer(choice); // Change immédiatement après sélection
-                label.appendChild(input);
-                label.appendChild(document.createTextNode(choice));
-                choicesContainer.appendChild(label);
-            });
-        } else if (currentQuestion.type === 'true_false') {
-            ['Vrai', 'Faux'].forEach(option => {
-                const label = document.createElement('label');
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = 'choice';
-                input.value = option === 'Vrai';
-                input.onclick = () => submitAnswer(input.value); // Change immédiatement après sélection
-                label.appendChild(input);
-                label.appendChild(document.createTextNode(option));
-                choicesContainer.appendChild(label);
-            });
-        }
-        
-        choicesContainer.style.marginBottom = "20px";
+    quizDiv.appendChild(questionEl);
 
-    } else if (currentQuestion.type === 'situation') {
-        const input = document.createElement('textarea');
-        input.name = 'situation';
-        input.placeholder = 'Écrire ici vos observations des signes perturbateurs...';
-        choicesContainer.appendChild(input);
-        const validateButton = document.createElement('button');
-        validateButton.textContent = 'Valider';
-        validateButton.onclick = () => validateScenario(input.value, currentQuestion.answer);
-        choicesContainer.appendChild(validateButton);
-    }
+    const counterDiv = document.getElementById('question-counter');
+    counterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
 }
 
-function submitAnswer(userAnswer) {
-    const currentQuestion = selectedQuestions[currentQuestionIndex];
-    const feedback = document.createElement('div');
-    
-    if (currentQuestion.type === 'multiple_choice' || currentQuestion.type === 'true_false') {
-        userAnswer = currentQuestion.type === 'true_false' ? userAnswer === 'true' : userAnswer;
+function checkAnswer(index, selectedValue) {
+    if (isWaiting) return;  // Empêcher l'avance multiple
 
-        // Confirmer la réponse et gérer le score
-        if (userAnswer == currentQuestion.answer) {
-            score++;
-            feedback.innerText = 'Bonne réponse !';
-            setTimeout(() => nextQuestion(), 2000); // 2 secondes pour une bonne réponse
-        } else {
-            feedback.innerText = `Mauvaise réponse. La bonne réponse était: ${currentQuestion.answer}`;
-            setTimeout(() => nextQuestion(), 5000); // 5 secondes pour une mauvaise réponse
-        }
-        choicesContainer.appendChild(feedback);
+    const questionData = questionOrder[index];
+    const resultDiv = document.getElementById('results');
+    const isCorrect = selectedValue === questionData.correct;
+
+    if (isCorrect) {
+        correctAnswers++;
+        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse ! Passage à la question suivante...</p>';
+        setTimeout(() => nextQuestion(), 2000); // 2 secondes pour une bonne réponse
+    } else {
+        incorrectAnswers++;
+        resultDiv.innerHTML = `<p style="color: red;">Mauvaise réponse. La bonne réponse était : ${questionData.correct}</p>`;
+        setTimeout(() => nextQuestion(), 5000); // 5 secondes pour une mauvaise réponse
     }
+
+    isWaiting = true;  // Définir l'état d'attente
 }
 
 function nextQuestion() {
-    // Passer à la question suivante
-    if (currentQuestionIndex < selectedQuestions.length - 1) {
+    const resultDiv = document.getElementById('results');
+    resultDiv.innerHTML = '';  // Effacer le message précédent
+    isWaiting = false;  // Réinitialiser l'état d'attente
+
+    if (currentQuestionIndex < questionOrder.length - 1) {
         currentQuestionIndex++;
-        showQuestion();
+        showQuestion(currentQuestionIndex);
     } else {
-        showResults();
+        endQuiz();
     }
 }
 
-function validateScenario(userAnswer, correctAnswer) {
-    const userKeywords = userAnswer.toLowerCase().split(/\W+/);
-    const correctKeywords = correctAnswer.toLowerCase().split(/\W+/);
-    
-    const matches = userKeywords.filter(word => correctKeywords.includes(word)).length;
-
-    if (matches > 2) {
-        score++;
-    }
-
-    setTimeout(() => nextQuestion(), matches > 2 ? 2000 : 5000); // Delais selon l'exactitude
-}
-
-function showResults() {
-    const quizContainer = document.getElementById('quiz-container');
-    const resultContainer = document.getElementById('result-container');
-    const resultMessage = document.getElementById('result-message');
-    
-    quizContainer.style.display = 'none';
-    resultContainer.style.display = 'block';
-
-    resultMessage.innerText = `Vous avez correctement répondu à ${score} questions sur 10.`;
+function endQuiz() {
+    const quizDiv = document.getElementById('quiz');
+    const totalQuestions = questionOrder.length;
+    quizDiv.innerHTML = `
+        <h2>Quiz Terminé</h2>
+        <p>Vous avez fait ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
+        <button onclick="restartQuiz()">Recommencer</button>
+        <button onclick="window.location.href='/Etude/Combat';">Retour à Combats</button>
+    `;
 }
 
 function restartQuiz() {
-    document.getElementById('quiz-container').style.display = 'block';
-    document.getElementById('result-container').style.display = 'none';
-    initializeQuiz();
+    currentQuestionIndex = 0;
+    correctAnswers = 0;
+    incorrectAnswers = 0;
+    questionOrder = shuffleArray(questions).slice(0, 10);
+    showQuestion(currentQuestionIndex);
 }
 
-document.addEventListener('DOMContentLoaded', initializeQuiz);
+window.onload = () => {
+    const header = document.querySelector('header');
+    const counterDiv = document.createElement('div');
+    counterDiv.id = 'question-counter';
+    counterDiv.style.position = 'absolute';
+    counterDiv.style.top = '70%';
+    counterDiv.style.transform = 'translateY(-50%)';
+    counterDiv.style.right = '20px';
+    counterDiv.style.color = '#ffffff';
+    counterDiv.style.fontSize = '1.2em';
+    counterDiv.style.fontWeight = 'bold';
+    header.appendChild(counterDiv);
+
+    showQuestion(currentQuestionIndex);
+};
 
