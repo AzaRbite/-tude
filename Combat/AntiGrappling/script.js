@@ -34,11 +34,10 @@ function setupDragAndDrop() {
             if (draggable) {
                 const existingChild = target.querySelector('.draggable');
                 if (existingChild) {
-                    // Échanger l'élément avec celui existant
                     const parent = draggable.parentNode;
                     parent.appendChild(existingChild);
                 }
-                target.innerHTML = ''; // Vider le contenu actuel
+                target.innerHTML = ''; 
                 target.appendChild(draggable);
                 draggable.classList.remove('dragging', 'invisible');
             }
@@ -61,7 +60,7 @@ function initializeDraggableSteps() {
         "Choisissez une cible",
         "Sélectionnez une technique de frappe",
         "Frappez pour assoupir votre agresseur",
-        "Libérez-bous de la saisie, si nécessaire",
+        "Libérez-vous de la saisie, si nécessaire",
         "Attaque avec une combinaison de techniques",
         "Évaluer les dommages",
         "Évadez-vous ou attaquez à nouveau"
@@ -76,10 +75,10 @@ function initializeDraggableSteps() {
 
 function initializeDropTargets() {
     const dropZone = document.getElementById('drop-zone');
-    dropZone.innerHTML = ''; // Réinitialiser le contenu de la zone
+    dropZone.innerHTML = ''; 
+
     for (let i = 1; i <= 10; i++) {
-        // Ajouter des éléments numérotés
-        dropZone.innerHTML += `<li class="drop-target">${i}. </li>`;
+        dropZone.innerHTML += `<li class="drop-target"><span class="number">${i}.</span> </li>`;
     }
 }
 
@@ -91,7 +90,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         "Choisissez une cible",
         "Sélectionnez une technique de frappe",
         "Frappez pour assoupir votre agresseur",
-        "Libérez-bous de la saisie, si nécessaire",
+        "Libérez-vous de la saisie, si nécessaire",
         "Attaque avec une combinaison de techniques",
         "Évaluer les dommages",
         "Évadez-vous ou attaquez à nouveau"
@@ -103,16 +102,12 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         const draggable = target.querySelector('.draggable');
         const content = draggable ? draggable.textContent.trim() : '';
         
-        console.log(`Index: ${index}, Contenu: "${content}", Ordre Correct: "${correctOrder[index] || 'undefined'}"`);
-        
         target.classList.remove('correct', 'incorrect');
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
-            console.log(`Correct à l'index ${index}`);
         } else if (content) {
             target.classList.add('incorrect');
-            console.log(`Incorrect à l'index ${index}`);
         }
     });
 
@@ -125,7 +120,6 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.addEventListener('click', () => {
             initializeDropTargets();
             initializeDraggableSteps();
-
             document.querySelector('.order-column').style.backgroundColor = '#292929';
             restartButton.remove();
         });
