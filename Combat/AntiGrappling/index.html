@@ -1,80 +1,105 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Formule Anti-Gappling</title>
 </head>
+
 <body>
     <header>
         <h1>Apprenez la Formule Anti-Gappling</h1>
-           <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
+        <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
     </header>
-    <main>
-        <div class="content">
-            <h2>Choisissez votre niveau d'apprentissage</h2>
-            <button id="easy-level" class="button">Niveau Facile</button>
-            <button id="advanced-level" class="button">Niveau Avancé</button>
 
-            <div id="easy-mode" class="hidden">
-                <h3>Drag and Drop : Mettez les étapes dans le bon ordre</h3>
-                <div class="columns">
-                    <div class="order-column">
-                        <ol id="drop-zone">
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
-                            <li class="drop-target"></li>
+    <div class="main-container">
+        <!-- Numérotation à gauche -->
+        <div class="numbering">
+            <ol>
+                <li>1.</li>
+                <li>2.</li>
+                <li>3.</li>
+                <li>4.</li>
+                <li>5.</li>
+                <li>6.</li>
+                <li>7.</li>
+                <li>8.</li>
+                <li>9.</li>
+                <li>10.</li>
+            </ol>
+        </div>
+
+        <!-- Contenu principal -->
+        <main>
+            <div class="content">
+                <h2>Choisissez votre niveau d'apprentissage</h2>
+                <button id="easy-level" class="button">Niveau Facile</button>
+                <button id="advanced-level" class="button">Niveau Avancé</button>
+
+                <div id="easy-mode" class="hidden">
+                    <h3>Drag and Drop : Mettez les étapes dans le bon ordre</h3>
+                    <div class="columns">
+                        <div class="order-column">
+                            <ol id="drop-zone">
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                                <li class="drop-target"></li>
+                            </ol>
+                        </div>
+                        <div class="draggable-column">
+                            <ul id="draggable-steps">
+                                <li draggable="true" class="draggable">Évadez-vous ou attaquez à nouveau</li>
+                                <li draggable="true" class="draggable">Abaissez votre centre de gravité</li>
+                                <li draggable="true" class="draggable">Décidez du niveau de défense à utiliser</li>
+                                <li draggable="true" class="draggable">Établir quel membre est libre</li>
+                                <li draggable="true" class="draggable">Choisissez une cible</li>
+                                <li draggable="true" class="draggable">Sélectionnez une technique de frappe</li>
+                                <li draggable="true" class="draggable">Frappez pour assoupir votre agresseur</li>
+                                <li draggable="true" class="draggable">Libérez-vous de la saisie, si nécessaire</li>
+                                <li draggable="true" class="draggable">Attaque avec une combinaison de techniques</li>
+                                <li draggable="true" class="draggable">Évaluer les dommages</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <button id="validate-easy" class="button">Valider</button>
+                </div>
+
+                <div id="advanced-mode" class="hidden">
+                    <h3>Écriture : Entrez les étapes dans l'ordre correct</h3>
+                    <div class="input-columns">
+                        <ol>
+                            <li><input type="text" placeholder="Étape 1"></li>
+                            <li><input type="text" placeholder="Étape 2"></li>
+                            <li><input type="text" placeholder="Étape 3"></li>
+                            <li><input type="text" placeholder="Étape 4"></li>
+                            <li><input type="text" placeholder="Étape 5"></li>
+                            <li><input type="text" placeholder="Étape 6"></li>
+                            <li><input type="text" placeholder="Étape 7"></li>
+                            <li><input type="text" placeholder="Étape 8"></li>
+                            <li><input type="text" placeholder="Étape 9"></li>
+                            <li><input type="text" placeholder="Étape 10"></li>
                         </ol>
                     </div>
-                    <div class="draggable-column">
-                        <ul id="draggable-steps">
-                            <li draggable="true" class="draggable">Évadez-vous ou attaquez à nouveau</li>
-                            <li draggable="true" class="draggable">Abaissez votre centre de gravité</li>
-                            <li draggable="true" class="draggable">Décidez du niveau de défense à utiliser</li>
-                            <li draggable="true" class="draggable">Établir quel membre est libre</li>
-                            <li draggable="true" class="draggable">Choisissez une cible</li>
-                            <li draggable="true" class="draggable">Sélectionnez une technique de frappe</li>
-                            <li draggable="true" class="draggable">Frappez pour assoupir votre agresseur</li>
-                            <li draggable="true" class="draggable">Libérez-vous de la saisie, si nécessaire</li>
-                            <li draggable="true" class="draggable">Attaque avec une combinaison de techniques</li>
-                            <li draggable="true" class="draggable">Évaluer les dommages</li>
-                        </ul>
-                    </div>
+                    <button id="validate-advanced" class="button">Valider</button>
                 </div>
-                <button id="validate-easy" class="button">Valider</button>
             </div>
+        </main>
+    </div>
 
-            <div id="advanced-mode" class="hidden">
-                <h3>Écriture : Entrez les étapes dans l'ordre correct</h3>
-                <div class="input-columns">
-                    <ol>
-                        <li><input type="text" placeholder="Étape 1"></li>
-                        <li><input type="text" placeholder="Étape 2"></li>
-                        <li><input type="text" placeholder="Étape 3"></li>
-                        <li><input type="text" placeholder="Étape 4"></li>
-                        <li><input type="text" placeholder="Étape 5"></li>
-                        <li><input type="text" placeholder="Étape 6"></li>
-                        <li><input type="text" placeholder="Étape 7"></li>
-                        <li><input type="text" placeholder="Étape 8"></li>
-                        <li><input type="text" placeholder="Étape 9"></li>
-                        <li><input type="text" placeholder="Étape 10"></li>
-                    </ol>
-                </div>
-                <button id="validate-advanced" class="button">Valider</button>
-            </div>
-        </div>
-    </main>
     <footer>
         <p>Bonne chance avec votre apprentissage de la formule Anti-Gappling !</p>
     </footer>
+
     <script src="script.js"></script>
 </body>
+
 </html>
