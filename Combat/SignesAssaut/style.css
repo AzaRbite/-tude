@@ -59,7 +59,8 @@ main {
     display: none;
 }
 
-.button {
+.button,
+.validate-button { /* Style pour le bouton de validation */
     font-size: 1em;
     padding: 10px 20px;
     background-color: #ed2c2c;
@@ -72,7 +73,8 @@ main {
     border: none;
 }
 
-.button:hover {
+.button:hover,
+.validate-button:hover {
     background-color: #a30000;
 }
 
@@ -141,43 +143,9 @@ main {
 }
 
 .advanced-input,
-.question-box { /* Applique le même style aux boîtes de texte et de questions */
-    width: 80%;
-    padding: 8px;
-    margin: 5px auto;
-    font-size: 0.9em;
-    background-color: #1f1f1f; /* Fond foncé */
-    border: 2px dashed #ed2c2c; /* Bordure rouge rayée */
-    color: #ffffff; /* Texte blanc */
-    border-radius: 5px; /* Coins arrondis */
-    display: block;
-    position: relative;
-}
-
-.correct::after,
-.incorrect::after {
-    content: '';
-    position: absolute;
-    right: -30px;
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-
-.correct::after {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="green"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>');
-}
-
-.incorrect::after {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
-}
-
-footer {
-    background-color: #292929;
-    text-align: center;
+.question-box { /* Style pour les zones de texte */
+    width: 70%; /* Réduction de la largeur */
     padding: 10px;
-    width: 100%;
-    margin-top: auto;
-    color: #f0f0f0;
-}
+    margin: 5px auto;
+    font-size: 1em; /* Taille de police normale */
+    background-color: #1f1f
