@@ -110,6 +110,7 @@ main {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
+    height: 60px; /* Définit une hauteur suffisante pour contenir les éléments */
 }
 
 .draggable {
