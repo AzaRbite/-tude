@@ -127,6 +127,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.addEventListener('click', () => {
             initializeDropTargets();
             initializeDraggableSteps();
+            initializeAdvancedMode();
             document.querySelector('.order-column').style.backgroundColor = '#292929';
             restartButton.remove();
         });
