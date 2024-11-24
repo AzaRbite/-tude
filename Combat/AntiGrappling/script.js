@@ -60,15 +60,12 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         const content = target.textContent.trim();
         target.classList.remove('correct', 'incorrect'); // Assurez-vous de réinitialiser les classes
 
-        // Ajout conditionnel pour éviter les doublons
         if (content === correctOrder[index]) {
-            if (!target.classList.contains('correct')) {
-                target.classList.add('correct');
-            }
+            target.classList.add('correct');
+            target.classList.remove('incorrect');
         } else {
-            if (!target.classList.contains('incorrect')) {
-                target.classList.add('incorrect');
-            }
+            target.classList.add('incorrect');
+            target.classList.remove('correct');
         }
     });
 
@@ -83,7 +80,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
             dropTargets.forEach(target => {
                 target.innerHTML = ''; // Vider le contenu
                 target.className = ''; // Reset class
-                target.style.height = '60px'; // Réinitialiser la hauteur
+                target.style.height = ''; // Réinitialiser la hauteur automatiquement
             });
 
             // Réinitialiser la colonne des éléments glissables
