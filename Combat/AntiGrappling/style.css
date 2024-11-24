@@ -89,6 +89,7 @@ main {
     background-color: #292929;
     padding: 10px;
     border-radius: 5px;
+    position: relative; /* Pour permettre un positionnement absolu des numéros */
 }
 
 .order-column ol,
@@ -111,6 +112,12 @@ main {
     box-sizing: border-box;
     padding: 10px;
     height: auto; /* Ajustement automatique de la hauteur */
+}
+
+.number {
+    position: absolute;
+    left: -20px; /* Décalage pour les numéros à l'extérieur */
+    color: #f0f0f0;
 }
 
 .draggable {
@@ -148,7 +155,7 @@ main {
 }
 
 .incorrect::after {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a 1 1 = 1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
 }
 
 footer {
