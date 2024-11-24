@@ -10,7 +10,7 @@ document.getElementById('advanced-level').addEventListener('click', function() {
 
 function setupDragAndDrop() {
     const draggables = document.querySelectorAll('.draggable');
-    const dropTargets = document.querySelectorAll('.order-column li');
+    const dropTargets = document.querySelectorAll('.drop-target');
 
     draggables.forEach(draggable => {
         draggable.addEventListener('dragstart', () => {
@@ -82,12 +82,13 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         "Évadez-vous ou attaquez à nouveau"
     ];
 
-    const dropTargets = document.querySelectorAll('.order-column li');
+    const dropTargets = document.querySelectorAll('.drop-target');
 
     dropTargets.forEach((target, index) => {
         const draggable = target.querySelector('.draggable');
         const content = draggable ? draggable.textContent.trim() : '';
         
+        // Log pour aider au diagnostic
         console.log(`Index: ${index}, Contenu: "${content}", Ordre Correct: "${correctOrder[index] || 'undefined'}"`);
         
         // Réinitialiser les classes pour éviter les problèmes d'affichage
@@ -95,8 +96,10 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
+            console.log(`Correct à l'index ${index}`);
         } else if (content) { // Ne marquer que les cases non vides
             target.classList.add('incorrect');
+            console.log(`Incorrect à l'index ${index}`);
         }
     });
 
@@ -110,7 +113,8 @@ document.getElementById('validate-easy').addEventListener('click', function() {
             // Réinitialiser les drop targets
             dropTargets.forEach(target => {
                 target.innerHTML = ''; // Vider le contenu
-                target.className = ''; // Reset class
+                target.className = 'drop-target'; // Reset class
+
                 target.style.height = ''; // Réinitialiser la hauteur automatiquement
             });
 
