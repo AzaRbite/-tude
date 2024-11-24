@@ -137,24 +137,21 @@ main {
 
 .dragging {
     opacity: 0.5;
-    z-index: 1000; /* Assurez-vous que l'élément glissant est au-dessus des autres */
+    z-index: 1000;
 }
 
-.advanced-input {
-    width: 80%; /* Réduction de la taille de la boîte */
+.advanced-input,
+.question-box { /* Applique le même style aux boîtes de texte et de questions */
+    width: 80%;
     padding: 8px;
-    margin: 5px auto; /* Centrer la boîte */
-    font-size: 0.9em; /* Taille du texte légèrement réduite */
+    margin: 5px auto;
+    font-size: 0.9em;
     background-color: #3a3a3a;
     border: 2px dashed #ed2c2c;
     color: #ffffff;
     border-radius: 5px;
-    display: block; /* Pour s'assurer que chaque input est traité comme un bloc */
-    position: relative; /* Pour le positionnement des numéros */
-}
-
-.advanced-input + .number {
-    left: -30px; /* Ajustez la position des numéros pour les rapprocher des champs de texte */
+    display: block;
+    position: relative;
 }
 
 .correct::after,
