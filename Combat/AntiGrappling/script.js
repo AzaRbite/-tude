@@ -32,7 +32,13 @@ function setupDragAndDrop() {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
             if (draggable) {
-                target.innerHTML = ''; // Vider le contenu actuel pour éviter les doublons
+                const existingChild = target.querySelector('.draggable');
+                if (existingChild) {
+                    // Échanger l'élément avec celui existant
+                    const parent = draggable.parentNode;
+                    parent.appendChild(existingChild);
+                }
+                target.innerHTML = ''; // Vider le contenu actuel
                 target.appendChild(draggable);
                 draggable.classList.remove('dragging', 'invisible');
             }
@@ -68,6 +74,15 @@ function initializeDraggableSteps() {
     setupDragAndDrop();
 }
 
+function initializeDropTargets() {
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.innerHTML = ''; // Réinitialiser le contenu de la zone
+    for (let i = 1; i <= 10; i++) {
+        // Ajouter des éléments numérotés
+        dropZone.innerHTML += `<li class="drop-target">${i}. </li>`;
+    }
+}
+
 document.getElementById('validate-easy').addEventListener('click', function() {
     const correctOrder = [
         "Abaissez votre centre de gravité",
@@ -88,16 +103,14 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         const draggable = target.querySelector('.draggable');
         const content = draggable ? draggable.textContent.trim() : '';
         
-        // Log pour aider au diagnostic
         console.log(`Index: ${index}, Contenu: "${content}", Ordre Correct: "${correctOrder[index] || 'undefined'}"`);
         
-        // Réinitialiser les classes pour éviter les problèmes d'affichage
         target.classList.remove('correct', 'incorrect');
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
             console.log(`Correct à l'index ${index}`);
-        } else if (content) { // Ne marquer que les cases non vides
+        } else if (content) {
             target.classList.add('incorrect');
             console.log(`Incorrect à l'index ${index}`);
         }
@@ -110,15 +123,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.textContent = "Recommencer";
 
         restartButton.addEventListener('click', () => {
-            // Réinitialiser les drop targets
-            dropTargets.forEach(target => {
-                target.innerHTML = ''; // Vider le contenu
-                target.className = 'drop-target'; // Reset class
-
-                target.style.height = ''; // Réinitialiser la hauteur automatiquement
-            });
-
-            // Réinitialiser et mélanger les éléments dans la colonne glissable
+            initializeDropTargets();
             initializeDraggableSteps();
 
             document.querySelector('.order-column').style.backgroundColor = '#292929';
@@ -130,4 +135,5 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 });
 
 // Initialisation au chargement de la page
+initializeDropTargets();
 initializeDraggableSteps();
