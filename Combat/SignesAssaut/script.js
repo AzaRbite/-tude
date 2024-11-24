@@ -43,17 +43,57 @@ const questions = [
     { type: 'multiple_choice', question: 'Quel comportement cognitif peut indiquer une violence potentielle ?', choices: ['Dialogue amical', 'Refuse de communiquer', 'Discussion ouverte', 'Communication fluide'], answer: 'Refuse de communiquer' },
     { type: 'multiple_choice', question: 'Quel symptôme émotif pourrait être un précurseur de comportement violent ?', choices: ['Confiance apaisante', 'Peur', 'Assurance calme', 'Joie contenue'], answer: 'Peur' },
 
-    // Scénarios
-    { type: 'scenario', question: 'Vous êtes policier et vous recevez un appel pour un individu perturbateur...', correctKeywords: ['Faciès tendu', 'verbalisation menaçante', 'incapacité de s\'exprimer'] },
-    { type: 'scenario', question: 'Lors d\'une intervention après des plaintes de voisinage, vous découvrez...', correctKeywords: ['Posture rigide', 'destruction d\'objets', 'parle fort'] },
-    { type: 'scenario', question: 'Vous intervenez dans une dispute familiale où vous trouvez...', correctKeywords: ['Destruction d\'objets', 'réactions explosives', 'demandes insistantes'] },
-    { type: 'scenario', question: 'Vous êtes appelé à une scène où Pierre Lefèvre est impliqué...', correctKeywords: ['Position de combat', 'méfiance', 'poings serrés'] },
-    { type: 'scenario', question: 'En arrivant sur les lieux d\'une altercation, vous trouvez Sophie Girard...', correctKeywords: ['Idées paranoïdes', 'refuse de communiquer'] },
-    { type: 'scenario', question: 'En réaction à une plainte sur un comportement agressif, vous trouvez...', correctKeywords: ['Usage d\'alcool', 'insulte', 'clignement des yeux rapide'] },
-    { type: 'scenario', question: 'Au cours d\'une manifestation, Claire Renaud est identifiée comme particulièrement provocatrice...', correctKeywords: ['Provocations', 'sarcasmes', 'gestes impulsifs'] },
-    { type: 'scenario', question: 'Vous conduisez une enquête dans un bureau où vous trouvez...', correctKeywords: ['Posture rigide', 'fixation', 'méfiance'] },
-    { type: 'scenario', question: 'En analysant une scène de crime domestique, vous rencontrez Lucas Caron...', correctKeywords: ['Faciès tendu', 'destruction d\'objets', 'réactions explosives'] },
-    { type: 'scenario', question: 'Vous répondez à un appel concernant un client mécontent, Mathieu Pelletier...', correctKeywords: ['Position de combat', 'refuse de communiquer', 'insatisfaction'] }
+  // Scénarios
+{ 
+    type: 'scenario', 
+    question: 'Vous êtes policier et vous recevez un appel pour un individu perturbateur dans un centre commercial. À votre arrivée, vous trouvez Isabelle Dupont, qui a le faciès tendu ou rigide (lèvres et mâchoires serrées). Elle discute avec véhémence avec un vigile et refuse de lâcher un objet tranchant qu\'elle a saisi. Lorsqu\'elle s\'exprime, elle montre une verbalisation menaçante et semble incapable de s\'exprimer clairement. Quels signes précurseurs de violence observez-vous ?', 
+    correctKeywords: ['Faciès tendu', 'verbalisation menaçante', 'incapacité de s\'exprimer'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'Lors d\'une intervention après des plaintes de voisinage, vous découvrez Julien Moreau dans son jardin, avec une posture rigide et tenant des morceaux de verre cassé. Il a détruit plusieurs de ses propres objets et parle fort à un voisin imaginaire. Quels signes précurseurs de violence remarquez-vous ?', 
+    correctKeywords: ['Posture rigide', 'destruction d\'objets', 'parle fort'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'Vous intervenez dans une dispute familiale où vous trouvez Samantha Leduc en train de casser des assiettes. Elle présente des réactions explosives des sentiments et ne cesse de répéter les mêmes demandes malgré avoir reçu des réponses. Quels signaux de violence pouvez-vous identifier ?', 
+    correctKeywords: ['Destruction d\'objets', 'réactions explosives', 'demandes insistantes'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'Vous êtes appelé à une scène où Pierre Lefèvre est impliqué. Il a pris une position de combat et se montre extrêmement méfiant envers les passants. Ses poings sont serrés, et il semble sur le point de commettre un acte agressif. Que notez-vous comme symptômes de violence potentielle ?', 
+    correctKeywords: ['Position de combat', 'méfiance', 'poings serrés'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'En arrivant sur les lieux d\'une altercation, vous trouvez Sophie Girard parlant d\'un complot. Elle montre des idées paranoïdes et refuse de communiquer avec quiconque, y compris les forces de l\'ordre. Quels sont les signes précurseurs de violence présents ?', 
+    correctKeywords: ['Idées paranoïdes', 'refuse de communiquer'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'En réaction à une plainte sur un comportement agressif, vous trouvez Marc Dubois, ivre et agité, lançant des insultes aux clients d\'un bar. Il a l\'air de cligner des yeux rapidement ou de ne pas cligner des yeux du tout lorsqu\'on lui parle. Quels signes précurseurs de violence sont évidents ?', 
+    correctKeywords: ['Usage d\'alcool', 'insulte', 'clignement des yeux rapide'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'Au cours d\'une manifestation, Claire Renaud est identifiée comme particulièrement provocatrice. Elle utilise des sarcasmes pour déstabiliser les autres participants et fait des gestes impulsifs comme si elle allait frapper quelqu\'un. Quels symptômes précurseurs de violence observez-vous ?', 
+    correctKeywords: ['Provocations', 'sarcasmes', 'gestes impulsifs'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'Vous conduisez une enquête dans un bureau où vous trouvez Nathalie Tremblay en posture rigide, fixant intensément l\'arme d\'un agent de sécurité. De temps à autre, elle passe de la méfiance à la peur, augmentant son niveau d\'anxiété. Quels signes de violence sont présents ?', 
+    correctKeywords: ['Posture rigide', 'fixation', 'méfiance', 'peur', 'augmentation du niveau de l\'anxiété'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'En analysant une scène de crime domestique, vous rencontrez Lucas Caron qui a démoli une pièce entière. Il présente un faciès tendu ou rigide (lèvres et mâchoires serrées) et montre des réactions explosives des sentiments. Quels sont les signes précurseurs de violence ici ?', 
+    correctKeywords: ['Faciès tendu', 'destruction d\'objets', 'réactions explosives'] 
+},
+{ 
+    type: 'scenario', 
+    question: 'Vous répondez à un appel concernant un client mécontent, Mathieu Pelletier, dans une banque. Il montre une posture de combat et refuse de communiquer avec le personnel, tout en manifestant une insatisfaction claire envers le traitement reçu. Quels signes précurseurs de violence peut-on identifier ?', 
+    correctKeywords: ['Position de combat', 'refuse de communiquer', 'insatisfaction'] 
+}
 ];
 
 let currentQuestionIndex = 0;
