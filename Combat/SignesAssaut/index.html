@@ -3,21 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Génération de Scénario</title>
+    <title>Questionnaire sur les Signes Perturbateurs</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
-        <h1>Génération de Mise en Situation</h1>
+        <button class="back-button" onclick="window.location.href='/';">Retour</button>
+        <h1>Questionnaire sur les Signes Perturbateurs</h1>
     </header>
     <main>
-        <button id="generate-scenario-button">Générer une Mise en Situation</button>
-        <div id="scenario-output"></div>
-        <!-- Iframe pour intégrer Taskade -->
-        <iframe src="https://www.taskade.com/a/01JDFQPX8N52632XWP99VTWJEY" width="600" height="400" frameborder="0" allowfullscreen></iframe>
+        <div id="quiz-container" class="content">
+            <div id="question-counter"></div>
+            <div id="question-display" class="question"></div>
+            <div id="choices-container" class="choice-container"></div>
+            <button id="submit-button" onclick="submitAnswer()">Soumettre</button>
+        </div>
+        <div id="result-container" class="content" style="display: none;">
+            <h2>Résultats</h2>
+            <p id="result-message"></p>
+            <button onclick="restartQuiz()">Recommencer</button>
+        </div>
     </main>
     <footer>
         <p>&copy; 2024 Votre Entreprise</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>
