@@ -34,7 +34,7 @@ header {
 
 main {
     padding: 20px;
-    width: 70%;
+    width: 80%;
     margin: 20px auto;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -104,10 +104,6 @@ button:hover {
     font-size: 1.2em;
     font-weight: bold;
     transform: translateY(-50%);
-}
-
-.hidden {
-    display: none;
 }
 
 footer {
