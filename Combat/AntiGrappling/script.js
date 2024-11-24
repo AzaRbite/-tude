@@ -32,12 +32,6 @@ function setupDragAndDrop() {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
             if (draggable) {
-                const existingChild = target.querySelector('.draggable');
-                if (existingChild) {
-                    const parent = draggable.parentNode;
-                    parent.appendChild(existingChild);
-                }
-                target.innerHTML = ''; 
                 target.appendChild(draggable);
                 draggable.classList.remove('dragging', 'invisible');
             }
@@ -75,10 +69,10 @@ function initializeDraggableSteps() {
 
 function initializeDropTargets() {
     const dropZone = document.getElementById('drop-zone');
-    dropZone.innerHTML = ''; 
+    dropZone.innerHTML = '';
 
     for (let i = 1; i <= 10; i++) {
-        dropZone.innerHTML += `<li class="drop-target"><span class="number">${i}.</span> </li>`;
+        dropZone.innerHTML += `<li class="drop-target"><span class="number">${i}.</span></li>`;
     }
 }
 
@@ -101,7 +95,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
     dropTargets.forEach((target, index) => {
         const draggable = target.querySelector('.draggable');
         const content = draggable ? draggable.textContent.trim() : '';
-        
+
         target.classList.remove('correct', 'incorrect');
 
         if (content === correctOrder[index]) {
