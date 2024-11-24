@@ -8,6 +8,15 @@ document.getElementById('advanced-level').addEventListener('click', function() {
     document.getElementById('easy-mode').classList.add('hidden');
 });
 
+function initializeAdvancedMode() {
+    const advancedColumn = document.getElementById('advanced-steps');
+    advancedColumn.innerHTML = '';
+
+    for (let i = 1; i <= 10; i++) {
+        advancedColumn.innerHTML += `<li class="order-row"><span class="number">${i}.</span><textarea rows="1"></textarea></li>`;
+    }
+}
+
 function setupDragAndDrop() {
     const draggables = document.querySelectorAll('.draggable');
     const dropTargets = document.querySelectorAll('.drop-target');
@@ -34,7 +43,6 @@ function setupDragAndDrop() {
             if (draggable) {
                 const existingChild = target.querySelector('.draggable');
                 if (existingChild) {
-                    // Échanger l'élément avec celui existant
                     draggable.parentNode.appendChild(existingChild);
                 }
                 target.appendChild(draggable);
@@ -130,3 +138,4 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 // Initialisation au chargement de la page
 initializeDropTargets();
 initializeDraggableSteps();
+initializeAdvancedMode();
