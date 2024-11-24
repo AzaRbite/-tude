@@ -20,7 +20,7 @@ main {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     padding: 20px;
     width: 100%;
     position: relative;
@@ -42,6 +42,35 @@ main {
 
 .back-button:hover {
     background-color: #a30000;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.numbering {
+    flex-shrink: 0;
+    margin-right: 20px;
+    background-color: #292929;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border-radius: 5px;
+    color: #f0f0f0;
+}
+
+.numbering ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.numbering li {
+    padding: 5px 0;
+    font-weight: bold;
 }
 
 .content {
@@ -83,22 +112,19 @@ main {
     width: 100%;
 }
 
-.order-column,
-.draggable-column {
+.order-column, .draggable-column {
     width: 40%;
     background-color: #292929;
     padding: 10px;
     border-radius: 5px;
 }
 
-.order-column ol,
-.draggable-column ul {
+.order-column ol, .draggable-column ul {
     padding: 0;
     list-style-type: none;
 }
 
-.order-column li,
-.draggable-column li {
+.order-column li, .draggable-column li {
     position: relative;
     margin: 5px 0;
     min-height: 40px;
@@ -110,7 +136,7 @@ main {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
-    height: auto; /* Ajustement automatique de la hauteur */
+    height: auto;
 }
 
 .draggable {
@@ -132,8 +158,7 @@ main {
     opacity: 0.5;
 }
 
-.correct::after,
-.incorrect::after {
+.correct::after, .incorrect::after {
     content: '';
     position: absolute;
     right: -30px;
@@ -148,7 +173,7 @@ main {
 }
 
 .incorrect::after {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a 1 1 = 1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
 }
 
 footer {
