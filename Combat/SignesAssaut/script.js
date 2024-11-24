@@ -118,7 +118,9 @@ function showQuestion(index) {
     const choiceContainer = questionEl.querySelector('.choice-container');
 
     if (questionData.type === 'multiple_choice') {
-        questionData.choices.forEach(choice => {
+        // Shuffle the choices before rendering
+        const shuffledChoices = shuffleArray([...questionData.choices]);
+        shuffledChoices.forEach(choice => {
             const choiceLabel = document.createElement('label');
             choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
             choiceLabel.addEventListener('click', () => checkAnswer(index, choice));
