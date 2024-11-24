@@ -6,7 +6,6 @@ body {
     color: #f0f0f0;
     display: flex;
     flex-direction: column;
-    align-items: center;
     min-height: 100vh;
 }
 
@@ -15,6 +14,16 @@ header {
     padding: 20px;
     text-align: center;
     width: 100%;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    position: relative;
 }
 
 .back-button {
@@ -35,40 +44,12 @@ header {
     background-color: #a30000;
 }
 
-.main-container {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-    justify-content: center;
-    align-items: flex-start;
-    flex-grow: 1;
-    padding: 20px;
-}
-
-.numbering {
-    flex-shrink: 0;
-    margin-right: 20px;
-}
-
-.numbering ol {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    color: #f0f0f0;
-}
-
-.numbering li {
-    padding: 5px 0;
-    text-align: right;
-    font-weight: bold;
-}
-
 .content {
     background-color: #292929;
     padding: 40px;
     max-width: 800px;
-    width: 100%;
-    box-sizing: border-box;
+    width: 90%;
+    margin: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     text-align: center;
@@ -97,34 +78,39 @@ header {
 
 .columns {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-top: 20px;
     width: 100%;
 }
 
-.order-column, .draggable-column {
-    width: 46%;
-    background-color: #393939;
+.order-column,
+.draggable-column {
+    width: 40%;
+    background-color: #292929;
     padding: 10px;
     border-radius: 5px;
 }
 
-.order-column ol, .draggable-column ul {
+.order-column ol,
+.draggable-column ul {
     padding: 0;
     list-style-type: none;
-    margin: 0;
 }
 
-.drop-target {
-    background-color: #292929;
+.order-column li,
+.draggable-column li {
+    position: relative;
     margin: 5px 0;
     min-height: 40px;
     border: 2px dashed #ed2c2c;
     border-radius: 5px;
     display: flex;
     align-items: center;
-    padding-left: 10px;
+    justify-content: center;
+    width: 100%;
     box-sizing: border-box;
+    padding: 10px;
+    height: auto; /* Ajustement automatique de la hauteur */
 }
 
 .draggable {
@@ -133,7 +119,7 @@ header {
     padding: 5px;
     border-radius: 5px;
     cursor: move;
-    margin: 5px 0;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -146,7 +132,8 @@ header {
     opacity: 0.5;
 }
 
-.correct::after, .incorrect::after {
+.correct::after,
+.incorrect::after {
     content: '';
     position: absolute;
     right: -30px;
@@ -161,7 +148,7 @@ header {
 }
 
 .incorrect::after {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a 1 1 = 1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
 }
 
 footer {
@@ -169,5 +156,6 @@ footer {
     text-align: center;
     padding: 10px;
     width: 100%;
+    margin-top: auto;
     color: #f0f0f0;
 }
