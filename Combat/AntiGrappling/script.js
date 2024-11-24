@@ -40,6 +40,13 @@ function setupDragAndDrop() {
     });
 }
 
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
 document.getElementById('validate-easy').addEventListener('click', function() {
     const correctOrder = [
         "Abaissez votre centre de gravité",
@@ -84,9 +91,11 @@ document.getElementById('validate-easy').addEventListener('click', function() {
                 target.style.height = ''; // Réinitialiser la hauteur automatiquement
             });
 
-            // Réinitialiser la colonne des éléments glissables
+            // Réinitialiser la colonne des éléments glissables et mélanger
+            const draggableSteps = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`);
+            shuffle(draggableSteps);
             const draggableStepsContainer = document.getElementById('draggable-steps');
-            draggableStepsContainer.innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
+            draggableStepsContainer.innerHTML = draggableSteps.join('');
             const originalItems = draggableStepsContainer.querySelectorAll('.draggable');
             originalItems.forEach(item => {
                 item.className = 'draggable';
