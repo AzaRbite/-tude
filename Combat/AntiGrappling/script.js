@@ -59,10 +59,15 @@ document.getElementById('validate-easy').addEventListener('click', function() {
     dropTargets.forEach((target, index) => {
         const content = target.textContent.trim();
         target.classList.remove('correct', 'incorrect'); // Assurez-vous de réinitialiser les classes
+
         if (content === correctOrder[index]) {
-            target.classList.add('correct');
+            if (!target.classList.contains('correct')) { // Ajout conditionnel pour éviter les doublons
+                target.classList.add('correct');
+            }
         } else {
-            target.classList.add('incorrect');
+            if (!target.classList.contains('incorrect')) { // Ajout conditionnel pour éviter les doublons
+                target.classList.add('incorrect');
+            }
         }
     });
 
