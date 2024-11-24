@@ -59,8 +59,7 @@ main {
     display: none;
 }
 
-.button,
-.validate-button { /* Style pour le bouton de validation */
+.button {
     font-size: 1em;
     padding: 10px 20px;
     background-color: #ed2c2c;
@@ -73,8 +72,7 @@ main {
     border: none;
 }
 
-.button:hover,
-.validate-button:hover {
+.button:hover {
     background-color: #a30000;
 }
 
@@ -139,13 +137,50 @@ main {
 
 .dragging {
     opacity: 0.5;
-    z-index: 1000;
+    z-index: 1000; /* Assurez-vous que l'élément glissant est au-dessus des autres */
 }
 
-.advanced-input,
-.question-box { /* Style pour les zones de texte */
-    width: 70%; /* Réduction de la largeur */
+.advanced-input {
+    width: 80%; /* Réduction de la taille de la boîte */
+    padding: 8px;
+    margin: 5px auto; /* Centrer la boîte */
+    font-size: 0.9em; /* Taille du texte légèrement réduite */
+    background-color: #3a3a3a;
+    border: 2px dashed #ed2c2c;
+    color: #ffffff;
+    border-radius: 5px;
+    display: block; /* Pour s'assurer que chaque input est traité comme un bloc */
+    position: relative; /* Pour le positionnement des numéros */
+}
+
+.advanced-input + .number {
+    left: -30px; /* Ajustez la position des numéros pour les rapprocher des champs de texte */
+}
+
+.correct::after,
+.incorrect::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.correct::after {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="green"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.293a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>');
+}
+
+.incorrect::after {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="red" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-2.293-9.707a1 1 0 011.414 0L10 10.586l1.293-1.293a1 1 0 011.414 1.414L11.414 12l1.293 1.293a1 1 0 01-1.414 1.414L10 13.414l-1.293 1.293a1 1 0 01-1.414-1.414L8.586 12 7.293 10.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>');
+}
+
+footer {
+    background-color: #292929;
+    text-align: center;
     padding: 10px;
-    margin: 5px auto;
-    font-size: 1em; /* Taille de police normale */
-    background-color: #1f1f
+    width: 100%;
+    margin-top: auto;
+    color: #f0f0f0;
+}
