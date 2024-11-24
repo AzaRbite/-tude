@@ -134,7 +134,7 @@ function showQuestion(index) {
         });
     } else if (questionData.type === 'scenario') {
         const instructions = document.createElement('p');
-        instructions.innerText = `Trouver ${questionData.correctKeywords.length} signes perturbateurs :`;
+        instructions.innerText = `Trouvez ${questionData.correctKeywords.length} signes perturbateurs :`;
         choiceContainer.appendChild(instructions);
 
         const inputBoxes = questionData.correctKeywords.map(() => {
