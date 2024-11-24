@@ -47,6 +47,27 @@ function shuffle(array) {
     }
 }
 
+function initializeDraggableSteps() {
+    const correctOrder = [
+        "Abaissez votre centre de gravité",
+        "Décidez du niveau de défense à utiliser",
+        "Établir quel membre est libre",
+        "Choisissez une cible",
+        "Sélectionnez une technique de frappe",
+        "Frappez pour assoupir votre agresseur",
+        "Libérez-bous de la saisie, si nécessaire",
+        "Attaque avec une combinaison de techniques",
+        "Évaluer les dommages",
+        "Évadez-vous ou attaquez à nouveau"
+    ];
+
+    const steps = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`);
+    shuffle(steps);
+    const draggableStepsContainer = document.getElementById('draggable-steps');
+    draggableStepsContainer.innerHTML = steps.join('');
+    setupDragAndDrop();
+}
+
 document.getElementById('validate-easy').addEventListener('click', function() {
     const correctOrder = [
         "Abaissez votre centre de gravité",
@@ -84,27 +105,8 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.textContent = "Recommencer";
 
         restartButton.addEventListener('click', () => {
-            // Réinitialiser les drop targets
-            dropTargets.forEach(target => {
-                target.innerHTML = ''; // Vider le contenu
-                target.className = ''; // Reset class
-                target.style.height = ''; // Réinitialiser la hauteur automatiquement
-            });
-
-            // Réinitialiser la colonne des éléments glissables et mélanger
-            const draggableSteps = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`);
-            shuffle(draggableSteps);
-            const draggableStepsContainer = document.getElementById('draggable-steps');
-            draggableStepsContainer.innerHTML = draggableSteps.join('');
-            const originalItems = draggableStepsContainer.querySelectorAll('.draggable');
-            originalItems.forEach(item => {
-                item.className = 'draggable';
-                item.style.backgroundColor = '';
-            });
-
+            initializeDraggableSteps(); // Réinitialiser et mélanger les éléments
             document.querySelector('.order-column').style.backgroundColor = '#292929';
-
-            setupDragAndDrop();
             restartButton.remove();
         });
 
@@ -112,4 +114,4 @@ document.getElementById('validate-easy').addEventListener('click', function() {
     }
 });
 
-setupDragAndDrop();
+initializeDraggableSteps();
