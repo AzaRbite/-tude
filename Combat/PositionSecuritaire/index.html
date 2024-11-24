@@ -1,68 +1,30 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Questionnaire sur les Positions Sécuritaires</title>
+    <title>Position Sécuritaire - Questionnaire Dynamique</title>
 </head>
+
 <body>
     <header>
         <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
         <h1>Questionnaire sur les Positions Sécuritaires</h1>
-        <div id="question-counter"></div>
     </header>
+
     <main>
         <div class="content">
-            <form id="quiz-form">
-                <div class="question" data-question="1">
-                    <h2>Questions à choix multiples : Position Parlementaire</h2>
-                    <p>Quelle est la position correcte des pieds ?</p>
-                    <div class="choice-container">
-                        <label>
-                            <input type="radio" name="q1" value="Les pieds collés">
-                            Les pieds collés
-                        </label>
-                        <label>
-                            <input type="radio" name="q1" value="Les pieds aux largeurs des épaules à 45 degrés">
-                            Les pieds aux largeurs des épaules à 45 degrés
-                        </label>
-                        <label>
-                            <input type="radio" name="q1" value="Les pieds serrés ensemble">
-                            Les pieds serrés ensemble
-                        </label>
-                        <label>
-                            <input type="radio" name="q1" value="Un pied devant l'autre">
-                            Un pied devant l'autre
-                        </label>
-                    </div>
-                </div>
+            <div id="quiz">
+                <!-- Les questions seront chargées ici dynamiquement -->
+            </div>
 
-                <div class="question hidden" data-question="2">
-                    <h2>Questions vrai ou faux</h2>
-                    <p>Dans la position parlementaire, le poids du corps repose principalement sur les talons.</p>
-                    <div class="choice-container">
-                        <label>
-                            <input type="radio" name="q2" value="Vrai">
-                            Vrai
-                        </label>
-                        <label>
-                            <input type="radio" name="q2" value="Faux">
-                            Faux
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Ajoutez d'autres questions jusqu'à 10 ici -->
-                <!-- Exemple question 3 à 10 -->
-                
-                <button type="submit" id="submit-button" class="button hidden">Soumettre</button>
-            </form>
+            <div id="results"></div>
         </div>
     </main>
-    <footer>
-        <p>Merci d'avoir complété le questionnaire !</p>
-    </footer>
+
     <script src="script.js"></script>
 </body>
+
 </html>
