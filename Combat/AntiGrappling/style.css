@@ -146,10 +146,10 @@ main {
     padding: 8px;
     margin: 5px auto;
     font-size: 0.9em;
-    background-color: #3a3a3a;
-    border: 2px dashed #ed2c2c;
-    color: #ffffff;
-    border-radius: 5px;
+    background-color: #1f1f1f; /* Fond foncé */
+    border: 2px dashed #ed2c2c; /* Bordure rouge rayée */
+    color: #ffffff; /* Texte blanc */
+    border-radius: 5px; /* Coins arrondis */
     display: block;
     position: relative;
 }
