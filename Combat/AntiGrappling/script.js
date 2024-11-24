@@ -57,13 +57,15 @@ document.getElementById('validate-easy').addEventListener('click', function() {
     const dropTargets = document.querySelectorAll('.order-column li');
 
     dropTargets.forEach((target, index) => {
-        const content = target.textContent.trim();
-        // Réinitialiser les classes pour assurer qu'aucun SVG n'est ajouté plusieurs fois
+        const draggable = target.querySelector('.draggable');
+        const content = draggable ? draggable.textContent.trim() : '';
+        
+        // Réinitialiser les classes pour éviter les problèmes d'affichage
         target.classList.remove('correct', 'incorrect');
 
         if (content === correctOrder[index]) {
             target.classList.add('correct');
-        } else {
+        } else if (content) { // Ne marquer que les cases non vides
             target.classList.add('incorrect');
         }
     });
