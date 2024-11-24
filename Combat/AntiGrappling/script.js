@@ -34,7 +34,6 @@ function setupDragAndDrop() {
             const existingItem = target.querySelector('.draggable');
             if (draggable) {
                 if (existingItem) {
-                    // Échanger les éléments
                     const parent = draggable.parentElement;
                     target.replaceChild(draggable, existingItem);
                     parent.appendChild(existingItem);
@@ -83,25 +82,22 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.addEventListener('click', () => {
             // Réinitialiser les drop targets
             dropTargets.forEach(target => {
-                target.textContent = '';
-                target.classList.remove('valid', 'correct', 'incorrect');
+                target.innerHTML = ''; // Vider le contenu
+                target.classList.remove('valid', 'correct', 'incorrect', 'dropped'); // Supprimer les classes
             });
 
             // Réinitialiser la colonne des éléments glissables
             const draggableStepsContainer = document.getElementById('draggable-steps');
             draggableStepsContainer.innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
-            setupDragAndDrop();
-
-            // Réinitialiser les styles de la colonne de gauche
             const originalItems = draggableStepsContainer.querySelectorAll('.draggable');
             originalItems.forEach(item => {
                 item.style.backgroundColor = ''; // Supprimer le fond rouge
-                item.classList.remove('invalid', 'highlight', 'some-other-class'); // Supprimer toute autre classe
+                item.classList.remove('dragging', 'invisible', 'dropped'); // Supprimer toutes les classes ajoutées
             });
 
-            // Réinitialiser la couleur de fond
             document.querySelector('.order-column').style.backgroundColor = '#292929';
 
+            setupDragAndDrop();
             restartButton.remove();
         });
 
