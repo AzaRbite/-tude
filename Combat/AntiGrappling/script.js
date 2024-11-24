@@ -31,30 +31,20 @@ function setupDragAndDrop() {
         target.addEventListener('drop', e => {
             e.preventDefault();
             const draggable = document.querySelector('.dragging');
+            const existingItem = target.querySelector('.draggable');
             if (draggable) {
-                const afterElement = getDragAfterElement(target, e.clientY);
-                if (afterElement == null) {
-                    target.appendChild(draggable);
+                if (existingItem) {
+                    // Échanger les éléments
+                    const parent = draggable.parentElement;
+                    target.replaceChild(draggable, existingItem);
+                    parent.appendChild(existingItem);
                 } else {
-                    target.insertBefore(draggable, afterElement);
+                    target.appendChild(draggable);
                 }
                 draggable.classList.remove('dragging', 'invisible');
             }
         });
     });
-}
-
-function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')];
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
-        }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
 }
 
 document.getElementById('validate-easy').addEventListener('click', function() {
@@ -106,3 +96,4 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 });
 
 setupDragAndDrop();
+
