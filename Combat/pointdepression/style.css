@@ -48,8 +48,9 @@ main {
 }
 
 .question {
-    font-size: 1.5em;
-    margin: 40px 0; /* Ajout pour l'espacement entre la question et les choix */
+    font-size: 1.8em; /* Augmentation de la taille de la police */
+    margin: 40px 0; /* Espacement entre la question et les choix */
+    text-align: center; /* Assure que la question est centrée */
 }
 
 .choice-container {
@@ -57,7 +58,7 @@ main {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 600px; /* Ajustez ici selon vos besoins */
+    max-width: 600px; /* Ajustez la largeur selon vos besoins */
     margin: 20px 0; /* Espace entre la question et les choix */
     list-style-type: none;
     padding: 0;
@@ -65,6 +66,7 @@ main {
 
 .choice-container label {
     display: flex;
+    justify-content: center; /* Aligne le texte des choix au centre */
     align-items: center;
     width: 100%;
     max-width: 500px; /* Limite de largeur uniforme */
@@ -75,7 +77,7 @@ main {
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
     box-sizing: border-box;
-    text-align: center;
+    text-align: center; /* Centre le texte à l'intérieur du label */
 }
 
 .choice-container label:hover {
