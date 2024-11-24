@@ -34,7 +34,8 @@ header {
 
 main {
     padding: 20px;
-    width: 80%;
+    width: 70%; /* Réduit la largeur de la fenêtre centrale */
+    max-width: 800px; /* Ajoute une largeur maximum */
     margin: 20px auto;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -96,4 +97,18 @@ footer {
     position: fixed;
     bottom: 0;
     left: 0;
+}
+
+/* Style pour les zones de texte des questions de scénario */
+.scenario-textarea {
+    width: 100%;
+    max-width: 500px; /* Limite la largeur des zones de texte */
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fbfbfb;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    color: #333;
+    box-sizing: border-box;
+    resize: vertical;
 }
