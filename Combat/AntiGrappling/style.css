@@ -154,7 +154,7 @@ main {
 }
 
 .advanced-input + .number {
-    left: -15px; /* Ajustez la position des numéros pour les rapprocher des champs de texte */
+    left: -5px; /* Ajustez la position des numéros pour les rapprocher des champs de texte */
 }
 
 .correct::after,
