@@ -64,12 +64,11 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
     dropTargets.forEach((target, index) => {
         const content = target.textContent.trim();
+        target.classList.remove('correct', 'incorrect'); // Retirer toutes les classes avant d'en ajouter de nouvelles
         if (content === correctOrder[index]) {
             target.classList.add('valid', 'correct');
-            target.classList.remove('incorrect');
         } else {
             target.classList.add('valid', 'incorrect');
-            target.classList.remove('correct');
         }
     });
 
@@ -82,9 +81,9 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.addEventListener('click', () => {
             // Réinitialiser les drop targets
             dropTargets.forEach(target => {
-                target.innerHTML = ''; // Vider le contenu
-                target.className = ''; // Reset class
-                target.style.height = '40px'; // Réinitialiser la hauteur
+                target.innerHTML = '';
+                target.className = '';
+                target.style.height = '40px';
             });
 
             // Réinitialiser la colonne des éléments glissables
@@ -92,8 +91,8 @@ document.getElementById('validate-easy').addEventListener('click', function() {
             draggableStepsContainer.innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
             const originalItems = draggableStepsContainer.querySelectorAll('.draggable');
             originalItems.forEach(item => {
-                item.className = 'draggable'; // Réinitialiser les classes
-                item.style.backgroundColor = ''; // Réinitialiser les styles
+                item.className = 'draggable';
+                item.style.backgroundColor = '';
             });
 
             document.querySelector('.order-column').style.backgroundColor = '#292929';
