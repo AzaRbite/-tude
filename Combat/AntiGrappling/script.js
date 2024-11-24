@@ -83,15 +83,13 @@ document.getElementById('validate-easy').addEventListener('click', function() {
             // Réinitialiser les drop targets
             dropTargets.forEach(target => {
                 target.innerHTML = ''; // Vider le contenu
-                target.className = ''; // Supprimer toutes les classes
+                target.className = 'drop-target'; // Réinitialiser les classes
+                target.style.height = '40px'; // Réinitialiser la hauteur
             });
 
             // Réinitialiser la colonne des éléments glissables
             const draggableStepsContainer = document.getElementById('draggable-steps');
-            draggableStepsContainer.innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable reset">${step}</li>`).join('');
-            setupDragAndDrop();
-
-            // Réinitialiser les styles de la colonne de gauche
+            draggableStepsContainer.innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
             const originalItems = draggableStepsContainer.querySelectorAll('.draggable');
             originalItems.forEach(item => {
                 item.className = 'draggable'; // Réinitialiser les classes
@@ -100,6 +98,7 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
             document.querySelector('.order-column').style.backgroundColor = '#292929';
 
+            setupDragAndDrop();
             restartButton.remove();
         });
 
