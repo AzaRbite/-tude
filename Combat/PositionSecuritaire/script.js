@@ -1,32 +1,31 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const questions = document.querySelectorAll('.question');
+    const allQuestions = document.querySelectorAll('.question');
+    const selectedQuestions = Array.from(allQuestions).sort(() => 0.5 - Math.random()).slice(0, 5);
     let currentQuestion = 0;
     let errors = 0;
 
     function showQuestion(index) {
-        questions.forEach((question, i) => {
+        selectedQuestions.forEach((question, i) => {
             question.classList.toggle('hidden', i !== index);
         });
-        document.getElementById('question-counter').textContent = `Question ${index + 1} de ${questions.length}`;
+        document.getElementById('question-counter').textContent = `Question ${index + 1} de ${selectedQuestions.length}`;
     }
 
     function showCorrection(questionElement, correctAnswer) {
         const selectedOption = questionElement.querySelector('input[type="radio"]:checked');
-        if (selectedOption) {
-            const feedback = document.createElement('div');
-            feedback.style.marginTop = '10px';
-            feedback.style.color = selectedOption.value === correctAnswer ? 'green' : 'red';
-            feedback.textContent = selectedOption.value === correctAnswer ? 'Correct!' : `Incorrect! Réponse correcte: ${correctAnswer}`;
-            questionElement.appendChild(feedback);
+        const feedback = document.createElement('div');
+        feedback.style.marginTop = '10px';
+        feedback.style.color = selectedOption && selectedOption.value === correctAnswer ? 'green' : 'red';
+        feedback.textContent = selectedOption && selectedOption.value === correctAnswer ? 'Correct!' : `Incorrect! Réponse correcte: ${correctAnswer}`;
+        questionElement.appendChild(feedback);
 
-            if (selectedOption.value !== correctAnswer) {
-                errors++;
-            }
+        if (!selectedOption || selectedOption.value !== correctAnswer) {
+            errors++;
         }
     }
 
     function goToNextQuestion() {
-        if (currentQuestion < questions.length - 1) {
+        if (currentQuestion < selectedQuestions.length - 1) {
             currentQuestion++;
             showQuestion(currentQuestion);
         } else {
@@ -34,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    questions.forEach((question, index) => {
+    selectedQuestions.forEach((question, index) => {
         question.querySelectorAll('input[type="radio"]').forEach(input => {
             input.addEventListener('change', () => {
                 showCorrection(question, index === 0 ? 'Les pieds aux largeurs des épaules à 45 degrés' : 'Faux'); // Adaptez selon les bonnes réponses
