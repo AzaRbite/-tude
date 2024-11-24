@@ -89,7 +89,7 @@ button:hover,
     display: block;
     margin: 10px 0;
     padding: 10px;
-    width: 80%; /* Réduction de la largeur */
+    width: 80%; /* Réduction de la largeur par défaut */
     max-width: 400px; /* Limite de la largeur */
     background-color: #444;
     color: #fff;
@@ -97,6 +97,10 @@ button:hover,
     cursor: pointer;
     text-align: left; /* Alignement à gauche */
     box-sizing: border-box;
+}
+
+.choice-container.true-false label {
+    width: 60%; /* Réduction de la largeur pour Vrai/Faux */
 }
 
 .choice-container input {
