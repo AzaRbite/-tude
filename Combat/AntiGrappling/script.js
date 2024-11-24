@@ -34,7 +34,6 @@ function setupDragAndDrop() {
             if (draggable) {
                 const existingChild = target.querySelector('.draggable');
                 if (existingChild) {
-                    // Échanger l'élément avec celui existant
                     draggable.parentNode.appendChild(existingChild);
                 }
                 target.appendChild(draggable);
@@ -125,6 +124,45 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 
         document.querySelector('.content').appendChild(restartButton);
     }
+});
+
+document.getElementById('validate-advanced').addEventListener('click', function() {
+    const correctOrder = [
+        "Abaissez votre centre de gravité",
+        "Décidez du niveau de défense à utiliser",
+        "Établir quel membre est libre",
+        "Choisissez une cible",
+        "Sélectionnez une technique de frappe",
+        "Frappez pour assoupir votre agresseur",
+        "Libérez-vous de la saisie, si nécessaire",
+        "Attaque avec une combinaison de techniques",
+        "Évaluer les dommages",
+        "Évadez-vous ou attaquez à nouveau"
+    ];
+
+    const inputFields = document.querySelectorAll('.advanced-input');
+
+    inputFields.forEach((input, index) => {
+        const userInput = input.value.trim();
+        const feedback = document.createElement('span');
+        feedback.style.marginLeft = '10px';
+
+        if (userInput === correctOrder[index]) {
+            feedback.textContent = "Bonne réponse";
+            feedback.style.color = 'green';
+        } else {
+            feedback.textContent = ` Réponse correcte : ${correctOrder[index]}`;
+            feedback.style.color = 'red';
+        }
+
+        // Remove previous feedback if exists
+        if (input.nextSibling) {
+            input.nextSibling.remove();
+        }
+
+        // Append new feedback
+        input.parentNode.appendChild(feedback);
+    });
 });
 
 // Initialisation au chargement de la page
