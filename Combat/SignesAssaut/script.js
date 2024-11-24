@@ -1,99 +1,99 @@
 const questions = [
     // Questions Vrai/Faux
-    { type: 'true_false', question: 'Un faciès tendu est un symptôme précurseur de l\'expression d\'un acte violent.', answer: true },
-    { type: 'true_false', question: 'La possession d\'armes n\'est pas considérée comme un symptôme physique précurseur de violence.', answer: false },
-    { type: 'true_false', question: 'Les hallucinations peuvent être un symptôme cognitif de l\'expression d\'un acte violent.', answer: true },
-    { type: 'true_false', question: 'La destruction d\'objets indique nécessairement un comportement violent.', answer: false },
-    { type: 'true_false', question: 'L\'usage d\'alcool et/ou de drogues peut être un facteur contribuant à l\'expression d\'un acte violent.', answer: true },
-    { type: 'true_false', question: 'Une posture rigide est un indicateur de potentiel agir violemment.', answer: true },
-    { type: 'true_false', question: 'Une voix changée pour parler fort est un signe de potentiel de violence.', answer: true },
-    { type: 'true_false', question: 'La méfiance n\'est pas un signe émotionnel d\'un comportement violent.', answer: false },
-    { type: 'true_false', question: 'Un antécédent de violence physique est nécessaire pour prédire un futur comportement violent.', answer: false },
-    { type: 'true_false', question: 'L\'irritabilité n\'est pas liée à des comportements violents.', answer: false },
-    { type: 'true_false', question: 'Les réactions explosives des sentiments peuvent précéder un acte violent.', answer: true },
-    { type: 'true_false', question: 'Une augmentation de l\'anxiété ne joue aucun rôle dans l\'éventualité d\'un comportement violent.', answer: false },
-    { type: 'true_false', question: 'Les idées paranoïdes sont un indice possible de violence future.', answer: true },
-    { type: 'true_false', question: 'La possession d\'armes est un symptôme social de la violence.', answer: false },
-    { type: 'true_false', question: 'Le sarcasme verbal peut être un précurseur au comportement violent.', answer: true },
-    { type: 'true_false', question: 'Refuser de communiquer ne pose aucun risque d\'escalade violente.', answer: false },
-    { type: 'true_false', question: 'L\'hypersensibilité est un signe social d\'un potentiel de violence.', answer: true },
-    { type: 'true_false', question: 'La dégradé d\'une estime de soi n\'affecte pas l\'expression de comportements violents.', answer: false },
-    { type: 'true_false', question: 'Une augmentation ou diminution de l\'activité motrice peut signaler un risque de violence.', answer: true },
-    { type: 'true_false', question: 'Des délires ne sont pas liés à un comportement violent.', answer: false },
+    { 
+        type: 'true_false', 
+        question: 'Un faciès tendu ou rigide (lèvres et mâchoires serrées) est un symptôme physique précurseur d\'un acte violent.', 
+        answer: true 
+    },
+    { 
+        type: 'true_false', 
+        question: 'Les hallucinations sont un symptôme cognitif précurseur de l\'expression d\'un acte violent.', 
+        answer: true 
+    },
+    { 
+        type: 'true_false', 
+        question: 'Un antécédent de violence physique est toujours nécessaire pour prédire un futur comportement violent.', 
+        answer: false 
+    },
+    { 
+        type: 'true_false', 
+        question: 'La méfiance est un indicateur émotionnel de potentiel de violence.', 
+        answer: true 
+    },
 
-    // Questions à Choix Multiples
-    { type: 'multiple_choice', question: 'Quel symptôme physique peut indiquer un risque de comportement violent ?', choices: ['Tension musculaire', 'Poings serrés', 'Relaxation totale', 'Sourire constant'], answer: 'Poings serrés' },
-    { type: 'multiple_choice', question: 'Quel type de changement vocal est un symptôme précurseur de comportement violent ?', choices: ['Parle avec calme', 'Ton constant', 'Changement du ton de la voix (parle fort ou inconsidérément bas)', 'Murmure occasionnel'], answer: 'Changement du ton de la voix (parle fort ou inconsidérément bas)' },
-    { type: 'multiple_choice', question: 'Quel comportement cognitif peut être un indicateur de violence potentielle ?', choices: ['Discussion raisonnée', 'Provocations, argumentations, sarcasmes', 'Dialogue ouvert', 'Compliments fréquents'], answer: 'Provocations, argumentations, sarcasmes' },
-    { type: 'multiple_choice', question: 'Qu\'est-ce qui, sur le plan social, peut être un signe précurseur de violence ?', choices: ['Prospérité économique', 'Problèmes familiaux, professionnels, économique, etc.', 'Réseautage actif', 'Bonnes relations professionnelles'], answer: 'Problèmes familiaux, professionnels, économique, etc.' },
-    { type: 'multiple_choice', question: 'Quel symptôme émotionnel pourrait indiquer un comportement violent ?', choices: ['Sérénité', 'Irritabilité (seuil de tolérance bas)', 'Joie constante', 'Paix intérieure'], answer: 'Irritabilité (seuil de tolérance bas)' },
-    { type: 'multiple_choice', question: 'Quel comportement physique est un signe précurseur de violence ?', choices: ['Posture détendue', 'Posture rigide', 'Mouvement fluide', 'Détente musculaire'], answer: 'Posture rigide' },
-    { type: 'multiple_choice', question: 'Quel symptôme cognitif est indicatif de violence imminente ?', choices: ['Réponses claires', 'Verbalisation menaçante', 'Communication ouverte', 'Discussion amicale'], answer: 'Verbalisation menaçante' },
-    { type: 'multiple_choice', question: 'Quel facteur social peut précéder un acte violent ?', choices: ['Satisfaction personnelle', 'Insatisfaction', 'Bonheur familial', 'Progrès professionnel'], answer: 'Insatisfaction' },
-    { type: 'multiple_choice', question: 'Quel symptôme émotif pourrait être présent avant un acte violent ?', choices: ['Méfiance', 'Confiance élevée', 'Assurance', 'Tranquillité'], answer: 'Méfiance' },
-    { type: 'multiple_choice', question: 'Quel symptôme physique est un indicateur de comportement violent ?', choices: ['Détente corporelle', 'Clignement des yeux rapide ou ne pas cligner des yeux', 'Expression faciale amicale', 'Respiration régulière'], answer: 'Clignement des yeux rapide ou ne pas cligner des yeux' },
-    { type: 'multiple_choice', question: 'Quel comportement cognitif peut être un avertissement de violence ?', choices: ['Hésitation dans les réponses', 'Réponses rapides', 'Élocution claire', 'Réponses précises'], answer: 'Hésitation dans les réponses' },
-    { type: 'multiple_choice', question: 'Quel symptôme émotif peut indiquer un risque accru de violence ?', choices: ['Joie', 'Rage', 'Tristesse', 'Calme'], answer: 'Rage' },
-    { type: 'multiple_choice', question: 'Quel symptôme social peut précéder un comportement violent ?', choices: ['Estime de soi élevée', 'Estime de soi fragile', 'Confiance inébranlable', 'Image de soi positive'], answer: 'Estime de soi fragile' },
-    { type: 'multiple_choice', question: 'Quel symptôme physique est un signe de possible violence ?', choices: ['Visage détendu', 'Faciès tendu ou rigide (lèvres et mâchoires serrées)', 'Sourire amical', 'Expression neutre'], answer: 'Faciès tendu ou rigide (lèvres et mâchoires serrées)' },
-    { type: 'multiple_choice', question: 'Quel comportement cognitif peut être un signe précurseur de violence ?', choices: ['Capacité à s\'exprimer', 'Incapacité de s\'exprimer', 'Clarté verbale', 'Élocution fluide'], answer: 'Incapacité de s\'exprimer' },
-    { type: 'multiple_choice', question: 'Quel symptôme émotionnel est indicatif de comportement violent ?', choices: ['Paix intérieure', 'Augmentation du niveau de l\'anxiété', 'Stabilité émotionnelle', 'Confiance calme'], answer: 'Augmentation du niveau de l\'anxiété' },
-    { type: 'multiple_choice', question: 'Quel facteur social indique un risque de comportement violent ?', choices: ['Hypersensibilité', 'Résilience émotionnelle', 'Indifférence', 'Détachement émotionnel'], answer: 'Hypersensibilité' },
-    { type: 'multiple_choice', question: 'Quel symptôme physique peut accompagner un comportement violent ?', choices: ['Relâchement corporel', 'Augmentation ou diminution de l\'activité motrice', 'Mouvement constant', 'Pas de changement d\'activité'], answer: 'Augmentation ou diminution de l\'activité motrice' },
-    { type: 'multiple_choice', question: 'Quel comportement cognitif peut indiquer une violence potentielle ?', choices: ['Dialogue amical', 'Refuse de communiquer', 'Discussion ouverte', 'Communication fluide'], answer: 'Refuse de communiquer' },
-    { type: 'multiple_choice', question: 'Quel symptôme émotif pourrait être un précurseur de comportement violent ?', choices: ['Confiance apaisante', 'Peur', 'Assurance calme', 'Joie contenue'], answer: 'Peur' },
+    // Questions à choix multiples
+    { 
+        type: 'multiple_choice', 
+        question: 'Quel symptôme physique est un indicateur de violence imminente ?', 
+        choices: [
+            'Poings serrés', 
+            'Problèmes familiaux', 
+            'Insatisfaction', 
+            'Rage'
+        ], 
+        answer: 'Poings serrés' 
+    },
+    { 
+        type: 'multiple_choice', 
+        question: 'Quel symptôme cognitif peut indiquer une violence potentielle ?', 
+        choices: [
+            'Idées paranoïdes', 
+            'Augmentation du niveau de l\'anxiété', 
+            'Estime de soi fragile', 
+            'Méfiance'
+        ], 
+        answer: 'Idées paranoïdes' 
+    },
+    { 
+        type: 'multiple_choice', 
+        question: 'Lequel des symptômes suivants est un indicateur social de violence ?', 
+        choices: [
+            'Fixation de l\'arme d\'un policier', 
+            'Problèmes familiaux, professionnels, économiques, etc.', 
+            'Faciès tendu ou rigide (lèvres et mâchoires serrées)', 
+            'Changement du ton de la voix'
+        ], 
+        answer: 'Problèmes familiaux, professionnels, économiques, etc.' 
+    },
+    { 
+        type: 'multiple_choice', 
+        question: 'Quel comportement physique est un signe de violence potentielle ?', 
+        choices: [
+            'Fixation de l\'arme du policier', 
+            'Clarté dans les réponses', 
+            'Estime de soi fragile', 
+            'Insatisfaction'
+        ], 
+        answer: 'Fixation de l\'arme du policier' 
+    },
+    { 
+        type: 'multiple_choice', 
+        question: 'Parmi ces options, laquelle est un indicateur émotionnel de violence ?', 
+        choices: [
+            'Peur', 
+            'Provocations', 
+            'Clignement des yeux rapide ou absence de clignement', 
+            'Usage d\'alcool et/ou de drogue'
+        ], 
+        answer: 'Peur' 
+    },
 
-  // Scénarios
-{ 
-    type: 'scenario', 
-    question: 'Vous êtes policier et vous recevez un appel pour un individu perturbateur dans un centre commercial. À votre arrivée, vous trouvez Isabelle Dupont, qui a le faciès tendu ou rigide (lèvres et mâchoires serrées). Elle discute avec véhémence avec un vigile et refuse de lâcher un objet tranchant qu\'elle a saisi. Lorsqu\'elle s\'exprime, elle montre une verbalisation menaçante et semble incapable de s\'exprimer clairement. Quels signes précurseurs de violence observez-vous ?', 
-    correctKeywords: ['Faciès tendu', 'verbalisation menaçante', 'incapacité de s\'exprimer'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'Lors d\'une intervention après des plaintes de voisinage, vous découvrez Julien Moreau dans son jardin, avec une posture rigide et tenant des morceaux de verre cassé. Il a détruit plusieurs de ses propres objets et parle fort à un voisin imaginaire. Quels signes précurseurs de violence remarquez-vous ?', 
-    correctKeywords: ['Posture rigide', 'destruction d\'objets', 'parle fort'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'Vous intervenez dans une dispute familiale où vous trouvez Samantha Leduc en train de casser des assiettes. Elle présente des réactions explosives des sentiments et ne cesse de répéter les mêmes demandes malgré avoir reçu des réponses. Quels signaux de violence pouvez-vous identifier ?', 
-    correctKeywords: ['Destruction d\'objets', 'réactions explosives', 'demandes insistantes'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'Vous êtes appelé à une scène où Pierre Lefèvre est impliqué. Il a pris une position de combat et se montre extrêmement méfiant envers les passants. Ses poings sont serrés, et il semble sur le point de commettre un acte agressif. Que notez-vous comme symptômes de violence potentielle ?', 
-    correctKeywords: ['Position de combat', 'méfiance', 'poings serrés'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'En arrivant sur les lieux d\'une altercation, vous trouvez Sophie Girard parlant d\'un complot. Elle montre des idées paranoïdes et refuse de communiquer avec quiconque, y compris les forces de l\'ordre. Quels sont les signes précurseurs de violence présents ?', 
-    correctKeywords: ['Idées paranoïdes', 'refuse de communiquer'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'En réaction à une plainte sur un comportement agressif, vous trouvez Marc Dubois, ivre et agité, lançant des insultes aux clients d\'un bar. Il a l\'air de cligner des yeux rapidement ou de ne pas cligner des yeux du tout lorsqu\'on lui parle. Quels signes précurseurs de violence sont évidents ?', 
-    correctKeywords: ['Usage d\'alcool', 'insulte', 'clignement des yeux rapide'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'Au cours d\'une manifestation, Claire Renaud est identifiée comme particulièrement provocatrice. Elle utilise des sarcasmes pour déstabiliser les autres participants et fait des gestes impulsifs comme si elle allait frapper quelqu\'un. Quels symptômes précurseurs de violence observez-vous ?', 
-    correctKeywords: ['Provocations', 'sarcasmes', 'gestes impulsifs'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'Vous conduisez une enquête dans un bureau où vous trouvez Nathalie Tremblay en posture rigide, fixant intensément l\'arme d\'un agent de sécurité. De temps à autre, elle passe de la méfiance à la peur, augmentant son niveau d\'anxiété. Quels signes de violence sont présents ?', 
-    correctKeywords: ['Posture rigide', 'fixation', 'méfiance', 'peur', 'augmentation du niveau de l\'anxiété'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'En analysant une scène de crime domestique, vous rencontrez Lucas Caron qui a démoli une pièce entière. Il présente un faciès tendu ou rigide (lèvres et mâchoires serrées) et montre des réactions explosives des sentiments. Quels sont les signes précurseurs de violence ici ?', 
-    correctKeywords: ['Faciès tendu', 'destruction d\'objets', 'réactions explosives'] 
-},
-{ 
-    type: 'scenario', 
-    question: 'Vous répondez à un appel concernant un client mécontent, Mathieu Pelletier, dans une banque. Il montre une posture de combat et refuse de communiquer avec le personnel, tout en manifestant une insatisfaction claire envers le traitement reçu. Quels signes précurseurs de violence peut-on identifier ?', 
-    correctKeywords: ['Position de combat', 'refuse de communiquer', 'insatisfaction'] 
-}
+    // Scénarios
+    { 
+        type: 'scenario', 
+        question: 'Lors d\'une intervention, vous trouvez Julien Moreau avec une posture rigide, tenant un objet cassé. Il parle fort à un voisin imaginaire. Quels signes de violence notez-vous ?', 
+        correctKeywords: ['Posture rigide', 'destruction d\'objets', 'parle fort'] 
+    },
+    { 
+        type: 'scenario', 
+        question: 'Sophie Girard exprime des idées paranoïdes en refusant de communiquer. Que notez-vous comme signes de violence potentielle ?', 
+        correctKeywords: ['Idées paranoïdes', 'refuse de communiquer'] 
+    },
+    { 
+        type: 'scenario', 
+        question: 'Marc Dubois, sous l\'influence de l\'alcool, insulte les clients d\'un bar. Il cligne rapidement des yeux ou ne cligne pas du tout. Quels symptômes de violence remarquez-vous ?', 
+        correctKeywords: ['Usage d\'alcool', 'insulte', 'clignement des yeux rapide'] 
+    },
 ];
 
 let currentQuestionIndex = 0;
