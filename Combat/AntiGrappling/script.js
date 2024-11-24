@@ -81,13 +81,26 @@ document.getElementById('validate-easy').addEventListener('click', function() {
         restartButton.textContent = "Recommencer";
 
         restartButton.addEventListener('click', () => {
+            // Réinitialiser les drop targets
             dropTargets.forEach(target => {
                 target.textContent = '';
                 target.classList.remove('valid', 'correct', 'incorrect');
             });
-            document.getElementById('draggable-steps').innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
-            document.querySelector('.order-column').style.backgroundColor = '#292929'; // Réinitialiser la couleur de fond
+
+            // Réinitialiser la colonne des éléments glissables
+            const draggableStepsContainer = document.getElementById('draggable-steps');
+            draggableStepsContainer.innerHTML = correctOrder.map(step => `<li draggable="true" class="draggable">${step}</li>`).join('');
             setupDragAndDrop();
+
+            // Réinitialiser les styles de la colonne de gauche
+            const originalItems = draggableStepsContainer.querySelectorAll('.draggable');
+            originalItems.forEach(item => {
+                item.style.backgroundColor = ''; // Supprimer le fond rouge
+            });
+
+            // Réinitialiser la couleur de fond
+            document.querySelector('.order-column').style.backgroundColor = '#292929';
+
             restartButton.remove();
         });
 
@@ -96,4 +109,3 @@ document.getElementById('validate-easy').addEventListener('click', function() {
 });
 
 setupDragAndDrop();
-
