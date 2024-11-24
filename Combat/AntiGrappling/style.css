@@ -90,6 +90,7 @@ main {
     padding: 10px;
     border-radius: 5px;
     position: relative; /* Pour permettre un positionnement absolu des numéros */
+    min-height: 400px; /* Empêche la contraction */
 }
 
 .order-column ol,
@@ -127,7 +128,7 @@ main {
     padding: 5px;
     border-radius: 5px;
     cursor: move;
-    height: 40px;
+    margin-bottom: 10px; /* Espace entre les éléments */
     display: flex;
     align-items: center;
     justify-content: center;
