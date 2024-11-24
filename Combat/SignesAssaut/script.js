@@ -114,24 +114,31 @@ function showQuestion() {
 
 function submitAnswer(userAnswer) {
     const currentQuestion = selectedQuestions[currentQuestionIndex];
-
+    const feedback = document.createElement('div');
+    
     if (currentQuestion.type === 'multiple_choice' || currentQuestion.type === 'true_false') {
         userAnswer = currentQuestion.type === 'true_false' ? userAnswer === 'true' : userAnswer;
 
-        // Vérification de la réponse et gestion du score
+        // Confirmer la réponse et gérer le score
         if (userAnswer == currentQuestion.answer) {
             score++;
+            feedback.innerText = 'Bonne réponse !';
+            setTimeout(() => nextQuestion(), 2000); // 2 secondes pour une bonne réponse
         } else {
-            alert('Réponse incorrecte.');
+            feedback.innerText = `Mauvaise réponse. La bonne réponse était: ${currentQuestion.answer}`;
+            setTimeout(() => nextQuestion(), 5000); // 5 secondes pour une mauvaise réponse
         }
+        choicesContainer.appendChild(feedback);
+    }
+}
 
-        // Passer à la question suivante
-        if (currentQuestionIndex < selectedQuestions.length - 1) {
-            currentQuestionIndex++;
-            showQuestion();
-        } else {
-            showResults();
-        }
+function nextQuestion() {
+    // Passer à la question suivante
+    if (currentQuestionIndex < selectedQuestions.length - 1) {
+        currentQuestionIndex++;
+        showQuestion();
+    } else {
+        showResults();
     }
 }
 
@@ -141,18 +148,11 @@ function validateScenario(userAnswer, correctAnswer) {
     
     const matches = userKeywords.filter(word => correctKeywords.includes(word)).length;
 
-    if (matches > 2) { // exemple simple de validation
+    if (matches > 2) {
         score++;
-    } else {
-        alert('Réponse incorrecte ou incomplète.');
     }
 
-    if (currentQuestionIndex < selectedQuestions.length - 1) {
-        currentQuestionIndex++;
-        showQuestion();
-    } else {
-        showResults();
-    }
+    setTimeout(() => nextQuestion(), matches > 2 ? 2000 : 5000); // Delais selon l'exactitude
 }
 
 function showResults() {
@@ -173,3 +173,4 @@ function restartQuiz() {
 }
 
 document.addEventListener('DOMContentLoaded', initializeQuiz);
+
