@@ -89,8 +89,8 @@ main {
     background-color: #292929;
     padding: 10px;
     border-radius: 5px;
-    position: relative; /* Pour permettre un positionnement absolu des numéros */
-    min-height: 400px; /* Empêche la contraction */
+    position: relative;
+    min-height: 500px;
 }
 
 .order-column ol,
@@ -112,14 +112,14 @@ main {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
-    height: auto; /* Ajustement automatique de la hauteur */
+    height: auto;
 }
 
 .number {
     position: absolute;
-    left: -30px; /* Décalage pour les numéros à l'extérieur */
+    left: -30px;
     color: #f0f0f0;
-    pointer-events: none; /* Permet de cliquer à travers les numéros */
+    pointer-events: none;
 }
 
 .draggable {
@@ -128,14 +128,26 @@ main {
     padding: 5px;
     border-radius: 5px;
     cursor: move;
-    margin-bottom: 10px; /* Espace entre les éléments */
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
     transition: background-color 0.3s;
+    position: absolute;
 }
+
+.draggable:nth-child(1) { top: 0px; }
+.draggable:nth-child(2) { top: 50px; }
+.draggable:nth-child(3) { top: 100px; }
+.draggable:nth-child(4) { top: 150px; }
+.draggable:nth-child(5) { top: 200px; }
+.draggable:nth-child(6) { top: 250px; }
+.draggable:nth-child(7) { top: 300px; }
+.draggable:nth-child(8) { top: 350px; }
+.draggable:nth-child(9) { top: 400px; }
+.draggable:nth-child(10) { top: 450px; }
 
 .dragging {
     opacity: 0.5;
