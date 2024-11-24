@@ -375,6 +375,17 @@ function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
+function normalizeInput(input) {
+    return input
+        .toLowerCase()
+        .replace(/[éèêë]/g, 'e')
+        .replace(/[àâä]/g, 'a')
+        .replace(/[îï]/g, 'i')
+        .replace(/[ôö]/g, 'o')
+        .replace(/[ûü]/g, 'u')
+        .replace(/[^a-z0-9]/g, ''); // Enlève les caractères spéciaux
+}
+
 function showQuestion(index) {
     const quizDiv = document.getElementById('quiz-container');
     quizDiv.innerHTML = '';
@@ -454,21 +465,23 @@ function checkAnswer(index, selectedValue) {
 }
 
 function validateScenario(inputBoxes, correctKeywords) {
-    const userInputs = inputBoxes.map(input => input.value.toLowerCase().trim());
+    const userInputs = inputBoxes.map(input => normalizeInput(input.value.trim()));
     const keywordVariants = {
-        'destruction d\'objets': ['objet cassé', 'brisé'],
+        'destruction d\'objets': ['objet casse', 'brise'],
         'fixation de l\'arme du policier': ['fixe arme', 'regarde arme'],
         'usage d\'alcool': ['sous influence alcool', 'ivresse'],
         'refuse de communiquer': ['ne parle pas', 'silence total'],
         'clignement des yeux rapide': ['cligne vite', 'pas de clignement'],
+        'sarcasme': ['sarcastique'] // Ajout de la variante sarcastique
         // Ajoutez d'autres variantes si nécessaire
     };
 
     const matchedKeywords = userInputs.filter(input => {
         return correctKeywords.some(keyword => {
-            if (input.includes(keyword)) return true;
-            if (keywordVariants[keyword]) {
-                return keywordVariants[keyword].some(variant => input.includes(variant));
+            const normalizedKeyword = normalizeInput(keyword);
+            if (input.includes(normalizedKeyword)) return true;
+            if (keywordVariants[normalizedKeyword]) {
+                return keywordVariants[normalizedKeyword].some(variant => input.includes(normalizeInput(variant)));
             }
             return false;
         });
@@ -480,8 +493,8 @@ function validateScenario(inputBoxes, correctKeywords) {
         correctAnswers++;
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse ! Tous les signes perturbateurs ont été identifiés.</p>';
     } else {
+        const missingKeywords = correctKeywords.filter(kw => !matchedKeywords.includes(normalizeInput(kw)));
         incorrectAnswers++;
-        const missingKeywords = correctKeywords.filter(kw => !matchedKeywords.includes(kw.toLowerCase()));
         resultDiv.innerHTML = `<p style="color: red;">Mauvaise réponse. Signes manquants : ${missingKeywords.join(', ')}</p>`;
     }
 
@@ -531,4 +544,3 @@ window.onload = () => {
     header.appendChild(counterDiv);
     showQuestion(currentQuestionIndex);
 };
-
