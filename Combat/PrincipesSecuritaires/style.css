@@ -178,4 +178,6 @@ h2, h3 {
     margin-top: 20px;
     font-size: 1.2em;
     text-align: center;
+    display: block; /* Assurez-vous qu'il est affiché */
+    visibility: visible; /* Assurez qu'il n'est pas caché */
 }
