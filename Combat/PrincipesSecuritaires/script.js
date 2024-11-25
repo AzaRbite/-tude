@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function afficherQuestion(index) {
         if (index >= questions.length) {
             feedback.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur ${questions.length}`;
+            compteur.textContent = '';
             return;
         }
 
@@ -89,8 +90,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const textareas = nommerSection.querySelectorAll('textarea');
         const correctSet = new Set(correctAnswers.map(answer => answer.toLowerCase()));
         let correctCount = 0;
+        let errorsCount = 0;
 
-        textareas.forEach(textarea => {
+        textareas.forEach((textarea, index) => {
             const value = textarea.value.trim().toLowerCase();
             if (correctSet.has(value)) {
                 textarea.style.borderColor = '#4caf50';
@@ -98,10 +100,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 correctCount++;
             } else {
                 textarea.style.borderColor = '#f44336';
+                errorsCount++;
             }
         });
 
-        feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length}`;
+        feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length} avec ${errorsCount} erreurs`;
     }
 
     const nommerContainer = document.querySelector('.nommer-container');
@@ -113,6 +116,14 @@ document.addEventListener("DOMContentLoaded", function () {
         span.textContent = `${index + 1}.`;
 
         const textarea = document.createElement('textarea');
+        textarea.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (index + 1 < textareas.length) {
+                    textareas[index + 1].focus();
+                }
+            }
+        });
 
         nommerItem.appendChild(span);
         nommerItem.appendChild(textarea);
@@ -135,4 +146,6 @@ document.addEventListener("DOMContentLoaded", function () {
         nommerSection.style.display = 'none';
         afficherQuestion(currentQuestionIndex);
     });
+
+    const textareas = nommerSection.querySelectorAll('textarea');
 });
