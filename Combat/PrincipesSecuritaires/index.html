@@ -9,12 +9,14 @@
 </head>
 
 <body>
+
     <header>
         <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
         <h1>Les principes sécuritaires de l'intervention</h1>
     </header>
 
     <main>
+
         <div class="content">
             <button id="nommerButton">Nommer</button>
             <button id="questionsButton">Questions</button>
@@ -25,6 +27,9 @@
             <div class="nommer-container">
                 <!-- Les éléments sont ajoutés dynamiquement via JavaScript -->
             </div>
+            <div id="feedback" style="margin-top: 20px;"></div>
+            <button id="validerButton" class="valider-button">Valider</button>
+            <button id="recommencerButton" class="recommencer-button">Recommencer</button>
         </div>
 
         <div id="questionsSection" class="section" style="display: none;">
@@ -32,11 +37,13 @@
             <div class="questions-container">
                 <!-- Les questions et choix sont ajoutés dynamiquement via JavaScript -->
             </div>
-            <div id="feedback" style="margin-top: 20px;"></div>
+            <div id="feedback-questions" style="margin-top: 20px;"></div>
         </div>
+
     </main>
 
     <script src="script.js"></script>
+
 </body>
 
 </html>
