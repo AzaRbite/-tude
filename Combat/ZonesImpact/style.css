@@ -23,21 +23,6 @@ main {
     text-align: center;
 }
 
-.back-button {
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-    background-color: #ed2c2c;
-    color: #ffffff;
-    padding: 15px 30px;
-    font-size: 1.1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
 .content {
     margin-bottom: 20px;
 }
@@ -84,4 +69,30 @@ h2 {
     margin-top: 20px;
     font-size: 1.2em;
     text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #555;
+}
+
+.back-button:hover {
+    background-color: #666;
 }
