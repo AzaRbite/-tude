@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
         "La riposte"
     ];
 
+    const strippedAnswers = correctAnswers.map(answer => answer.toLowerCase().replace(/^la\s|^le\s/, ''));
+
     const questions = [
         { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
         { text: "Prendre l'état d'esprit approprié appartient à quelle catégorie ?", correct: "La concentration" },
@@ -88,12 +90,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function validerNommer() {
         const textareas = nommerSection.querySelectorAll('textarea');
-        const correctSet = new Set(correctAnswers.map(answer => answer.toLowerCase()));
+        const correctSet = new Set(strippedAnswers);
         let correctCount = 0;
         let errorsCount = 0;
 
         textareas.forEach((textarea, index) => {
-            const value = textarea.value.trim().toLowerCase();
+            const value = textarea.value.trim().toLowerCase().replace(/^la\s|^le\s/, '');
             if (correctSet.has(value)) {
                 textarea.style.borderColor = '#4caf50';
                 correctSet.delete(value); // Assurez-vous qu'une réponse correcte n'est comptée qu'une seule fois
@@ -104,48 +106,22 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length} avec ${errorsCount} erreurs`;
+        if (errorsCount === 0) {
+            feedback.textContent = "Félicitations ! Toutes les réponses sont correctes.";
+        } else {
+            feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length} avec ${errorsCount} erreurs.`;
+        }
+    }
+
+    function recommencerNommer() {
+        const textareas = nommerSection.querySelectorAll('textarea');
+        textareas.forEach(textarea => {
+            textarea.value = '';
+            textarea.style.borderColor = '#ff4c4c';
+        });
+        feedback.textContent = '';
     }
 
     const nommerContainer = document.querySelector('.nommer-container');
     correctAnswers.forEach((_, index) => {
-        const nommerItem = document.createElement('div');
-        nommerItem.className = 'nommer-item';
-
-        const span = document.createElement('span');
-        span.textContent = `${index + 1}.`;
-
-        const textarea = document.createElement('textarea');
-        textarea.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                if (index + 1 < textareas.length) {
-                    textareas[index + 1].focus();
-                }
-            }
-        });
-
-        nommerItem.appendChild(span);
-        nommerItem.appendChild(textarea);
-        nommerContainer.appendChild(nommerItem);
-    });
-
-    const validerButton = document.createElement('button');
-    validerButton.textContent = "Valider";
-    validerButton.className = "valider-button";
-    validerButton.onclick = validerNommer;
-    nommerSection.appendChild(validerButton);
-
-    nommerButton.addEventListener('click', function () {
-        nommerSection.style.display = 'block';
-        questionsSection.style.display = 'none';
-    });
-
-    questionsButton.addEventListener('click', function () {
-        questionsSection.style.display = 'block';
-        nommerSection.style.display = 'none';
-        afficherQuestion(currentQuestionIndex);
-    });
-
-    const textareas = nommerSection.querySelectorAll('textarea');
-});
+        const
