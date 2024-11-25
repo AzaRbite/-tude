@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function initialiserQuiz() {
-        shuffledImpacts = melangerImpacts([...impacts]);  // Utilise toutes les questions disponibles
+        shuffledImpacts = melangerImpacts([...impacts]).slice(0, 10);  // Mélange et limite à 10 questions uniques
         currentImpactIndex = 0;
         nombreDErreurs = 0;
         afficherImpact(currentImpactIndex);
