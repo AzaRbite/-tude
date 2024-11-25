@@ -87,20 +87,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function validerNommer() {
         const textareas = nommerSection.querySelectorAll('textarea');
-        let correctCount = 0;
-        const userResponses = Array.from(textareas).map(textarea => textarea.value.trim().toLowerCase());
         const correctSet = new Set(correctAnswers.map(answer => answer.toLowerCase()));
-
-        userResponses.forEach(value => {
-            if (correctSet.has(value)) {
-                correctCount++;
-            }
-        });
+        let correctCount = 0;
 
         textareas.forEach(textarea => {
             const value = textarea.value.trim().toLowerCase();
             if (correctSet.has(value)) {
                 textarea.style.borderColor = '#4caf50';
+                correctSet.delete(value); // Assurez-vous qu'une réponse correcte n'est comptée qu'une seule fois
+                correctCount++;
             } else {
                 textarea.style.borderColor = '#f44336';
             }
