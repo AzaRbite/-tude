@@ -75,15 +75,14 @@ main {
 
 textarea {
     width: calc(100% - 40px);
-    min-height: 50px;
-    margin: 10px;
-    padding: 10px;
+    height: 30px; /* Hauteur réduite */
+    margin: 10px 0;
+    padding: 5px;
     border-radius: 5px;
     border: 2px dashed #ff4c4c;
     background-color: #292929;
     color: #ffffff;
     font-size: 1em;
-    resize: vertical;
     text-align: center;
 }
 
@@ -91,16 +90,43 @@ textarea {
     margin: 20px 0;
 }
 
-select {
+.choice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
     max-width: 600px;
-    padding: 10px;
     margin-top: 10px;
+}
+
+.choice-container label {
+    width: 100%;
+    max-width: 500px;
+    display: block;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #444;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    color: #000;
-    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+}
+
+.choice-container label:hover {
+    background-color: #555;
+    color: #ffffff;
+}
+
+.choice-container label input[type="radio"] {
+    display: none;
+}
+
+.choice-container label.correct {
+    background-color: #4caf50;
+}
+
+.choice-container label.wrong {
+    background-color: #f44336;
 }
 
 h2, h3 {
@@ -109,4 +135,5 @@ h2, h3 {
 
 #feedback {
     color: #ff9800;
+    margin-top: 20px;
 }
