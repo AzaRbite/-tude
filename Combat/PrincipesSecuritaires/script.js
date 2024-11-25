@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const nommerSection = document.getElementById('nommerSection');
     const questionsSection = document.getElementById('questionsSection');
     const feedback = document.getElementById('feedback');
+    const compteur = document.getElementById('compteur');
 
     let currentQuestionIndex = 0;
     let nombreDErreurs = 0;
@@ -15,16 +16,17 @@ document.addEventListener("DOMContentLoaded", function () {
         { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
         { text: "Déplacement en évaluant les menaces appartient à quelle catégorie ?", correct: "L'esquive" },
         { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
-        // Continuez à ajouter des questions pour atteindre 10 questions
+        // Ajoutez suffisamment de questions pour atteindre 10 questions
     ];
 
     function afficherQuestion(index) {
         if (index >= questions.length) {
-            feedback.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs}`;
+            feedback.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur 10`;
             return;
         }
 
         feedback.textContent = '';
+        compteur.textContent = `Question ${index + 1} sur 10`;
 
         const questionContainer = document.querySelector('.questions-container');
         questionContainer.innerHTML = '';
@@ -72,6 +74,30 @@ document.addEventListener("DOMContentLoaded", function () {
         questionDiv.appendChild(choiceContainer);
         questionContainer.appendChild(questionDiv);
     }
+
+    function validerNommer() {
+        const correctAnswers = ["La position", "La concentration", "La distance sécuritaire", "La vitesse de réaction", "L'esquive", "La riposte"];
+        const textareas = nommerSection.querySelectorAll('textarea');
+        let correctCount = 0;
+
+        textareas.forEach((textarea, index) => {
+            const value = textarea.value.trim();
+            if (value.toLowerCase() === correctAnswers[index].toLowerCase()) {
+                textarea.style.borderColor = '#4caf50';
+                correctCount++;
+            } else {
+                textarea.style.borderColor = '#f44336';
+            }
+        });
+
+        feedback.textContent = `Vous avez correctement identifié ${correctCount} sur 6`;
+    }
+
+    const validerButton = document.createElement('button');
+    validerButton.textContent = "Valider";
+    validerButton.className = "valider-button";
+    validerButton.onclick = validerNommer;
+    nommerSection.appendChild(validerButton);
 
     nommerButton.addEventListener('click', function () {
         nommerSection.style.display = 'block';
