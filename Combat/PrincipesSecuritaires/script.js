@@ -40,6 +40,21 @@ document.addEventListener("DOMContentLoaded", function () {
         if (index >= questions.length) {
             feedbackQuestions.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur ${questions.length}.`;
             questionHeading.textContent = "Questions";
+
+            // Cache les choix de réponses et propose un bouton recommencer
+            const questionContainer = document.querySelector('.questions-container');
+            questionContainer.innerHTML = '';
+
+            const recommencerButton = document.createElement('button');
+            recommencerButton.textContent = "Recommencer";
+            recommencerButton.className = "valider-button";
+            recommencerButton.onclick = function () {
+                currentQuestionIndex = 0;
+                nombreDErreurs = 0;
+                afficherQuestion(currentQuestionIndex);
+            };
+
+            questionContainer.appendChild(recommencerButton);
             return;
         }
         
@@ -90,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         setTimeout(() => {
                             currentQuestionIndex++;
                             afficherQuestion(currentQuestionIndex);
-                        }, 4000);
+                        }, 3000); // Délai réduit à 3 secondes
                     }
                 }
             };
