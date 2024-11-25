@@ -14,25 +14,18 @@ header {
     padding: 20px;
     text-align: center;
     width: 100%;
-}
-
-main {
-    padding: 20px;
-    width: 80%;
-    margin: 20px auto;
-    background-color: #292929;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    position: relative;
 }
 
 .back-button {
     position: absolute;
-    top: 30px;
     left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     background-color: #ed2c2c;
     color: #ffffff;
     padding: 15px 30px;
-    font-size: 1.1em;
+    font-size: 1.2em; /* Agrandi la taille du texte */
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -43,25 +36,31 @@ main {
     background-color: #a30000;
 }
 
-.content {
+main {
+    padding: 20px;
+    width: 80%;
+    margin: 20px auto;
     background-color: #292929;
-    padding: 40px;
-    max-width: 800px;
-    width: 90%;
-    margin: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     text-align: center;
 }
 
-.hidden {
-    display: none;
+.content {
+    background-color: #292929;
+    padding: 40px;
+    max-width: 800px;
+    width: 90%;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    text-align: center;
 }
 
 button,
 .validate-button {
-    font-size: 1em;
-    padding: 10px 20px;
+    font-size: 1.2em;
+    padding: 15px 30px;
     background-color: #ed2c2c;
     color: #ffffff;
     display: inline-block;
@@ -96,91 +95,23 @@ button:hover,
     cursor: pointer;
     text-align: left; /* Alignement à gauche */
     box-sizing: border-box;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.choice-container.true-false label {
-    width: 60%; /* Réduction de la largeur pour Vrai/Faux */
+.choice-container label:hover {
+    background-color: #555;
 }
 
-.choice-container input {
-    margin-right: 10px;
+.choice-container label.correct {
+    background-color: #4caf50;
 }
 
-.columns {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-    width: 100%;
+.choice-container label.wrong {
+    background-color: #f44336;
 }
 
-.order-column,
-.draggable-column {
-    width: 40%;
-    background-color: #292929;
-    padding: 10px;
-    border-radius: 5px;
-    position: relative;
-}
-
-.order-column ol,
-.draggable-column ul {
-    padding: 0;
-    list-style-type: none;
-}
-
-.order-column li,
-.draggable-column li {
-    position: relative;
-    margin: 5px 0;
-    min-height: 40px;
-    border: 2px dashed #ed2c2c;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px;
-}
-
-.number {
-    position: absolute;
-    left: -30px;
-    color: #f0f0f0;
-    pointer-events: none;
-}
-
-.draggable {
-    background-color: #ed2c2c;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: move;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    box-sizing: border-box;
-    transition: background-color 0.3s;
-}
-
-.dragging {
-    opacity: 0.5;
-    z-index: 1000;
-}
-
-.question-box {
-    width: 70%;
-    padding: 10px;
-    margin: 10px auto;
-    font-size: 1em;
-    background-color: #1f1f1f;
-    border: 2px dashed #ed2c2c;
-    color: #ffffff;
-    border-radius: 5px;
-    display: block;
-    box-sizing: border-box;
+.choice-container label.highlight {
+    background-color: #ff9800;
 }
 
 footer {
