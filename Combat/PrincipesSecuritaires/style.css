@@ -90,7 +90,7 @@ main {
 
 textarea {
     width: 100%;
-    max-width: 700px;
+    max-width: 600px; /* Réduit un peu la largeur */
     height: 40px;
     padding: 5px;
     border-radius: 5px;
@@ -106,7 +106,7 @@ textarea:focus {
     border-color: #ff9800;
 }
 
-.valider-button {
+.valider-button, .recommencer-button {
     background-color: #ed2c2c;
     color: #ffffff;
     padding: 10px 20px;
@@ -116,9 +116,10 @@ textarea:focus {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: 5px;
 }
 
-.valider-button:hover {
+.valider-button:hover, .recommencer-button:hover {
     background-color: #a30000;
 }
 
