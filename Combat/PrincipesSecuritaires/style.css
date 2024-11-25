@@ -168,6 +168,10 @@ textarea:focus {
     background-color: #f44336;
 }
 
+.choice-container label.highlight {
+    background-color: #ff9800; /* Orange pour la bonne réponse */
+}
+
 h2, h3 {
     color: #ffffff;
     text-align: center;
