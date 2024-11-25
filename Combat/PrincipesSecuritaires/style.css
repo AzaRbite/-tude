@@ -73,26 +73,18 @@ main {
     width: 100%;
 }
 
-.box {
-    background-color: #444444;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 600px;
-}
-
 textarea {
-    width: 100%;
+    width: calc(100% - 40px);
     min-height: 50px;
-    margin-top: 10px;
+    margin: 10px;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
-    color: #000;
+    border: 2px dashed #ff4c4c;
+    background-color: #292929;
+    color: #ffffff;
     font-size: 1em;
     resize: vertical;
+    text-align: center;
 }
 
 .question {
@@ -113,4 +105,8 @@ select {
 
 h2, h3 {
     color: #ffffff;
+}
+
+#feedback {
+    color: #ff9800;
 }
