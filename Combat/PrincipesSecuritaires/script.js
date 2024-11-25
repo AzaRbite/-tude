@@ -95,9 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const correctSet = new Set(strippedAnswers);
         let correctCount = 0;
         let errorsCount = 0;
+        const missingAnswers = [...correctSet]; // Copie des réponses correctes attendues
 
         textareas.forEach((textarea, index) => {
-            const value = textarea.value.trim().toLowerCase().replace(/^la\s|^le\s|^l'/, ''); // Elimine les déterminants
+            const value = textarea.value.trim().toLowerCase().replace(/^la\s|^le\s|^l'/, '');
             if (correctSet.has(value)) {
                 textarea.style.borderColor = '#4caf50'; // Vert pour les bonnes réponses
                 correctSet.delete(value);
@@ -111,7 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (errorsCount === 0) {
             feedback.textContent = "Félicitations ! Toutes les réponses sont correctes.";
         } else {
-            feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length} avec ${errorsCount} erreurs.`;
+            const incorrectAnswers = missingAnswers.filter(answer => correctSet.has(answer));
+            feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length}. Il y a ${errorsCount} erreurs. Voici les réponses manquantes : ${incorrectAnswers.join(", ")}.`;
         }
     }
 
