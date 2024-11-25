@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const questionsButton = document.getElementById('questionsButton');
     const nommerSection = document.getElementById('nommerSection');
     const questionsSection = document.getElementById('questionsSection');
-    const feedback = document.getElementById('feedback');
+    const feedbackNommer = document.getElementById('feedback');
+    const feedbackQuestions = document.getElementById('feedback-questions');
     const compteur = document.createElement('div');
     compteur.id = 'compteur';
     document.body.appendChild(compteur);
@@ -23,14 +24,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const strippedAnswers = correctAnswers.map(answer => answer.replace(/^la\s|^le\s|^l'/, ''));
     strippedAnswers.push("esquive");
 
+    const questions = [
+        { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
+        { text: "Prendre l'état d'esprit approprié appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Une distance qui permettra de réagir appartient à quelle catégorie ?", correct: "La distance sécuritaire" },
+        { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
+        { text: "Déplacement en évaluant les menaces appartient à quelle catégorie ?", correct: "L'esquive" },
+        { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
+    ];
+
     function afficherQuestion(index) {
         if (index >= questions.length) {
-            feedback.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur ${questions.length}`;
+            feedbackQuestions.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur ${questions.length}`;
             compteur.textContent = '';
             return;
         }
 
-        feedback.textContent = '';
+        feedbackQuestions.textContent = '';
         compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
 
         const questionContainer = document.querySelector('.questions-container');
@@ -57,10 +67,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!label.classList.contains('handled')) {
                     if (radio.value === questions[index].correct.toLowerCase()) {
                         label.classList.add('correct');
-                        feedback.textContent = "Bonne réponse !";
+                        feedbackQuestions.textContent = "Bonne réponse !";
                     } else {
                         label.classList.add('wrong');
-                        feedback.textContent = "Mauvaise réponse.";
+                        feedbackQuestions.textContent = "Mauvaise réponse.";
                         nombreDErreurs++;
                     }
 
@@ -106,10 +116,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const incorrectAnswers = missingAnswers.filter(answer => correctSet.has(answer));
         if (errorsCount === 0) {
-            feedback.textContent = "Félicitations ! Toutes les réponses sont correctes.";
+            feedbackNommer.textContent = "Félicitations ! Toutes les réponses sont correctes.";
             console.log("Toutes les réponses sont correctes.");
         } else {
-            feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length}. Il y a ${errorsCount} erreurs. Voici les réponses manquantes : ${incorrectAnswers.join(", ")}.`;
+            feedbackNommer.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length}. Il y a ${errorsCount} erreurs. Voici les réponses manquantes : ${incorrectAnswers.join(", ")}.`;
             console.log(`Erreurs: ${errorsCount}, Réponses manquantes: ${incorrectAnswers.join(", ")}`);
         }
     }
@@ -121,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
             textarea.value = '';
             textarea.style.borderColor = '#ff4c4c';
         });
-        feedback.textContent = '';
+        feedbackNommer.textContent = '';
     }
 
     const nommerContainer = document.querySelector('.nommer-container');
@@ -156,17 +166,11 @@ document.addEventListener("DOMContentLoaded", function () {
         nommerContainer.appendChild(nommerItem);
     });
 
-    const validerButton = document.createElement('button');
-    validerButton.textContent = "Valider";
-    validerButton.className = "valider-button";
-    validerButton.onclick = validerNommer;
-    nommerSection.appendChild(validerButton);
+    const validerButton = document.getElementById('validerButton');
+    const recommencerButton = document.getElementById('recommencerButton');
 
-    const recommencerButton = document.createElement('button');
-    recommencerButton.textContent = "Recommencer";
-    recommencerButton.className = "recommencer-button";
+    validerButton.onclick = validerNommer;
     recommencerButton.onclick = recommencerNommer;
-    nommerSection.appendChild(recommencerButton);
 
     nommerButton.addEventListener('click', function () {
         console.log("Affichage de la section Nommer");
