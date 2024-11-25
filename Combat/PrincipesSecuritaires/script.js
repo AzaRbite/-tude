@@ -12,15 +12,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let nombreDErreurs = 0;
 
     const correctAnswers = [
-        "La position", 
-        "La concentration", 
-        "La distance sécuritaire", 
-        "La vitesse de réaction", 
-        "L'esquive", 
-        "La riposte"
+        "la position", 
+        "la concentration", 
+        "la distance sécuritaire", 
+        "la vitesse de réaction", 
+        "l'esquive", 
+        "la riposte"
     ];
 
-    const strippedAnswers = correctAnswers.map(answer => answer.toLowerCase().replace(/^la\s|^le\s/, ''));
+    const strippedAnswers = correctAnswers.map(answer => answer.replace(/^la\s|^le\s/, ''));
 
     const questions = [
         { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
@@ -56,14 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = `question${index}`;
-            radio.value = optionText;
+            radio.value = optionText.toLowerCase();
 
             label.appendChild(radio);
             label.appendChild(document.createTextNode(optionText));
 
             label.addEventListener('click', () => {
                 if (!label.classList.contains('handled')) {
-                    if (radio.value === questions[index].correct) {
+                    if (radio.value === questions[index].correct.toLowerCase()) {
                         label.classList.add('correct');
                         feedback.textContent = "Bonne réponse !";
                     } else {
@@ -124,4 +124,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const nommerContainer = document.querySelector('.nommer-container');
     correctAnswers.forEach((_, index) => {
-        const
+        const nommerItem = document.createElement('div');
+        nommerItem.className = 'nommer-item';
+
+        const span = document.createElement('span');
+        span.textContent = `${index + 1}.`;
+
+        const textarea = document.createElement('textarea');
+        textarea.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                if (index === 5) {  // Si c'est la dernière zone de texte, appuyez sur "Valider"
+                    validerNommer();
+                } else if (index + 1 < textareas.length) {
+                    textareas[index + 1].focus();
+                }
+            }
+        });
+
+        nommerItem.appendChild(span);
+        nommerItem.appendChild(textarea);
+        nommerContainer.appendChild(nommerItem);
+    });
+
+    const validerButton = document.createElement('button');
+    validerButton.textContent = "Valider";
+    validerButton.className = "valider-button";
+    validerButton.onclick = validerNommer;
+    nommerSection.appendChild(validerButton);
+
+    const recommencerButton = document.createElement('button');
+    recommencerButton.textContent = "Recommencer";
+    recommencerButton.className = "recommencer-button";
+    recommencerButton.onclick = recommencerNommer;
+    nommerSection.appendChild(recommencerButton);
+
+    nommerButton.addEventListener('click', function () {
+        nommerSection.style.display = 'block';
+        questionsSection.style.display = 'none';
+        recommencerNommer(); // Réinitialisez lors de l'entrée dans la section
+    });
+
+    questionsButton.addEventListener('click', function () {
+        questionsSection.style.display = 'block';
+        nommerSection.style.display = 'none';
+        afficherQuestion(currentQuestionIndex);
+    });
+
+    const textareas = nommerSection.querySelectorAll('textarea');
+});
