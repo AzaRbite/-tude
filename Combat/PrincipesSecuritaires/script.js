@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const nommerSection = document.getElementById('nommerSection');
     const questionsSection = document.getElementById('questionsSection');
     const feedback = document.getElementById('feedback');
-    const compteur = document.getElementById('compteur');
+    const compteur = document.createElement('div');
+    compteur.id = 'compteur';
+    document.body.appendChild(compteur);
 
     let currentQuestionIndex = 0;
     let nombreDErreurs = 0;
