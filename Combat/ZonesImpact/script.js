@@ -5,32 +5,32 @@ document.addEventListener("DOMContentLoaded", function () {
     let nombreDErreurs = 0;
     let shuffledImpacts = [];
 
-    const impactOptions = [
-        "Rouge",
-        "Jaune",
-        "Vert"
-    ];
+    // Possibles choix de réponses
+    const niveauTraumatismeOptions = ["Élevé", "Modéré", "Faible"];
+    const degréForceOptions = ["Mortel", "Non mortel"];
+    const couleurOptions = ["Rouge", "Jaune", "Vert"];
 
     const impacts = [
-        // Questions basées sur les niveaux de traumatisme
-        { text: "Quel niveau de traumatisme est associé à la zone rouge ?", correct: "Rouge" },
-        { text: "Quel niveau de traumatisme est associé à la zone jaune ?", correct: "Jaune" },
-        { text: "Quel niveau de traumatisme est associé à la zone verte ?", correct: "Vert" },
-        
-        // Questions basées sur les degrés de force
-        { text: "Quel degré de force est associé à la zone rouge ?", correct: "Rouge" },
-        { text: "Quel degré de force est associé à la zone jaune ?", correct: "Jaune" },
-        { text: "Quel degré de force est associé à la zone verte ?", correct: "Vert" },
+        // Niveau de traumatisme
+        { text: "Quel niveau de traumatisme est associé à la zone rouge ?", correct: "Élevé", options: niveauTraumatismeOptions },
+        { text: "Quel niveau de traumatisme est associé à la zone jaune ?", correct: "Modéré", options: niveauTraumatismeOptions },
+        { text: "Quel niveau de traumatisme est associé à la zone verte ?", correct: "Faible", options: niveauTraumatismeOptions },
 
-        // Questions basées sur les conséquences
-        { text: "Quelle conséquence est associée à la zone rouge ?", correct: "Rouge" },
-        { text: "Quelle conséquence est associée à la zone jaune ?", correct: "Jaune" },
-        { text: "Quelle conséquence est associée à la zone verte ?", correct: "Vert" },
+        // Degré de force
+        { text: "Quel degré de force est associé à la zone rouge ?", correct: "Mortel", options: degréForceOptions },
+        { text: "Quel degré de force est associé à la zone jaune ?", correct: "Non mortel", options: degréForceOptions },
+        { text: "Quel degré de force est associé à la zone verte ?", correct: "Non mortel", options: degréForceOptions },
 
-        // Questions basées sur les parties du corps
-        { text: "Le cou appartient à quelle zone d'impact ?", correct: "Rouge" },
-        { text: "La clavicule appartient à quelle zone d'impact ?", correct: "Jaune" },
-        { text: "Le biceps appartient à quelle zone d'impact ?", correct: "Vert" }
+        // Conséquences
+        { text: "Les traumatismes dans la zone rouge causent-ils des séquelles permanentes ?", correct: "Vrai", options: ["Vrai", "Faux"] },
+        { text: "Les traumatismes dans la zone jaune causent-ils des séquelles permanentes ou temporaires ?", correct: "Permanentes", options: ["Permanentes", "Temporaires"] },
+        { text: "Les traumatismes dans la zone verte causent-ils généralement des séquelles temporaires ?", correct: "Vrai", options: ["Vrai", "Faux"] },
+
+        // Parties du corps
+        { text: "À quelle zone d'impact appartient le cou ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient la clavicule ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le biceps ?", correct: "Vert", options: couleurOptions },
+        // Ajoutez d'autres questions similaires si besoin
     ];
 
     function melangerImpacts(array) {
@@ -75,12 +75,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const choiceContainer = document.createElement('div');
         choiceContainer.className = 'choice-container';
 
-        impactOptions.forEach(optionText => {
+        shuffledImpacts[index].options.forEach(optionText => {
             const label = document.createElement('label');
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = `impact${index}`;
-            radio.value = optionText.toLowerCase();
+            radio.value = optionText;
 
             label.appendChild(radio);
             label.appendChild(document.createTextNode(optionText));
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const handleClick = () => {
                 if (!label.classList.contains('handled')) {
                     label.classList.add('handled');
-                    if (optionText.toLowerCase() === shuffledImpacts[index].correct.toLowerCase()) {
+                    if (optionText === shuffledImpacts[index].correct) {
                         label.classList.add('correct');
                         feedbackImpacts.textContent = "Bonne réponse !";
                         setTimeout(() => {
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         label.classList.add('wrong');
                         feedbackImpacts.textContent = "Mauvaise réponse.";
                         nombreDErreurs++;
-                        const correctOption = Array.from(choiceContainer.children).find(l => l.firstChild.value === shuffledImpacts[index].correct.toLowerCase());
+                        const correctOption = Array.from(choiceContainer.children).find(l => l.firstChild.value === shuffledImpacts[index].correct);
                         if (correctOption) {
                             correctOption.classList.add('highlight');
                         }
