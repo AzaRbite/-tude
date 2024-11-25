@@ -12,19 +12,25 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     const impacts = [
-        { text: "Quel niveau de traumatisme est associé à la zone rouge ?", correct: "Élevé" },
-        { text: "Quel degré de force est associé à la zone rouge ?", correct: "Mortel" },
-        { text: "Quelle conséquence est associée à la zone rouge ?", correct: "Les traumatismes survenant dans la zone rouge sont susceptible de causer un état d'inconscience, une blessure sérieuse à l'organisme ou la mort. Les séquelles tendent à être plus permanentes que temporaires." },
-        { text: "Quel niveau de traumatisme est associé à la zone jaune ?", correct: "Modéré" },
-        { text: "Quel degré de force est associé à la zone jaune ?", correct: "Non mortel" },
-        { text: "Quelle conséquence est associée à la zone jaune ?", correct: "Les traumatismes survenant dans la zone jaune sont susceptible de causer des blessures significatives mais généralement moins sévère que ceux dans la zone rouge." },
-        { text: "Quel niveau de traumatisme est associé à la zone verte ?", correct: "Faible" },
-        { text: "Quel degré de force est associé à la zone verte ?", correct: "Non mortel" },
-        { text: "Quelle conséquence est associée à la zone verte ?", correct: "Les traumatismes survenant dans la zone verte sont susceptible de causer des blessures moins grave que celles des zones jaunes ou rouges." },
+        // Questions basées sur les niveaux de traumatisme
+        { text: "Quel niveau de traumatisme est associé à la zone rouge ?", correct: "Rouge" },
+        { text: "Quel niveau de traumatisme est associé à la zone jaune ?", correct: "Jaune" },
+        { text: "Quel niveau de traumatisme est associé à la zone verte ?", correct: "Vert" },
+        
+        // Questions basées sur les degrés de force
+        { text: "Quel degré de force est associé à la zone rouge ?", correct: "Rouge" },
+        { text: "Quel degré de force est associé à la zone jaune ?", correct: "Jaune" },
+        { text: "Quel degré de force est associé à la zone verte ?", correct: "Vert" },
+
+        // Questions basées sur les conséquences
+        { text: "Quelle conséquence est associée à la zone rouge ?", correct: "Rouge" },
+        { text: "Quelle conséquence est associée à la zone jaune ?", correct: "Jaune" },
+        { text: "Quelle conséquence est associée à la zone verte ?", correct: "Vert" },
+
+        // Questions basées sur les parties du corps
         { text: "Le cou appartient à quelle zone d'impact ?", correct: "Rouge" },
         { text: "La clavicule appartient à quelle zone d'impact ?", correct: "Jaune" },
-        { text: "Le biceps appartient à quelle zone d'impact ?", correct: "Vert" },
-        // Ajoutez plus de questions pour couvrir tous les points
+        { text: "Le biceps appartient à quelle zone d'impact ?", correct: "Vert" }
     ];
 
     function melangerImpacts(array) {
@@ -36,9 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function afficherImpact(index) {
-        console.log(`Afficher impact index: ${index}`);
         if (index >= 10) { // Limite à 10 questions
-            feedbackImpacts.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur 10.`;
+            feedbackImpacts.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur 10 questions.`;
             
             const impactContainer = document.querySelector('.impact-container');
             impactContainer.innerHTML = '';
@@ -54,10 +59,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        const questionHeading = document.createElement('h3');
+        questionHeading.textContent = `Question ${index + 1} sur 10`;
+
         feedbackImpacts.textContent = '';
 
         const impactContainer = document.querySelector('.impact-container');
         impactContainer.innerHTML = '';
+        impactContainer.appendChild(questionHeading);
 
         const impactDiv = document.createElement('div');
         impactDiv.className = 'question';
@@ -79,10 +88,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const handleClick = () => {
                 if (!label.classList.contains('handled')) {
                     label.classList.add('handled');
-                    if (radio.value === shuffledImpacts[index].correct.toLowerCase()) {
+                    if (optionText.toLowerCase() === shuffledImpacts[index].correct.toLowerCase()) {
                         label.classList.add('correct');
                         feedbackImpacts.textContent = "Bonne réponse !";
-                        console.log("Bonne réponse.");
                         setTimeout(() => {
                             currentImpactIndex++;
                             afficherImpact(currentImpactIndex);
@@ -90,7 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     } else {
                         label.classList.add('wrong');
                         feedbackImpacts.textContent = "Mauvaise réponse.";
-                        console.log("Mauvaise réponse.");
                         nombreDErreurs++;
                         const correctOption = Array.from(choiceContainer.children).find(l => l.firstChild.value === shuffledImpacts[index].correct.toLowerCase());
                         if (correctOption) {
