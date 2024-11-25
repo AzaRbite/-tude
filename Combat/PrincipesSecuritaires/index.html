@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Les principes sécuritaire de l'intervention</title>
+    <title>Anti-Grappling Avancé</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-             <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
+        <button class="back-button">Retour</button>
         <h1>Anti-Grappling Avancé</h1>
     </header>
     <main>
@@ -20,49 +20,18 @@
         <div id="nommerSection" class="section" style="display: none;">
             <h2>Nommer les Composantes</h2>
             <div class="nommer-container">
-                <!-- Position -->
-                <div class="box">
-                    <h3>La position</h3>
-                    <textarea placeholder="Placer les pieds à 45 degrés"></textarea>
-                    <textarea placeholder="Placer la jambe forte vers l'arrière"></textarea>
-                    <textarea placeholder="Ne présenter aucune attitude de défi"></textarea>
-                    <textarea placeholder="Faire des gestes naturels"></textarea>
-                    <textarea placeholder="Fléchir légèrement les genoux"></textarea>
-                </div>
-                <!-- Concentration -->
-                <div class="box">
-                    <h3>La concentration</h3>
-                    <textarea placeholder="Prendre l'état d'esprit approprié"></textarea>
-                    <!-- Ajoutez les autres sous-points ici -->
-                </div>
-                <!-- Distance sécuritaire -->
-                <div class="box">
-                    <h3>La distance sécuritaire</h3>
-                    <textarea placeholder="Une distance qui permettra de réagir"></textarea>
-                </div>
-                <!-- Vitesse de réaction -->
-                <div class="box">
-                    <h3>La vitesse de réaction</h3>
-                    <textarea placeholder="Selon les éléments de zone de proximité"></textarea>
-                </div>
-                <!-- Esquive -->
-                <div class="box">
-                    <h3>L'esquive</h3>
-                    <textarea placeholder="Déplacement..."></textarea>
-                </div>
-                <!-- Riposte -->
-                <div class="box">
-                    <h3>Riposte</h3>
-                    <textarea placeholder="Doit être adaptée aux exigences de la situation"></textarea>
-                </div>
+                <textarea placeholder="La position"></textarea>
+                <textarea placeholder="La concentration"></textarea>
+                <textarea placeholder="La distance sécuritaire"></textarea>
+                <textarea placeholder="La vitesse de réaction"></textarea>
+                <textarea placeholder="L'esquive"></textarea>
+                <textarea placeholder="La riposte"></textarea>
             </div>
         </div>
 
         <div id="questionsSection" class="section" style="display: none;">
             <h2>Questions</h2>
             <div class="questions-container">
-                <!-- Création de question pour chaque sous-point -->
-                <!-- Exemple de question -->
                 <div class="question">
                     <p>Placer les pieds à 45 degrés appartient à quelle catégorie ?</p>
                     <select>
@@ -71,11 +40,12 @@
                         <option>La distance sécuritaire</option>
                         <option>La vitesse de réaction</option>
                         <option>L'esquive</option>
-                        <option>Riposte</option>
+                        <option>La riposte</option>
                     </select>
                 </div>
-                <!-- Ajoutez d'autres questions ici -->
+                <!-- Ajoutez d'autres questions ici, une pour chaque sous-point -->
             </div>
+            <div id="feedback" style="margin-top: 20px;"></div>
         </div>
     </main>
     <script src="script.js"></script>
