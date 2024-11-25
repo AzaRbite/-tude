@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anti-Grappling Avancé</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header>
         <button class="back-button" onclick="window.location.href='/Etude/Combat';">Retour à Combat</button>
-        <h1>Les principes sécuritaire de l'intervention</h1>
+        <h1>Les principes sécuritaires de l'intervention</h1>
     </header>
+
     <main>
         <div class="content">
             <button id="nommerButton">Nommer</button>
@@ -20,34 +23,20 @@
         <div id="nommerSection" class="section" style="display: none;">
             <h2>Nommer les Composantes</h2>
             <div class="nommer-container">
-                <textarea placeholder="La position"></textarea>
-                <textarea placeholder="La concentration"></textarea>
-                <textarea placeholder="La distance sécuritaire"></textarea>
-                <textarea placeholder="La vitesse de réaction"></textarea>
-                <textarea placeholder="L'esquive"></textarea>
-                <textarea placeholder="La riposte"></textarea>
+                <!-- Les éléments sont ajoutés dynamiquement via JavaScript -->
             </div>
         </div>
 
         <div id="questionsSection" class="section" style="display: none;">
             <h2>Questions</h2>
             <div class="questions-container">
-                <div class="question">
-                    <p>Placer les pieds à 45 degrés appartient à quelle catégorie ?</p>
-                    <select>
-                        <option>La position</option>
-                        <option>La concentration</option>
-                        <option>La distance sécuritaire</option>
-                        <option>La vitesse de réaction</option>
-                        <option>L'esquive</option>
-                        <option>La riposte</option>
-                    </select>
-                </div>
-                <!-- Ajoutez d'autres questions ici, une pour chaque sous-point -->
+                <!-- Les questions et choix sont ajoutés dynamiquement via JavaScript -->
             </div>
             <div id="feedback" style="margin-top: 20px;"></div>
         </div>
     </main>
+
     <script src="script.js"></script>
 </body>
+
 </html>
