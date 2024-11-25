@@ -23,43 +23,43 @@ document.addEventListener("DOMContentLoaded", function () {
     const strippedAnswers = correctAnswers.map(answer => answer.replace(/^la\s|^le\s|^l'/, ''));
     strippedAnswers.push("esquive");
 
-const questions = [
-    // La position
-    { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
-    { text: "Placer la jambe forte vers l'arrière appartient à quelle catégorie ?", correct: "La position" },
-    { text: "Ne présenter aucune attitude de défi appartient à quelle catégorie ?", correct: "La position" },
-    { text: "Faire des gestes naturels appartient à quelle catégorie ?", correct: "La position" },
-    { text: "Fléchir légèrement les genoux appartient à quelle catégorie ?", correct: "La position" },
+    const questions = [
+        // La position
+        { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
+        { text: "Placer la jambe forte vers l'arrière appartient à quelle catégorie ?", correct: "La position" },
+        { text: "Ne présenter aucune attitude de défi appartient à quelle catégorie ?", correct: "La position" },
+        { text: "Faire des gestes naturels appartient à quelle catégorie ?", correct: "La position" },
+        { text: "Fléchir légèrement les genoux appartient à quelle catégorie ?", correct: "La position" },
 
-    // La concentration
-    { text: "Prendre l'état d'esprit approprié appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Connaître son niveau d'activation appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Surveiller l'environnement appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Identifier les dangers imminents appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Identifier les issues possibles appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Surveiller ses arrières appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Surveiller les mains du sujet appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Contrôler les complices éventuels appartient à quelle catégorie ?", correct: "La concentration" },
-    { text: "Garder un œil sur votre partenaire appartient à quelle catégorie ?", correct: "La concentration" },
+        // La concentration
+        { text: "Prendre l'état d'esprit approprié appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Connaître son niveau d'activation appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Surveiller l'environnement appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Identifier les dangers imminents appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Identifier les issues possibles appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Surveiller ses arrières appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Surveiller les mains du sujet appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Contrôler les complices éventuels appartient à quelle catégorie ?", correct: "La concentration" },
+        { text: "Garder un œil sur votre partenaire appartient à quelle catégorie ?", correct: "La concentration" },
 
-    // La distance sécuritaire
-    { text: "Une distance qui permettra de réagir appartient à quelle catégorie ?", correct: "La distance sécuritaire" },
-    { text: "La distance avant et arrière est à considérer ainsi que la distance latérale appartient à quelle catégorie ?", correct: "La distance sécuritaire" },
+        // La distance sécuritaire
+        { text: "Une distance qui permettra de réagir appartient à quelle catégorie ?", correct: "La distance sécuritaire" },
+        { text: "La distance avant et arrière est à considérer ainsi que la distance latérale appartient à quelle catégorie ?", correct: "La distance sécuritaire" },
 
-    // La vitesse de réaction
-    { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
-    { text: "Selon les éléments de temps et distance appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
-    { text: "Selon les éléments de perception, analyse, choix et réponse appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
+        // La vitesse de réaction
+        { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
+        { text: "Selon les éléments de temps et distance appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
+        { text: "Selon les éléments de perception, analyse, choix et réponse appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
 
-    // L'esquive
-    { text: "Déplacement en évaluant les menaces avant de riposter appartient à quelle catégorie ?", correct: "L'esquive" },
+        // L'esquive
+        { text: "Déplacement en évaluant les menaces avant de riposter appartient à quelle catégorie ?", correct: "L'esquive" },
 
-    // Riposte
-    { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
-    { text: "Il faudra tenir compte de l'évaluation: les indices de menace, les signes précurseurs d'assaut, la capacité, l'intention et les gestes posés par la personne appartient à quelle catégorie ?", correct: "La riposte" },
-    { text: "La riposte comprend l'exécution du plan préétabli (défensif et/ou offensif) appartient à quelle catégorie ?", correct: "La riposte" },
-    { text: "La riposte comprend la compréhension et l'application des 3 mécanismes de contrôle physique appartient à quelle catégorie ?", correct: "La riposte" }
-];
+        // Riposte
+        { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
+        { text: "Il faudra tenir compte de l'évaluation: les indices de menace, les signes précurseurs d'assaut, la capacité, l'intention et les gestes posés par la personne appartient à quelle catégorie ?", correct: "La riposte" },
+        { text: "La riposte comprend l'exécution du plan préétabli (défensif et/ou offensif) appartient à quelle catégorie ?", correct: "La riposte" },
+        { text: "La riposte comprend la compréhension et l'application des 3 mécanismes de contrôle physique appartient à quelle catégorie ?", correct: "La riposte" }
+    ];
 
     function melangerQuestions(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -152,7 +152,7 @@ const questions = [
     }
 
     function initialiserQuiz() {
-        shuffledQuestions = melangerQuestions([...questions]); // Mélange les questions
+        shuffledQuestions = melangerQuestions([...questions]).slice(0, 10); // Mélange et sélectionne 10 questions
         currentQuestionIndex = 0;
         nombreDErreurs = 0;
         afficherQuestion(currentQuestionIndex);
