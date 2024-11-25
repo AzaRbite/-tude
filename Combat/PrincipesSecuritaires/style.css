@@ -66,6 +66,7 @@ main {
 
 .section {
     margin-top: 20px;
+    display: none; /* Par défaut caché */
 }
 
 .nommer-container {
