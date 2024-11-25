@@ -8,21 +8,21 @@
 </head>
 <body>
     <header>
- <button class="back-button" onclick="window.location.href='../index.html'">Retour à Combats</button>
+        <button class="back-button" onclick="window.location.href='../index.html'">Retour à Combats</button>
         <h1>Questionnaire sur les Signes Perturbateurs</h1>
-           <div id="question-counter"></div>
+        <div id="question-counter"></div>
     </header>
     <main>
         <div id="quiz-container" class="content">
             <div id="question-counter"></div>
             <div id="question-display" class="question"></div>
             <div id="choices-container" class="choice-container"></div>
-            <button id="submit-button" onclick="submitAnswer()">Soumettre</button>
+            <button id="submit-button" onclick="submitAnswer()" class="validate-button">Soumettre</button>
         </div>
         <div id="result-container" class="content" style="display: none;">
             <h2>Résultats</h2>
             <p id="result-message"></p>
-            <button onclick="restartQuiz()">Recommencer</button>
+            <button onclick="restartQuiz()" class="validate-button">Recommencer</button>
         </div>
     </main>
     <footer>
