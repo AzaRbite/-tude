@@ -11,6 +11,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentQuestionIndex = 0;
     let nombreDErreurs = 0;
 
+    const correctAnswers = [
+        "La position", 
+        "La concentration", 
+        "La distance sécuritaire", 
+        "La vitesse de réaction", 
+        "L'esquive", 
+        "La riposte"
+    ];
+
     const questions = [
         { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
         { text: "Prendre l'état d'esprit approprié appartient à quelle catégorie ?", correct: "La concentration" },
@@ -40,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const choiceContainer = document.createElement('div');
         choiceContainer.className = 'choice-container';
 
-        ["La position", "La concentration", "La distance sécuritaire", "La vitesse de réaction", "L'esquive", "La riposte"].forEach(optionText => {
+        correctAnswers.forEach(optionText => {
             const label = document.createElement('label');
             const radio = document.createElement('input');
             radio.type = 'radio';
@@ -78,22 +87,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function validerNommer() {
-        const correctAnswers = ["La position", "La concentration", "La distance sécuritaire", "La vitesse de réaction", "L'esquive", "La riposte"];
         const textareas = nommerSection.querySelectorAll('textarea');
         let correctCount = 0;
 
         textareas.forEach((textarea, index) => {
             const value = textarea.value.trim();
             if (value.toLowerCase() === correctAnswers[index].toLowerCase()) {
-                textarea.style.borderColor = '#4caf50';
+                textarea.style.borderColor = '#4caf50'; // Vert pour correct
                 correctCount++;
             } else {
-                textarea.style.borderColor = '#f44336';
+                textarea.style.borderColor = '#f44336'; // Rouge pour incorrect
             }
         });
 
         feedback.textContent = `Vous avez correctement identifié ${correctCount} sur 6`;
     }
+
+    // Création des éléments dans la section nommer
+    const nommerContainer = document.querySelector('.nommer-container');
+    correctAnswers.forEach((_, index) => {
+        const nommerItem = document.createElement('div');
+        nommerItem.className = 'nommer-item';
+
+        const span = document.createElement('span');
+        span.textContent = `${index + 1}.`;
+
+        const textarea = document.createElement('textarea');
+
+        nommerItem.appendChild(span);
+        nommerItem.appendChild(textarea);
+        nommerContainer.appendChild(nommerItem);
+    });
 
     const validerButton = document.createElement('button');
     validerButton.textContent = "Valider";
