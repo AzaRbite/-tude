@@ -76,7 +76,7 @@ main {
 .nommer-item {
     display: flex;
     align-items: center;
-    margin: 5px 0;
+    margin: 15px 0; /* Espace ajouté entre chaque section */
 }
 
 .nommer-item span {
@@ -96,55 +96,27 @@ textarea {
     text-align: center;
 }
 
-.question {
-    margin: 20px 0;
-}
-
-.choice-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 600px;
-    margin-top: 10px;
-}
-
-.choice-container label {
-    width: 100%;
-    max-width: 500px;
-    display: block;
-    padding: 10px;
-    margin: 5px 0;
-    background-color: #444;
+.valider-button {
+    background-color: #ed2c2c;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 1em;
+    margin-top: 20px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    text-align: center;
+    transition: background-color 0.3s;
 }
 
-.choice-container label:hover {
-    background-color: #555;
-    color: #ffffff;
-}
-
-.choice-container label input[type="radio"] {
-    display: none;
-}
-
-.choice-container label.correct {
-    background-color: #4caf50;
-}
-
-.choice-container label.wrong {
-    background-color: #f44336;
+.valider-button:hover {
+    background-color: #a30000;
 }
 
 h2, h3 {
     color: #ffffff;
 }
 
-#feedback, #compteur {
+#feedback {
     color: #ff9800;
     margin-top: 20px;
 }
-
