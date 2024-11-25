@@ -97,11 +97,11 @@ document.addEventListener("DOMContentLoaded", function () {
         textareas.forEach((textarea, index) => {
             const value = textarea.value.trim().toLowerCase().replace(/^la\s|^le\s/, '');
             if (correctSet.has(value)) {
-                textarea.style.borderColor = '#4caf50';
+                textarea.style.borderColor = '#4caf50'; // Vert pour les bonnes réponses
                 correctSet.delete(value); // Assurez-vous qu'une réponse correcte n'est comptée qu'une seule fois
                 correctCount++;
             } else {
-                textarea.style.borderColor = '#f44336';
+                textarea.style.borderColor = '#f44336'; // Rouge pour les mauvaises réponses
                 errorsCount++;
             }
         });
@@ -123,6 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const nommerContainer = document.querySelector('.nommer-container');
+    const textareas = [];
+
     correctAnswers.forEach((_, index) => {
         const nommerItem = document.createElement('div');
         nommerItem.className = 'nommer-item';
@@ -131,45 +133,11 @@ document.addEventListener("DOMContentLoaded", function () {
         span.textContent = `${index + 1}.`;
 
         const textarea = document.createElement('textarea');
+        textarea.addEventListener('focus', function() {
+            textarea.style.borderColor = '#ff9800'; // Orange lors de la saisie
+        });
         textarea.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 if (index === 5) {  // Si c'est la dernière zone de texte, appuyez sur "Valider"
-                    validerNommer();
-                } else if (index + 1 < textareas.length) {
-                    textareas[index + 1].focus();
-                }
-            }
-        });
-
-        nommerItem.appendChild(span);
-        nommerItem.appendChild(textarea);
-        nommerContainer.appendChild(nommerItem);
-    });
-
-    const validerButton = document.createElement('button');
-    validerButton.textContent = "Valider";
-    validerButton.className = "valider-button";
-    validerButton.onclick = validerNommer;
-    nommerSection.appendChild(validerButton);
-
-    const recommencerButton = document.createElement('button');
-    recommencerButton.textContent = "Recommencer";
-    recommencerButton.className = "recommencer-button";
-    recommencerButton.onclick = recommencerNommer;
-    nommerSection.appendChild(recommencerButton);
-
-    nommerButton.addEventListener('click', function () {
-        nommerSection.style.display = 'block';
-        questionsSection.style.display = 'none';
-        recommencerNommer(); // Réinitialisez lors de l'entrée dans la section
-    });
-
-    questionsButton.addEventListener('click', function () {
-        questionsSection.style.display = 'block';
-        nommerSection.style.display = 'none';
-        afficherQuestion(currentQuestionIndex);
-    });
-
-    const textareas = nommerSection.querySelectorAll('textarea');
-});
+                   
