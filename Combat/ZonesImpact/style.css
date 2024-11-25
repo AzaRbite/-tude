@@ -9,8 +9,8 @@ body {
 .back-button {
     position: absolute;
     left: 20px;
-    top: 50px; /* Descend un peu le bouton pour l'aligner avec le heading */
-    padding: 20px 40px; /* Agrandit le bouton */
+    top: 30px; /* Ajuste pour un meilleur alignement avec le titre */
+    padding: 20px 40px;
     background-color: #ed2c2c;
     color: white;
     border: none;
@@ -29,6 +29,7 @@ header {
     background-color: #292929;
     padding: 20px;
     text-align: center;
+    position: relative; /* Nécessaire pour le positionnement du bouton */
 }
 
 main {
