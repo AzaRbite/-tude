@@ -23,6 +23,21 @@ main {
     text-align: center;
 }
 
+.back-button {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    background-color: #ed2c2c;
+    color: #ffffff;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 .content {
     margin-bottom: 20px;
 }
