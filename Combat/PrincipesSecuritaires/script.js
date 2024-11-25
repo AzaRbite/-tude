@@ -5,10 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const questionsSection = document.getElementById('questionsSection');
     const feedbackNommer = document.getElementById('feedback');
     const feedbackQuestions = document.getElementById('feedback-questions');
-    const compteur = document.createElement('div');
-    compteur.id = 'compteur';
-    document.body.appendChild(compteur);
-
+    const questionHeading = document.querySelector('#questionsSection h2');
+    
     let currentQuestionIndex = 0;
     let nombreDErreurs = 0;
 
@@ -31,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
         { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
         { text: "Déplacement en évaluant les menaces appartient à quelle catégorie ?", correct: "L'esquive" },
         { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
-        // Questions supplémentaires pour compléter le total à 10
         { text: "Quelle catégorie inclut la gestion de la respiration ?", correct: "La concentration" },
         { text: "Quand faut-il ajuster la position des mains ?", correct: "La position" },
         { text: "Quelle tâche implique l'anticipation des mouvements adverses ?", correct: "La vitesse de réaction" },
@@ -39,12 +36,15 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     function afficherQuestion(index) {
+        console.log(`Afficher question index: ${index}`);
         if (index >= questions.length) {
-            feedbackQuestions.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur ${questions.length}`;
+            feedbackQuestions.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur ${questions.length}.`;
+            questionHeading.textContent = "Questions";
             return;
         }
-
-        feedbackQuestions.textContent = `Question ${index + 1} sur ${questions.length}`;
+        
+        questionHeading.textContent = `Questions ${index + 1} sur ${questions.length}`;
+        feedbackQuestions.textContent = '';
 
         const questionContainer = document.querySelector('.questions-container');
         questionContainer.innerHTML = '';
@@ -66,25 +66,36 @@ document.addEventListener("DOMContentLoaded", function () {
             label.appendChild(radio);
             label.appendChild(document.createTextNode(optionText));
 
-            label.addEventListener('click', () => {
+            const handleClick = () => {
                 if (!label.classList.contains('handled')) {
+                    label.classList.add('handled');
                     if (radio.value === questions[index].correct.toLowerCase()) {
                         label.classList.add('correct');
                         feedbackQuestions.textContent = "Bonne réponse !";
+                        console.log("Bonne réponse.");
+                        setTimeout(() => {
+                            currentQuestionIndex++;
+                            afficherQuestion(currentQuestionIndex);
+                        }, 2000);
                     } else {
                         label.classList.add('wrong');
                         feedbackQuestions.textContent = "Mauvaise réponse.";
+                        console.log("Mauvaise réponse.");
                         nombreDErreurs++;
+                        // Mettre en évidence la bonne réponse
+                        const correctOption = Array.from(choiceContainer.children).find(l => l.firstChild.value === questions[index].correct.toLowerCase());
+                        if (correctOption) {
+                            correctOption.classList.add('highlight');
+                        }
+                        setTimeout(() => {
+                            currentQuestionIndex++;
+                            afficherQuestion(currentQuestionIndex);
+                        }, 4000);
                     }
-
-                    setTimeout(() => {
-                        label.classList.add('handled');
-                        currentQuestionIndex++;
-                        afficherQuestion(currentQuestionIndex);
-                    }, 2000);
                 }
-            });
+            };
 
+            label.addEventListener('click', handleClick);
             choiceContainer.appendChild(label);
         });
 
@@ -187,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
         questionsSection.style.display = 'block';
         nommerSection.style.display = 'none';
         currentQuestionIndex = 0; // Réinitialiser l'index des questions
+        nombreDErreurs = 0; // Réinitialiser le nombre d'erreurs
         afficherQuestion(currentQuestionIndex);
     });
 });
