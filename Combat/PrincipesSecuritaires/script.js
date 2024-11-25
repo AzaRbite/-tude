@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     let currentQuestionIndex = 0;
     let nombreDErreurs = 0;
+    let shuffledQuestions = []; // Tableau pour stocker les questions mélangées
 
     const correctAnswers = [
         "la position", 
@@ -35,10 +36,18 @@ document.addEventListener("DOMContentLoaded", function () {
         { text: "Quelle catégorie concerne l'analyse des points faibles ?", correct: "La riposte" }
     ];
 
+    function melangerQuestions(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
     function afficherQuestion(index) {
         console.log(`Afficher question index: ${index}`);
-        if (index >= questions.length) {
-            feedbackQuestions.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur ${questions.length}.`;
+        if (index >= shuffledQuestions.length) {
+            feedbackQuestions.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur ${shuffledQuestions.length}.`;
             questionHeading.textContent = "Questions";
 
             // Cache les choix de réponses et propose un bouton recommencer
@@ -49,16 +58,14 @@ document.addEventListener("DOMContentLoaded", function () {
             recommencerButton.textContent = "Recommencer";
             recommencerButton.className = "valider-button";
             recommencerButton.onclick = function () {
-                currentQuestionIndex = 0;
-                nombreDErreurs = 0;
-                afficherQuestion(currentQuestionIndex);
+                initialiserQuiz();
             };
 
             questionContainer.appendChild(recommencerButton);
             return;
         }
         
-        questionHeading.textContent = `Questions ${index + 1} sur ${questions.length}`;
+        questionHeading.textContent = `Questions ${index + 1} sur ${shuffledQuestions.length}`;
         feedbackQuestions.textContent = '';
 
         const questionContainer = document.querySelector('.questions-container');
@@ -67,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const questionDiv = document.createElement('div');
         questionDiv.className = 'question';
         const p = document.createElement('p');
-        p.textContent = questions[index].text;
+        p.textContent = shuffledQuestions[index].text;
         const choiceContainer = document.createElement('div');
         choiceContainer.className = 'choice-container';
 
@@ -84,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const handleClick = () => {
                 if (!label.classList.contains('handled')) {
                     label.classList.add('handled');
-                    if (radio.value === questions[index].correct.toLowerCase()) {
+                    if (radio.value === shuffledQuestions[index].correct.toLowerCase()) {
                         label.classList.add('correct');
                         feedbackQuestions.textContent = "Bonne réponse !";
                         console.log("Bonne réponse.");
@@ -98,14 +105,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.log("Mauvaise réponse.");
                         nombreDErreurs++;
                         // Mettre en évidence la bonne réponse
-                        const correctOption = Array.from(choiceContainer.children).find(l => l.firstChild.value === questions[index].correct.toLowerCase());
+                        const correctOption = Array.from(choiceContainer.children).find(l => l.firstChild.value === shuffledQuestions[index].correct.toLowerCase());
                         if (correctOption) {
                             correctOption.classList.add('highlight');
                         }
                         setTimeout(() => {
                             currentQuestionIndex++;
                             afficherQuestion(currentQuestionIndex);
-                        }, 3000); // Délai réduit à 3 secondes
+                        }, 3000); // Délai de 3 secondes
                     }
                 }
             };
@@ -117,6 +124,13 @@ document.addEventListener("DOMContentLoaded", function () {
         questionDiv.appendChild(p);
         questionDiv.appendChild(choiceContainer);
         questionContainer.appendChild(questionDiv);
+    }
+
+    function initialiserQuiz() {
+        shuffledQuestions = melangerQuestions([...questions]); // Mélange les questions
+        currentQuestionIndex = 0;
+        nombreDErreurs = 0;
+        afficherQuestion(currentQuestionIndex);
     }
 
     function validerNommer() {
@@ -212,8 +226,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Affichage de la section Questions");
         questionsSection.style.display = 'block';
         nommerSection.style.display = 'none';
-        currentQuestionIndex = 0; // Réinitialiser l'index des questions
-        nombreDErreurs = 0; // Réinitialiser le nombre d'erreurs
-        afficherQuestion(currentQuestionIndex);
+        initialiserQuiz();
     });
 });
