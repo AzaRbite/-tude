@@ -4,10 +4,6 @@ body {
     padding: 0;
     background-color: #393939;
     color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
 }
 
 header {
@@ -15,7 +11,6 @@ header {
     padding: 20px;
     text-align: center;
     position: relative;
-    width: 100%;
 }
 
 .back-button {
@@ -38,14 +33,14 @@ header {
 }
 
 main {
-    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
     max-width: 800px;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     text-align: center;
-    padding: 20px;
-    box-sizing: border-box;
 }
 
 .content {
