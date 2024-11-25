@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        feedback.textContent = '';
+
         const questionContainer = document.querySelector('.questions-container');
         questionContainer.innerHTML = '';
 
@@ -31,30 +33,43 @@ document.addEventListener("DOMContentLoaded", function () {
         questionDiv.className = 'question';
         const p = document.createElement('p');
         p.textContent = questions[index].text;
-        const select = document.createElement('select');
+        const choiceContainer = document.createElement('div');
+        choiceContainer.className = 'choice-container';
 
         ["La position", "La concentration", "La distance sécuritaire", "La vitesse de réaction", "L'esquive", "La riposte"].forEach(optionText => {
-            const option = document.createElement('option');
-            option.value = optionText;
-            option.textContent = optionText;
-            select.appendChild(option);
-        });
+            const label = document.createElement('label');
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = `question${index}`; // Assurez-vous que chaque question a un ensemble unique de boutons radio
+            radio.value = optionText;
 
-        select.addEventListener('change', () => {
-            if (select.value === questions[index].correct) {
-                feedback.textContent = "Bonne réponse !";
-                setTimeout(() => {
-                    currentQuestionIndex++;
-                    afficherQuestion(currentQuestionIndex);
-                }, 2000);
-            } else {
-                feedback.textContent = "Mauvaise réponse.";
-                nombreDErreurs++;
-            }
+            label.appendChild(radio);
+            label.appendChild(document.createTextNode(optionText));
+
+            label.addEventListener('click', () => {
+                if (!label.classList.contains('handled')) { // Vérifie si déjà cliqué
+                    if (radio.value === questions[index].correct) {
+                        label.classList.add('correct');
+                        feedback.textContent = "Bonne réponse !";
+                    } else {
+                        label.classList.add('wrong');
+                        feedback.textContent = "Mauvaise réponse.";
+                        nombreDErreurs++;
+                    }
+
+                    setTimeout(() => {
+                        label.classList.add('handled'); // Marque comme déjà cliqué
+                        currentQuestionIndex++;
+                        afficherQuestion(currentQuestionIndex);
+                    }, 2000);
+                }
+            });
+
+            choiceContainer.appendChild(label);
         });
 
         questionDiv.appendChild(p);
-        questionDiv.appendChild(select);
+        questionDiv.appendChild(choiceContainer);
         questionContainer.appendChild(questionDiv);
     }
 
