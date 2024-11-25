@@ -66,17 +66,27 @@ main {
     margin-top: 20px;
 }
 
-.nommer-container, .questions-container {
+.nommer-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
+}
+
+.nommer-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+}
+
+.nommer-item span {
+    margin-right: 10px;
+    color: #ffffff;
 }
 
 textarea {
     width: calc(100% - 40px);
     height: 30px; /* Hauteur réduite */
-    margin: 10px 0;
     padding: 5px;
     border-radius: 5px;
     border: 2px dashed #ff4c4c;
@@ -133,7 +143,7 @@ h2, h3 {
     color: #ffffff;
 }
 
-#feedback {
+#feedback, #compteur {
     color: #ff9800;
     margin-top: 20px;
 }
