@@ -21,17 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     const strippedAnswers = correctAnswers.map(answer => answer.replace(/^la\s|^le\s|^l'/, ''));
-    // Permet aussi l'acceptation de la réponse sans déterminant
     strippedAnswers.push("esquive");
-
-    const questions = [
-        { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
-        { text: "Prendre l'état d'esprit approprié appartient à quelle catégorie ?", correct: "La concentration" },
-        { text: "Une distance qui permettra de réagir appartient à quelle catégorie ?", correct: "La distance sécuritaire" },
-        { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
-        { text: "Déplacement en évaluant les menaces appartient à quelle catégorie ?", correct: "L'esquive" },
-        { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
-    ];
 
     function afficherQuestion(index) {
         if (index >= questions.length) {
@@ -91,33 +81,41 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function validerNommer() {
+        console.log("Début de la validation des réponses");
         const textareas = nommerSection.querySelectorAll('textarea');
         const correctSet = new Set(strippedAnswers);
         let correctCount = 0;
         let errorsCount = 0;
-        const missingAnswers = [...correctSet]; // Copie des réponses correctes attendues
-
+        const missingAnswers = [...correctSet];
+        
         textareas.forEach((textarea, index) => {
             const value = textarea.value.trim().toLowerCase().replace(/^la\s|^le\s|^l'/, '');
+            console.log(`Valeur entrée pour ${index + 1}: "${value}"`);
+            
             if (correctSet.has(value)) {
-                textarea.style.borderColor = '#4caf50'; // Vert pour les bonnes réponses
+                textarea.style.borderColor = '#4caf50';
                 correctSet.delete(value);
                 correctCount++;
+                console.log(`Correct: ${value}`);
             } else {
-                textarea.style.borderColor = '#f44336'; // Rouge pour les mauvaises réponses
+                textarea.style.borderColor = '#f44336';
                 errorsCount++;
+                console.log(`Incorrect: ${value}`);
             }
         });
 
+        const incorrectAnswers = missingAnswers.filter(answer => correctSet.has(answer));
         if (errorsCount === 0) {
             feedback.textContent = "Félicitations ! Toutes les réponses sont correctes.";
+            console.log("Toutes les réponses sont correctes.");
         } else {
-            const incorrectAnswers = missingAnswers.filter(answer => correctSet.has(answer));
             feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length}. Il y a ${errorsCount} erreurs. Voici les réponses manquantes : ${incorrectAnswers.join(", ")}.`;
+            console.log(`Erreurs: ${errorsCount}, Réponses manquantes: ${incorrectAnswers.join(", ")}`);
         }
     }
 
     function recommencerNommer() {
+        console.log("Réinitialisation des réponses");
         const textareas = nommerSection.querySelectorAll('textarea');
         textareas.forEach(textarea => {
             textarea.value = '';
@@ -138,12 +136,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const textarea = document.createElement('textarea');
         textarea.addEventListener('focus', function() {
-            textarea.style.borderColor = '#ff9800'; // Orange lors de la saisie
+            textarea.style.borderColor = '#ff9800';
         });
         textarea.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
                 event.preventDefault();
-                if (index === 5) {  // Si c'est la dernière zone de texte, appuyez sur "Valider"
+                if (index === 5) {
                     validerNommer();
                 } else if (index + 1 < textareas.length) {
                     textareas[index + 1].focus();
@@ -171,12 +169,14 @@ document.addEventListener("DOMContentLoaded", function () {
     nommerSection.appendChild(recommencerButton);
 
     nommerButton.addEventListener('click', function () {
+        console.log("Affichage de la section Nommer");
         nommerSection.style.display = 'block';
         questionsSection.style.display = 'none';
-        recommencerNommer(); // Réinitialisez lors de l'entrée dans la section
+        recommencerNommer();
     });
 
     questionsButton.addEventListener('click', function () {
+        console.log("Affichage de la section Questions");
         questionsSection.style.display = 'block';
         nommerSection.style.display = 'none';
         afficherQuestion(currentQuestionIndex);
