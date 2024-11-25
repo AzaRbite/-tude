@@ -5,32 +5,65 @@ document.addEventListener("DOMContentLoaded", function () {
     let nombreDErreurs = 0;
     let shuffledImpacts = [];
 
-    // Possibles choix de réponses
-    const niveauTraumatismeOptions = ["Élevé", "Modéré", "Faible"];
-    const degréForceOptions = ["Mortel", "Non mortel"];
     const couleurOptions = ["Rouge", "Jaune", "Vert"];
 
     const impacts = [
         // Niveau de traumatisme
-        { text: "Quel niveau de traumatisme est associé à la zone rouge ?", correct: "Élevé", options: niveauTraumatismeOptions },
-        { text: "Quel niveau de traumatisme est associé à la zone jaune ?", correct: "Modéré", options: niveauTraumatismeOptions },
-        { text: "Quel niveau de traumatisme est associé à la zone verte ?", correct: "Faible", options: niveauTraumatismeOptions },
+        { text: "Quel niveau de traumatisme est associé à la zone rouge ?", correct: "Élevé", options: ["Élevé", "Modéré", "Faible"] },
+        { text: "Quel niveau de traumatisme est associé à la zone jaune ?", correct: "Modéré", options: ["Élevé", "Modéré", "Faible"] },
+        { text: "Quel niveau de traumatisme est associé à la zone verte ?", correct: "Faible", options: ["Élevé", "Modéré", "Faible"] },
 
         // Degré de force
-        { text: "Quel degré de force est associé à la zone rouge ?", correct: "Mortel", options: degréForceOptions },
-        { text: "Quel degré de force est associé à la zone jaune ?", correct: "Non mortel", options: degréForceOptions },
-        { text: "Quel degré de force est associé à la zone verte ?", correct: "Non mortel", options: degréForceOptions },
+        { text: "Quel degré de force est associé à la zone rouge ?", correct: "Mortel", options: ["Mortel", "Non mortel"] },
+        { text: "Quel degré de force est associé à la zone jaune ?", correct: "Non mortel", options: ["Mortel", "Non mortel"] },
+        { text: "Quel degré de force est associé à la zone verte ?", correct: "Non mortel", options: ["Mortel", "Non mortel"] },
 
         // Conséquences
         { text: "Les traumatismes dans la zone rouge causent-ils des séquelles permanentes ?", correct: "Vrai", options: ["Vrai", "Faux"] },
         { text: "Les traumatismes dans la zone jaune causent-ils des séquelles permanentes ou temporaires ?", correct: "Permanentes", options: ["Permanentes", "Temporaires"] },
         { text: "Les traumatismes dans la zone verte causent-ils généralement des séquelles temporaires ?", correct: "Vrai", options: ["Vrai", "Faux"] },
 
-        // Parties du corps
+        // Parties du corps - Rouge
         { text: "À quelle zone d'impact appartient le cou ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le thorax ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient la colonne vertébrale ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les parties génitales ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les oreilles ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les tempes ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les yeux ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient l'os nasal ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le maxillaire inférieur ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient la trachée ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le plexus solaire ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient la cage thoracique ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le creux derrière l'oreille ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les vertèbres cervicales ?", correct: "Rouge", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les côtes ?", correct: "Rouge", options: couleurOptions },
+
+        // Parties du corps - Jaune
         { text: "À quelle zone d'impact appartient la clavicule ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient l'épaule ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le coude ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient l'articulation du poignet ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le revers de la main ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les genoux ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient la zone entre le nombril et les côtes ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les omoplates ?", correct: "Jaune", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient l'intérieur du poignet ?", correct: "Jaune", options: couleurOptions },
+
+        // Parties du corps - Vert
+        { text: "À quelle zone d'impact appartient l'avant-bras ?", correct: "Vert", options: couleurOptions },
         { text: "À quelle zone d'impact appartient le biceps ?", correct: "Vert", options: couleurOptions },
-        // Ajoutez d'autres questions similaires si besoin
+        { text: "À quelle zone d'impact appartient le triceps ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les cuisses ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le tibia ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le bas du ventre sous la ligne du nombril ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le dessus des pieds ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartient le dos de la main ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les fesses ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les mollets ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les tendons d'Achille ?", correct: "Vert", options: couleurOptions },
+        { text: "À quelle zone d'impact appartiennent les hanches ?", correct: "Vert", options: couleurOptions }
     ];
 
     function melangerImpacts(array) {
@@ -42,8 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function afficherImpact(index) {
-        if (index >= 10) { // Limite à 10 questions
-            feedbackImpacts.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur 10 questions.`;
+        if (index >= shuffledImpacts.length) {  // Affiche toutes les questions disponibles
+            feedbackImpacts.textContent = `Quiz terminé ! Vous avez fait ${nombreDErreurs} erreurs sur ${shuffledImpacts.length} questions.`;
             
             const impactContainer = document.querySelector('.impact-container');
             impactContainer.innerHTML = '';
@@ -60,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         const questionHeading = document.createElement('h3');
-        questionHeading.textContent = `Question ${index + 1} sur 10`;
+        questionHeading.textContent = `Question ${index + 1} sur ${shuffledImpacts.length}`;
 
         feedbackImpacts.textContent = '';
 
@@ -121,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function initialiserQuiz() {
-        shuffledImpacts = melangerImpacts([...impacts]).slice(0, 10); // Mélange et limite à 10 questions
+        shuffledImpacts = melangerImpacts([...impacts]);  // Utilise toutes les questions disponibles
         currentImpactIndex = 0;
         nombreDErreurs = 0;
         afficherImpact(currentImpactIndex);
