@@ -31,17 +31,20 @@ document.addEventListener("DOMContentLoaded", function () {
         { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
         { text: "Déplacement en évaluant les menaces appartient à quelle catégorie ?", correct: "L'esquive" },
         { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
+        // Questions supplémentaires pour compléter le total à 10
+        { text: "Quelle catégorie inclut la gestion de la respiration ?", correct: "La concentration" },
+        { text: "Quand faut-il ajuster la position des mains ?", correct: "La position" },
+        { text: "Quelle tâche implique l'anticipation des mouvements adverses ?", correct: "La vitesse de réaction" },
+        { text: "Quelle catégorie concerne l'analyse des points faibles ?", correct: "La riposte" }
     ];
 
     function afficherQuestion(index) {
         if (index >= questions.length) {
             feedbackQuestions.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur ${questions.length}`;
-            compteur.textContent = '';
             return;
         }
 
-        feedbackQuestions.textContent = '';
-        compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+        feedbackQuestions.textContent = `Question ${index + 1} sur ${questions.length}`;
 
         const questionContainer = document.querySelector('.questions-container');
         questionContainer.innerHTML = '';
@@ -183,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Affichage de la section Questions");
         questionsSection.style.display = 'block';
         nommerSection.style.display = 'none';
+        currentQuestionIndex = 0; // Réinitialiser l'index des questions
         afficherQuestion(currentQuestionIndex);
     });
 });
