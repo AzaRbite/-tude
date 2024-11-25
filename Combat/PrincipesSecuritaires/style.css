@@ -38,13 +38,18 @@ header {
 }
 
 main {
-    padding: 20px;
-    width: 80%;
+    width: 100%;
     max-width: 800px;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content {
+    margin-bottom: 20px;
 }
 
 .content button {
@@ -70,14 +75,15 @@ main {
 .nommer-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
 }
 
 .nommer-item {
     display: flex;
     align-items: center;
-    margin: 15px 0; /* Espace ajouté entre chaque section */
+    margin: 15px 0;
+    width: 100%;
 }
 
 .nommer-item span {
@@ -86,15 +92,16 @@ main {
 }
 
 textarea {
-    width: calc(100% - 20px); /* Augmenté légèrement */
-    height: 40px; /* Hauteur augmentée */
+    width: 100%;
+    max-width: 700px;
+    height: 40px;
     padding: 5px;
     border-radius: 5px;
     border: 2px dashed #ff4c4c;
     background-color: #292929;
     color: #ffffff;
     font-size: 1em;
-    text-align: left;
+    text-align: center;
 }
 
 .valider-button {
