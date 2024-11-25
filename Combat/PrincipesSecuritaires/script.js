@@ -140,4 +140,41 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.key === 'Enter') {
                 event.preventDefault();
                 if (index === 5) {  // Si c'est la dernière zone de texte, appuyez sur "Valider"
-                   
+                    validerNommer();
+                } else if (index + 1 < textareas.length) {
+                    textareas[index + 1].focus();
+                }
+            }
+        });
+
+        textareas.push(textarea);
+
+        nommerItem.appendChild(span);
+        nommerItem.appendChild(textarea);
+        nommerContainer.appendChild(nommerItem);
+    });
+
+    const validerButton = document.createElement('button');
+    validerButton.textContent = "Valider";
+    validerButton.className = "valider-button";
+    validerButton.onclick = validerNommer;
+    nommerSection.appendChild(validerButton);
+
+    const recommencerButton = document.createElement('button');
+    recommencerButton.textContent = "Recommencer";
+    recommencerButton.className = "recommencer-button";
+    recommencerButton.onclick = recommencerNommer;
+    nommerSection.appendChild(recommencerButton);
+
+    nommerButton.addEventListener('click', function () {
+        nommerSection.style.display = 'block';
+        questionsSection.style.display = 'none';
+        recommencerNommer(); // Réinitialisez lors de l'entrée dans la section
+    });
+
+    questionsButton.addEventListener('click', function () {
+        questionsSection.style.display = 'block';
+        nommerSection.style.display = 'none';
+        afficherQuestion(currentQuestionIndex);
+    });
+});
