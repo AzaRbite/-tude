@@ -27,17 +27,16 @@ document.addEventListener("DOMContentLoaded", function () {
         { text: "Selon les éléments de zone de proximité appartient à quelle catégorie ?", correct: "La vitesse de réaction" },
         { text: "Déplacement en évaluant les menaces appartient à quelle catégorie ?", correct: "L'esquive" },
         { text: "Doit être adaptée aux exigences de la situation appartient à quelle catégorie ?", correct: "La riposte" },
-        // Ajoutez suffisamment de questions pour atteindre 10 questions
     ];
 
     function afficherQuestion(index) {
         if (index >= questions.length) {
-            feedback.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur 10`;
+            feedback.textContent = `Quiz terminé ! Nombre d'erreurs : ${nombreDErreurs} sur ${questions.length}`;
             return;
         }
 
         feedback.textContent = '';
-        compteur.textContent = `Question ${index + 1} sur 10`;
+        compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
 
         const questionContainer = document.querySelector('.questions-container');
         questionContainer.innerHTML = '';
@@ -53,14 +52,14 @@ document.addEventListener("DOMContentLoaded", function () {
             const label = document.createElement('label');
             const radio = document.createElement('input');
             radio.type = 'radio';
-            radio.name = `question${index}`; // Assurez-vous que chaque question a un ensemble unique de boutons radio
+            radio.name = `question${index}`;
             radio.value = optionText;
 
             label.appendChild(radio);
             label.appendChild(document.createTextNode(optionText));
 
             label.addEventListener('click', () => {
-                if (!label.classList.contains('handled')) { // Vérifie si déjà cliqué
+                if (!label.classList.contains('handled')) {
                     if (radio.value === questions[index].correct) {
                         label.classList.add('correct');
                         feedback.textContent = "Bonne réponse !";
@@ -71,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
                     setTimeout(() => {
-                        label.classList.add('handled'); // Marque comme déjà cliqué
+                        label.classList.add('handled');
                         currentQuestionIndex++;
                         afficherQuestion(currentQuestionIndex);
                     }, 2000);
@@ -89,21 +88,27 @@ document.addEventListener("DOMContentLoaded", function () {
     function validerNommer() {
         const textareas = nommerSection.querySelectorAll('textarea');
         let correctCount = 0;
+        const userResponses = Array.from(textareas).map(textarea => textarea.value.trim().toLowerCase());
+        const correctSet = new Set(correctAnswers.map(answer => answer.toLowerCase()));
 
-        textareas.forEach((textarea, index) => {
-            const value = textarea.value.trim();
-            if (value.toLowerCase() === correctAnswers[index].toLowerCase()) {
-                textarea.style.borderColor = '#4caf50'; // Vert pour correct
+        userResponses.forEach(value => {
+            if (correctSet.has(value)) {
                 correctCount++;
-            } else {
-                textarea.style.borderColor = '#f44336'; // Rouge pour incorrect
             }
         });
 
-        feedback.textContent = `Vous avez correctement identifié ${correctCount} sur 6`;
+        textareas.forEach(textarea => {
+            const value = textarea.value.trim().toLowerCase();
+            if (correctSet.has(value)) {
+                textarea.style.borderColor = '#4caf50';
+            } else {
+                textarea.style.borderColor = '#f44336';
+            }
+        });
+
+        feedback.textContent = `Vous avez correctement identifié ${correctCount} sur ${correctAnswers.length}`;
     }
 
-    // Création des éléments dans la section nommer
     const nommerContainer = document.querySelector('.nommer-container');
     correctAnswers.forEach((_, index) => {
         const nommerItem = document.createElement('div');
