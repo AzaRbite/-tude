@@ -20,7 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
         "la riposte"
     ];
 
-    const strippedAnswers = correctAnswers.map(answer => answer.replace(/^la\s|^le\s/, ''));
+    const strippedAnswers = correctAnswers.map(answer => answer.replace(/^la\s|^le\s|^l'/, ''));
+    // Permet aussi l'acceptation de la réponse sans déterminant
+    strippedAnswers.push("esquive");
 
     const questions = [
         { text: "Placer les pieds à 45 degrés appartient à quelle catégorie ?", correct: "La position" },
@@ -95,10 +97,10 @@ document.addEventListener("DOMContentLoaded", function () {
         let errorsCount = 0;
 
         textareas.forEach((textarea, index) => {
-            const value = textarea.value.trim().toLowerCase().replace(/^la\s|^le\s/, '');
+            const value = textarea.value.trim().toLowerCase().replace(/^la\s|^le\s|^l'/, ''); // Elimine les déterminants
             if (correctSet.has(value)) {
                 textarea.style.borderColor = '#4caf50'; // Vert pour les bonnes réponses
-                correctSet.delete(value); // Assurez-vous qu'une réponse correcte n'est comptée qu'une seule fois
+                correctSet.delete(value);
                 correctCount++;
             } else {
                 textarea.style.borderColor = '#f44336'; // Rouge pour les mauvaises réponses
