@@ -71,8 +71,8 @@ main {
     display: flex;
     justify-content: center; /* Centre le contenu du label */
     align-items: center;
-    width: 100%;
-    max-width: 500px; /* Limite de largeur uniforme */
+    width: 80%; /* Ajuste la largeur des choix de réponse */
+    max-width: 400px; /* Limite de largeur uniforme */
     margin: 5px 0;
     padding: 10px;
     background-color: #444;
@@ -88,9 +88,20 @@ main {
     color: #ffffff;
 }
 
-.choice-container label input[type="radio"] {
-    margin-right: 10px;
-    flex-shrink: 0;
+.choice-container label.correct {
+    background-color: #4caf50; /* Vert pour bonne réponse */
+}
+
+.choice-container label.wrong {
+    background-color: #f44336; /* Rouge pour mauvaise réponse */
+}
+
+.choice-container label.highlight {
+    background-color: #ff9800; /* Orange pour illustrer la bonne réponse */
+}
+
+input[type="radio"] {
+    display: none; /* Cache complètement le bouton radio */
 }
 
 button {
