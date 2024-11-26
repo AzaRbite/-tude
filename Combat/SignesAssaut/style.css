@@ -15,6 +15,7 @@ header {
     text-align: center;
     width: 100%;
     position: relative;
+    color: #f0f0f0; /* Couleur du texte pour contraste sur le header */
 }
 
 .back-button {
