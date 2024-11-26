@@ -71,8 +71,7 @@ main {
     display: flex;
     justify-content: center; /* Centre le contenu du label */
     align-items: center;
-    width: 100%; /* Élargit la largeur des choix de réponse */
-    max-width: 500px; /* Limite de largeur uniforme */
+    width: 300px; /* Largeur prédéfinie pour uniformiser tous les choix */
     margin: 5px 0;
     padding: 15px; /* Augmentation du padding pour un bouton plus large */
     background-color: #444;
