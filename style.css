@@ -95,3 +95,24 @@ footer {
     padding: 10px;
     border-radius: 5px;
 }
+
+#calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#calendar-table th, #calendar-table td {
+    border: 1px solid #555;
+    padding: 10px;
+    text-align: center;
+}
+
+#calendar-table th {
+    background-color: #555;
+    color: #fff;
+}
+
+.exam-date {
+    background-color: #ed2c2c;
+    color: white;
+}
