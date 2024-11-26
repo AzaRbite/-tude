@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     svgObject.addEventListener("load", function () {
         const svgDoc = svgObject.contentDocument || svgObject.getSVGDocument();
+
         if (!svgDoc) {
             console.error("Impossible de charger le document SVG.");
             return;
@@ -10,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const compteur = document.getElementById("compteur");
         const container = document.getElementById("questionnaire");
+
         const pointsDePression = [
             { nom: "Infra-orbital", ids: ["Infra-orbital"], reponses: ["infra-orbital", "infra"] },
             { nom: "Plexus brachial (origine)", ids: ["PlexusBrachialorigine", "PlexusBrachialorigine2"], reponses: ["plexus brachial origine", "brachial origine"] },
@@ -71,6 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         function afficherQuestion(index) {
             nettoyerZoneDeSaisie();
             cacherTousLesPoints();
+
             if (index >= questions.length) {
                 terminerQuiz();
                 return;
@@ -78,7 +81,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const question = questions[index];
             console.log(`Affichage de la question ${index + 1}: ${question.texte}`);
+
             compteur.textContent = `Question ${index + 1} sur ${questions.length}`;
+
             container.innerHTML = ""; // Nettoyage du conteneur
 
             const questionDiv = document.createElement("div");
@@ -116,15 +121,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function ajouterZoneDeSaisieEtButton(question) {
             console.log("Ajout de la zone de saisie pour le type nommer.");
+
             const input = document.createElement("input");
             input.type = "text";
             input.placeholder = "Entrez le nom du point...";
+
             const validerButton = document.createElement("button");
             validerButton.textContent = "Valider";
+
             validerButton.onclick = () => {
                 const pointData = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
                 );
+
                 if (pointData.reponses.some(r => r.toLowerCase() === input.value.trim().toLowerCase())) {
                     donnerFeedback("Bonne réponse ! Passons à la question suivante.", "#4caf50");
                     question.ids.forEach((id) => manipulerPoint(id, true, true));
@@ -133,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         afficherQuestion(currentQuestionIndex);
                     }, 2000);
                 } else {
-                    donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                    donnerFeedback("Mauvaise réponse.", "#f44336");
                     nombreDErreurs++;
                 }
             };
@@ -144,9 +153,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 const pointData = pointsDePression.find((p) =>
                     question.ids.some((id) => p.ids.includes(id))
                 );
+
                 const reponseCorrecte = pointData.nom;
                 donnerFeedback(`Le point était : ${reponseCorrecte}. Passage à la question suivante.`, "#ff9800");
                 nombreDErreurs++;
+
                 setTimeout(() => {
                     currentQuestionIndex++;
                     afficherQuestion(currentQuestionIndex);
@@ -167,33 +178,30 @@ document.addEventListener("DOMContentLoaded", function () {
                 svgDoc.removeEventListener("click", detecterMauvaiseReponse);
                 donnerFeedback("Voici le point, passage à la question suivante.", "#ff9800");
                 nombreDErreurs++;
+
                 setTimeout(() => {
                     currentQuestionIndex++;
                     afficherQuestion(currentQuestionIndex);
                 }, 2000);
             };
-
             container.appendChild(buttonReponse);
         }
 
         function afficherOptionsDeChoix(question) {
             const ul = document.createElement("ul");
             ul.classList.add("choice-container");
+
             question.options.forEach((option) => {
                 const li = document.createElement("li");
                 const label = document.createElement("label");
-                const radio = document.createElement("input");
-                radio.type = "radio";
-                radio.name = `choix-${currentQuestionIndex}`; // Assurez-vous que chaque question a un nom unique pour éviter des conflits
-                radio.value = option;
-                label.appendChild(radio);
-                label.appendChild(document.createTextNode(option));
-                li.appendChild(label);
+                label.textContent = option;
+
                 label.onclick = () => {
                     if (!label.classList.contains("handled")) { // Vérifie si déjà cliqué
                         const pointCorrect = pointsDePression.find((p) =>
                             question.ids.some((id) => p.ids.includes(id))
                         ).nom;
+
                         if (option.toLowerCase() === pointCorrect.toLowerCase()) {
                             label.classList.add("correct");
                             donnerFeedback("Bonne réponse ! Passons à la question suivante.", "#4caf50");
@@ -204,12 +212,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             }, 2000);
                         } else {
                             label.classList.add("wrong");
-                            donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                            donnerFeedback("Mauvaise réponse.", "#f44336");
                             nombreDErreurs++;
                         }
                     }
                     label.classList.add("handled"); // Marque comme déjà cliqué
                 };
+
+                li.appendChild(label);
                 ul.appendChild(li);
             });
             container.appendChild(ul);
@@ -226,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     afficherQuestion(currentQuestionIndex);
                 }, 2000);
             } else {
-                donnerFeedback("Mauvaise réponse.", "#ff4c4c");
+                donnerFeedback("Mauvaise réponse.", "#f44336");
                 nombreDErreurs++;
             }
         }
@@ -235,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const target = event.target;
             const currentQuestion = questions[currentQuestionIndex];
             if (!currentQuestion.ids.includes(target.id) && target.closest('svg')) {
-                donnerFeedback("Mauvaise réponse !", "#ff4c4c");
+                donnerFeedback("Mauvaise réponse !", "#f44336");
                 nombreDErreurs++;
             }
         }
@@ -262,7 +272,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 genererQuestionsAleatoires(10);
                 afficherQuestion(currentQuestionIndex);
             };
-
             container.appendChild(restartButton);
         }
 
@@ -274,6 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let indexPoint;
                 let point;
                 let attempts = 0;
+
                 do {
                     indexPoint = Math.floor(Math.random() * pointsDePression.length);
                     point = pointsDePression[indexPoint];
