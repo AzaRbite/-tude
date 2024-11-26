@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }, 2000);
                         } else {
                             label.classList.add("wrong");
-                            donnerFeedback("Mauvaise réponse.", "#f44336");
+                            donnerFeedback("Mauvaise réponse. Essayez encore.", "#f44336");
                             nombreDErreurs++;
                         }
                     }
