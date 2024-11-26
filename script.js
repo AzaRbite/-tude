@@ -7,17 +7,17 @@ function generateCalendar() {
     const calendarTable = document.getElementById('calendar-table');
     const month = 'décembre';
     const examDates = {
-        5: 'Enquête',
-        11: 'Drogue en matinée et Combat en après-midi',
-        12: 'Activités Policières',
-        16: 'Personne en état de crise',
-        17: 'CSR',
-        18: 'Santé mentale'
+        5: { title: 'Enquête', time: '13h00', location: 'Local 301' },
+        11: { title: 'Drogue', time: '09h00', location: 'Gym' },
+        11.5: { title: 'Combat', time: '13h00', location: 'Gym' },
+        12: { title: 'Activités Policières', location: 'Gym' },
+        16: { title: 'Personne en état de crise', time: '13h00', location: 'Local 207' },
+        17: { title: 'CSR', time: '13h00', location: 'Gym' },
+        19: { title: 'Santé mentale', time: '13h00', location: 'Local 207' }
     };
 
-    const daysInMonth = 31; // Nombre de jours pour décembre
+    const daysInMonth = 31;
 
-    // Crée l'en-tête du calendrier
     const headerRow = document.createElement('tr');
     ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'].forEach(day => {
         const th = document.createElement('th');
@@ -27,21 +27,23 @@ function generateCalendar() {
     calendarTable.appendChild(headerRow);
 
     let currentDate = 1;
-    const firstDayOfMonth = new Date(2024, 11, 1).getDay(); // 1er décembre 2024
+    const firstDayOfMonth = new Date(2024, 11, 1).getDay();
 
-    // Remplissez le calendrier
-    for (let i = 0; i < 6; i++) { // Jusqu'à 6 semaines d'affichage
+    for (let i = 0; i < 6; i++) {
         const weekRow = document.createElement('tr');
         for (let j = 0; j < 7; j++) {
             const cell = document.createElement('td');
             if (i === 0 && j < firstDayOfMonth || currentDate > daysInMonth) {
-                // Ajouter des cellules vides pour remplir la première semaine et après le dernier jour du mois
                 weekRow.appendChild(cell);
             } else {
                 cell.textContent = currentDate;
-                if (examDates[currentDate]) {
+                if (examDates[currentDate] || examDates[currentDate + 0.5]) {
+                    const examInfo = examDates[currentDate] ? examDates[currentDate] : examDates[currentDate + 0.5];
                     cell.classList.add('exam-date');
-                    cell.title = examDates[currentDate]; // Ajoute un titre pour l'info-bulle
+                    const infoDiv = document.createElement('div');
+                    infoDiv.classList.add('exam-info');
+                    infoDiv.innerHTML = `<strong>Examen:</strong> ${examInfo.title}<br><strong>Heure:</strong> ${examInfo.time || ''}<br><strong>Lieu:</strong> ${examInfo.location}`;
+                    cell.appendChild(infoDiv);
                 }
                 weekRow.appendChild(cell);
                 currentDate++;
