@@ -45,6 +45,12 @@ main {
 
 .content {
     text-align: center;
+    width: 100%;
+    max-width: 800px;
+    background-color: #292929; /* Gris foncé pour la fenêtre des questions */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombre ajoutée */
+    border-radius: 10px;
+    padding: 20px;
 }
 
 .question p {
