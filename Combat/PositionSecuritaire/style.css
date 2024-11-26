@@ -51,6 +51,14 @@ main {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Ombre ajoutée */
     border-radius: 10px;
     padding: 20px;
+    position: relative;
+}
+
+.question-counter {
+    color: #ffffff;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px; /* Espace sous le compteur */
 }
 
 .question p {
@@ -114,16 +122,6 @@ button {
 
 button:hover {
     background-color: #a30000;
-}
-
-#question-counter {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: #ffffff;
-    font-size: 1.2em;
-    font-weight: bold;
-    transform: translateY(-50%);
 }
 
 footer {
