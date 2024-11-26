@@ -135,4 +135,5 @@ footer {
     top: 100%; /* Affiche directement sous la case */
     left: 50%;
     transform: translateX(-50%);
+    text-align: left; /* Aligne le texte à gauche */
 }
