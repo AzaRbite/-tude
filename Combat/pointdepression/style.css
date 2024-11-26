@@ -120,15 +120,17 @@ button:hover {
 }
 
 input[type="text"] {
-    width: calc(100% - 100px);
-    max-width: 300px;
-    margin: 10px auto;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ffffff;
-    background-color: #292929;
-    color: #f0f0f0;
-    text-align: center;
+    width: 80%;
+    padding: 8px;
+    margin: 5px auto;
+    font-size: 0.9em;
+    background-color: #1f1f1f; /* Fond foncé */
+    border: 2px dashed #ed2c2c; /* Bordure rouge rayée */
+    color: #ffffff; /* Texte blanc */
+    border-radius: 5px; /* Coins arrondis */
+    display: block;
+    position: relative;
+    text-align: left; /* Aligne le texte à gauche */
 }
 
 .navigation {
