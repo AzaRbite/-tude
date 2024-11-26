@@ -105,6 +105,7 @@ footer {
     border: 1px solid #555;
     padding: 10px;
     text-align: center;
+    position: relative; /* Pour positionner le contenu absolu */
 }
 
 #calendar-table th {
@@ -115,4 +116,23 @@ footer {
 .exam-date {
     background-color: #ed2c2c;
     color: white;
+    cursor: pointer;
+}
+
+.exam-date:hover .exam-info {
+    display: block;
+}
+
+.exam-info {
+    display: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 1;
+    top: 100%; /* Affiche directement sous la case */
+    left: 50%;
+    transform: translateX(-50%);
 }
