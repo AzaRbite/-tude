@@ -70,20 +70,21 @@ function showQuestion(index) {
 
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
+
     const questionData = questionOrder[index];
 
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
-    questionEl.innerHTML = `<p>${questionData.question}</p>`;
-    questionEl.innerHTML += `<div class="choice-container"></div>`;
-    const choiceContainer = questionEl.querySelector('.choice-container');
+    questionEl.innerHTML = `<p>${questionData.question}</p><div class="choice-container"></div>`;
 
+    const choiceContainer = questionEl.querySelector('.choice-container');
     const shuffledChoices = shuffleArray([...questionData.choices]);
 
     shuffledChoices.forEach(choice => {
         const choiceLabel = document.createElement('label');
-        choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
+        choiceLabel.textContent = choice;
         choiceLabel.onclick = () => checkAnswer(index, choice);
+
         choiceContainer.appendChild(choiceLabel);
     });
 
@@ -95,14 +96,18 @@ function showQuestion(index) {
 
 function checkAnswer(index, selectedValue) {
     if (isLocked) return;  // Empêcher les clics multiples
+
     isLocked = true;  // Verrouiller après la sélection
 
     const resultDiv = document.getElementById('results');
     const questionData = questionOrder[index];
     const isCorrect = selectedValue === questionData.correct;
 
+    const selectedLabel = Array.from(document.querySelectorAll('.choice-container label')).find(label => label.textContent === selectedValue);
+
     if (isCorrect) {
         correctAnswers++;
+        selectedLabel.classList.add("correct");
         resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
         setTimeout(() => {
             nextQuestion();
@@ -112,6 +117,7 @@ function checkAnswer(index, selectedValue) {
         if (!resultDiv.innerHTML.includes('Mauvaise réponse')) {
             incorrectAnswers++;  // Comptabiliser une seule erreur
         }
+        selectedLabel.classList.add("wrong");
         resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
         isLocked = false;  // Permettre une nouvelle tentative après une mauvaise réponse
     }
@@ -150,14 +156,7 @@ window.onload = () => {
     const header = document.querySelector('header');
     const counterDiv = document.createElement('div');
     counterDiv.id = 'question-counter';
-    counterDiv.style.position = 'absolute';
-    counterDiv.style.top = '70%';
-    counterDiv.style.transform = 'translateY(-50%)';
-    counterDiv.style.right = '20px';
-    counterDiv.style.color = '#ffffff';
-    counterDiv.style.fontSize = '1.2em';
-    counterDiv.style.fontWeight = 'bold';
     header.appendChild(counterDiv);
-    
+
     showQuestion(currentQuestionIndex);
 };
