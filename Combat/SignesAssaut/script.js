@@ -141,24 +141,11 @@ const questions = [
 
 // Variables pour suivre le questionnaire
 let currentQuestionIndex = 0;
-let correctAnswers = 0;
-let incorrectAnswers = 0;
 let questionOrder = shuffleArray(questions).slice(0, 10);
 let isWaiting = false;
 
 function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
-}
-
-function normalizeInput(input) {
-    return input
-        .toLowerCase()
-        .replace(/[éèêë]/g, 'e')
-        .replace(/[àâä]/g, 'a')
-        .replace(/[îï]/g, 'i')
-        .replace(/[ôö]/g, 'o')
-        .replace(/[ûü]/g, 'u')
-        .replace(/[^a-z0-9]/g, ''); // Supprime les caractères spéciaux
 }
 
 function showQuestion(index) {
@@ -177,23 +164,17 @@ function showQuestion(index) {
         shuffledChoices.forEach(choice => {
             const choiceLabel = document.createElement('label');
             choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
-            choiceLabel.addEventListener('click', () => checkAnswer(index, choice));
+            choiceLabel.addEventListener('click', () => checkAnswer(index, choiceLabel, choice));
             choiceContainer.appendChild(choiceLabel);
         });
     } else if (questionData.type === 'true_false') {
         ['Vrai', 'Faux'].forEach(option => {
             const choiceLabel = document.createElement('label');
             choiceLabel.innerHTML = `<input type="radio" name="question" value="${option}"> ${option}`;
-            choiceLabel.addEventListener('click', () => checkAnswer(index, option === 'Vrai'));
+            choiceLabel.addEventListener('click', () => checkAnswer(index, choiceLabel, option === 'Vrai'));
             choiceContainer.appendChild(choiceLabel);
         });
     }
-
-    const resultDiv = document.createElement('div');
-    resultDiv.id = 'result-container';
-    resultDiv.style.display = 'none';
-    resultDiv.style.marginTop = '20px';
-    choiceContainer.appendChild(resultDiv);
 
     quizDiv.appendChild(questionEl);
 
@@ -201,29 +182,38 @@ function showQuestion(index) {
     counterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
 }
 
-function checkAnswer(index, selectedValue) {
+function checkAnswer(index, choiceLabel, selectedValue) {
     if (isWaiting) return;
 
     const questionData = questionOrder[index];
-    const resultDiv = document.getElementById('result-container');
-    const isCorrect = selectedValue === questionData.answer;
+    const correctAnswer = questionData.answer;
 
-    if (isCorrect) {
-        correctAnswers++;
-        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse !</p>';
+    if (selectedValue === correctAnswer) {
+        choiceLabel.classList.add('correct');
     } else {
-        incorrectAnswers++;
-        resultDiv.innerHTML = `<p style="color: red;">Mauvaise réponse. La bonne réponse était : ${questionData.answer}</p>`;
+        choiceLabel.classList.add('wrong');
+        highlightCorrectAnswer(index, questionData.type);
     }
 
-    resultDiv.style.display = 'block';
     isWaiting = true;
-    setTimeout(() => nextQuestion(), isCorrect ? 2000 : 5000);
+    setTimeout(() => nextQuestion(), 3000);
+}
+
+function highlightCorrectAnswer(index, type) {
+    const questionData = questionOrder[index];
+    const correctAnswer = questionData.answer;
+    const labels = document.querySelectorAll('.choice-container label');
+
+    labels.forEach(label => {
+        const input = label.querySelector('input');
+        const value = type === 'true_false' ? input.value === 'Vrai' : input.value;
+        if (value === correctAnswer) {
+            label.classList.add('highlight');
+        }
+    });
 }
 
 function nextQuestion() {
-    const resultDiv = document.getElementById('result-container');
-    resultDiv.style.display = 'none';
     isWaiting = false;
 
     if (currentQuestionIndex < questionOrder.length - 1) {
@@ -236,18 +226,15 @@ function nextQuestion() {
 
 function endQuiz() {
     const quizDiv = document.getElementById('quiz-container');
-    const totalQuestions = questionOrder.length;
     quizDiv.innerHTML = `
         <h2>Quiz Terminé</h2>
-        <p>Vous avez fait ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
+        <p>Merci d'avoir participé au quiz.</p>
         <button onclick="restartQuiz()" class="validate-button">Recommencer</button>
     `;
 }
 
 function restartQuiz() {
     currentQuestionIndex = 0;
-    correctAnswers = 0;
-    incorrectAnswers = 0;
     questionOrder = shuffleArray(questions).slice(0, 10);
     showQuestion(currentQuestionIndex);
 }
