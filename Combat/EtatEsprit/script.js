@@ -111,9 +111,7 @@ function checkAnswer(index, selectedValue) {
             nextQuestion();
         }, 2000);
     } else {
-        if (!isLocked) {
-            incorrectAnswers++;  // Comptabiliser une seule erreur
-        }
+        incorrectAnswers++;  // Comptabiliser l'erreur ici
         selectedLabel.classList.add("wrong");
         
         // Met en évidence la bonne réponse avec la couleur orange
