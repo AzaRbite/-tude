@@ -43,23 +43,8 @@ const questions = [
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
-let questionOrder = generateRandomOrderByColor(questions);
+let questionOrder = shuffleArray(questions); // Mélange les questions aléatoirement
 let isLocked = false;  // Variable pour éviter les appels multiples
-
-function generateRandomOrderByColor(questions) {
-    const colors = ['Blanc', 'Jaune', 'Orange', 'Rouge', 'Noir'];
-    const selectedQuestions = [];
-
-    colors.forEach(color => {
-        const questionsByColor = questions.filter(q => q.question.includes(color));
-        if (questionsByColor.length > 0) {
-            const randomIndex = Math.floor(Math.random() * questionsByColor.length);
-            selectedQuestions.push(questionsByColor[randomIndex]);
-        }
-    });
-
-    return shuffleArray(selectedQuestions);
-}
 
 function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
@@ -78,7 +63,7 @@ function showQuestion(index) {
     questionEl.innerHTML = `<p>${questionData.question}</p><div class="choice-container"></div>`;
 
     const choiceContainer = questionEl.querySelector('.choice-container');
-    const shuffledChoices = shuffleArray([...questionData.choices]);
+    const shuffledChoices = shuffleArray([...questionData.choices]); // Mélange les choix de réponses
 
     shuffledChoices.forEach(choice => {
         const choiceLabel = document.createElement('label');
@@ -151,7 +136,7 @@ function restartQuiz() {
     currentQuestionIndex = 0;
     correctAnswers = 0;
     incorrectAnswers = 0;
-    questionOrder = generateRandomOrderByColor(questions);
+    questionOrder = shuffleArray(questions); // Réinitialiser l'ordre des questions aléatoirement
     showQuestion(currentQuestionIndex);
 }
 
