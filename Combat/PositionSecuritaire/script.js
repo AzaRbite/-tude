@@ -12,6 +12,7 @@ const questions = [
     { question: "Quelle est la différence principale entre les positions parlementaire et défensive concernant le poids ?", choices: ["Le poids repose sur les talons", "Le poids est réparti uniformément", "Le poids repose sur la plante des pieds", "Le poids repose sur un pied"], correct: "Le poids repose sur la plante des pieds" }
 ];
 
+// Variables pour suivre le questionnaire
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
@@ -33,10 +34,11 @@ function showQuestion(index) {
 
     const choiceContainer = questionEl.querySelector('.choice-container');
     const shuffledChoices = shuffleArray([...questionData.choices]);
+
     shuffledChoices.forEach(choice => {
         const choiceLabel = document.createElement('label');
         choiceLabel.innerHTML = `<input type="radio" name="question" value="${choice}"> ${choice}`;
-        choiceLabel.addEventListener('click', () => checkAnswer(index, choice));
+        choiceLabel.addEventListener('click', () => checkAnswer(index, choiceLabel, choice));
         choiceContainer.appendChild(choiceLabel);
     });
 
@@ -46,30 +48,41 @@ function showQuestion(index) {
     counterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
 }
 
-function checkAnswer(index, selectedValue) {
-    if (isWaiting) return;  // Empêcher l'avance multiple
+function checkAnswer(index, choiceLabel, selectedValue) {
+    if (isWaiting) return;
 
     const questionData = questionOrder[index];
-    const resultDiv = document.getElementById('results');
-    const isCorrect = selectedValue === questionData.correct;
+    const correctAnswer = questionData.correct;
 
-    if (isCorrect) {
+    if (selectedValue === correctAnswer) {
+        choiceLabel.classList.add('correct');
         correctAnswers++;
-        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
     } else {
+        choiceLabel.classList.add('wrong');
         incorrectAnswers++;
-        resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Passage à la question suivante...</p>';
+        highlightCorrectAnswer(index);
     }
 
-    isWaiting = true;  // Définir l'état d'attente
-    setTimeout(() => {
-        resultDiv.innerHTML = '';
-        nextQuestion();
-        isWaiting = false;  // Réinitialiser l'état d'attente après le délai
-    }, 2000);
+    isWaiting = true;
+    setTimeout(() => nextQuestion(), 3000);
+}
+
+function highlightCorrectAnswer(index) {
+    const questionData = questionOrder[index];
+    const correctAnswer = questionData.correct;
+    const labels = document.querySelectorAll('.choice-container label');
+
+    labels.forEach(label => {
+        const input = label.querySelector('input');
+        if (input.value === correctAnswer) {
+            label.classList.add('highlight');
+        }
+    });
 }
 
 function nextQuestion() {
+    isWaiting = false;
+
     if (currentQuestionIndex < questionOrder.length - 1) {
         currentQuestionIndex++;
         showQuestion(currentQuestionIndex);
@@ -83,7 +96,7 @@ function endQuiz() {
     const totalQuestions = questionOrder.length;
     quizDiv.innerHTML = `
         <h2>Quiz Terminé</h2>
-        <p>Vous avez ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
+        <p>Vous avez fait ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
         <button onclick="restartQuiz()">Recommencer</button>
         <button onclick="window.location.href='/Etude/Combat';">Retour à Combats</button>
     `;
