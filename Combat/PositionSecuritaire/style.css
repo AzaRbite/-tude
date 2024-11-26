@@ -11,6 +11,7 @@ header {
     padding: 20px;
     text-align: center;
     position: relative;
+    color: #f0f0f0; /* Couleur du texte pour contraste */
 }
 
 .back-button {
@@ -75,6 +76,18 @@ main {
 .choice-container label:hover {
     background-color: #555;
     color: #ffffff;
+}
+
+.choice-container label.correct {
+    background-color: #4caf50; /* Vert pour bonne réponse */
+}
+
+.choice-container label.wrong {
+    background-color: #f44336; /* Rouge pour mauvaise réponse */
+}
+
+.choice-container label.highlight {
+    background-color: #ff9800; /* Orange pour illustrer la bonne réponse */
 }
 
 input[type="radio"] {
