@@ -60,15 +60,17 @@ main {
 .choice-container label {
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
-    max-width: 500px; /* Limite la largeur si nécessaire */
+    max-width: 500px;
     margin: 5px 0;
     padding: 15px;
     background-color: #444;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-    box-sizing: border-box; /* Pour inclure le padding dans la largeur */
+    box-sizing: border-box;
+    text-align: center;
 }
 
 .choice-container label:hover {
@@ -76,8 +78,16 @@ main {
     color: #ffffff;
 }
 
-input[type="radio"] {
-    margin-right: 10px;
+.choice-container label.correct {
+    background-color: #4caf50; /* Vert pour bonne réponse */
+}
+
+.choice-container label.wrong {
+    background-color: #f44336; /* Rouge pour mauvaise réponse */
+}
+
+.choice-container label.highlight {
+    background-color: #ff9800; /* Orange pour illustrer la bonne réponse */
 }
 
 button {
@@ -104,10 +114,10 @@ button:hover {
 
 #question-counter {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 50%; /* Centre verticalement le compteur */
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: #ffffff;
     font-size: 1.2em;
     font-weight: bold;
-    transform: translateY(-50%);
 }
