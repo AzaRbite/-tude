@@ -113,11 +113,9 @@ button:hover {
 }
 
 #question-counter {
-    position: absolute;
-    top: 50%; /* Centre verticalement le compteur */
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin-top: 10px; /* Ajoute un espacement au-dessus du compteur */
     color: #ffffff;
     font-size: 1.2em;
     font-weight: bold;
+    text-align: center;
 }
