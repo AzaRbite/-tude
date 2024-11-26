@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #393939;
+    background-color: #292929; /* Même couleur que le heading */
     color: #f0f0f0;
     display: flex;
     flex-direction: column;
@@ -25,7 +25,7 @@ header {
     background-color: #ed2c2c;
     color: #ffffff;
     padding: 15px 30px;
-    font-size: 1.2em; /* Agrandi la taille du texte */
+    font-size: 1.2em;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -38,22 +38,17 @@ header {
 
 main {
     padding: 20px;
-    width: 80%;
+    max-width: 800px;
     margin: 20px auto;
     background-color: #292929;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     text-align: center;
+    width: 80%;
 }
 
 .content {
-    background-color: #292929;
-    padding: 40px;
-    max-width: 800px;
-    width: 90%;
     margin: 20px auto;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
     text-align: center;
 }
 
@@ -71,9 +66,14 @@ button,
     border: none;
 }
 
-button:hover,
-.validate-button:hover {
-    background-color: #a30000;
+button.correct,
+.validate-button.correct {
+    background-color: #4caf50; /* Vert pour bonne réponse */
+}
+
+button.wrong,
+.validate-button.wrong {
+    background-color: #f44336; /* Rouge pour mauvaise réponse */
 }
 
 .choice-container {
@@ -87,13 +87,13 @@ button:hover,
     display: block;
     margin: 10px 0;
     padding: 10px;
-    width: 80%; /* Réduction de la largeur par défaut */
-    max-width: 400px; /* Limite de la largeur */
+    width: 80%;
+    max-width: 400px;
     background-color: #444;
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
-    text-align: left; /* Alignement à gauche */
+    text-align: left;
     box-sizing: border-box;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -103,15 +103,15 @@ button:hover,
 }
 
 .choice-container label.correct {
-    background-color: #4caf50;
+    background-color: #4caf50; /* Vert pour bonne réponse */
 }
 
 .choice-container label.wrong {
-    background-color: #f44336;
+    background-color: #f44336; /* Rouge pour mauvaise réponse */
 }
 
 .choice-container label.highlight {
-    background-color: #ff9800;
+    background-color: #ff9800; /* Orange pour illustrer la bonne réponse */
 }
 
 footer {
