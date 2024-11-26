@@ -99,7 +99,6 @@ function checkAnswer(index, selectedValue) {
 
     isLocked = true;  // Verrouiller après la sélection
 
-    const resultDiv = document.getElementById('results');
     const questionData = questionOrder[index];
     const isCorrect = selectedValue === questionData.correct;
 
@@ -108,18 +107,25 @@ function checkAnswer(index, selectedValue) {
     if (isCorrect) {
         correctAnswers++;
         selectedLabel.classList.add("correct");
-        resultDiv.innerHTML = '<p style="color: green;">Bonne réponse! Passage à la question suivante...</p>';
         setTimeout(() => {
             nextQuestion();
-            document.getElementById('results').innerHTML = '';
         }, 2000);
     } else {
-        if (!resultDiv.innerHTML.includes('Mauvaise réponse')) {
+        if (!isLocked) {
             incorrectAnswers++;  // Comptabiliser une seule erreur
         }
         selectedLabel.classList.add("wrong");
-        resultDiv.innerHTML = '<p style="color: red;">Mauvaise réponse. Veuillez réessayer.</p>';
-        isLocked = false;  // Permettre une nouvelle tentative après une mauvaise réponse
+        
+        // Met en évidence la bonne réponse avec la couleur orange
+        Array.from(document.querySelectorAll('.choice-container label')).forEach(label => {
+            if (label.textContent === questionData.correct) {
+                label.classList.add("highlight");
+            }
+        });
+
+        setTimeout(() => {
+            nextQuestion();
+        }, 2000);
     }
 }
 
@@ -141,7 +147,6 @@ function endQuiz() {
         <button onclick="restartQuiz()">Recommencer</button>
         <button onclick="window.location.href='../index.html'">Retour à Combats</button>
     `;
-    document.getElementById('results').innerHTML = ''; 
 }
 
 function restartQuiz() {
@@ -156,7 +161,8 @@ window.onload = () => {
     const header = document.querySelector('header');
     const counterDiv = document.createElement('div');
     counterDiv.id = 'question-counter';
-    header.appendChild(counterDiv);
+    counterDiv.style.marginTop = '10px';  // Assurez-vous que le compteur est juste sous le header
+    header.after(counterDiv); // Place le compteur après le header
 
     showQuestion(currentQuestionIndex);
 };
