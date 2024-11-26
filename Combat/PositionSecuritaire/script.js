@@ -27,6 +27,10 @@ function showQuestion(index) {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
 
+    const questionCounterDiv = document.createElement('div');
+    questionCounterDiv.className = 'question-counter';
+    questionCounterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
+
     const questionData = questionOrder[index];
     const questionEl = document.createElement('div');
     questionEl.className = 'question';
@@ -42,10 +46,8 @@ function showQuestion(index) {
         choiceContainer.appendChild(choiceLabel);
     });
 
+    quizDiv.appendChild(questionCounterDiv); // Ajoute le compteur de questions
     quizDiv.appendChild(questionEl);
-
-    const counterDiv = document.getElementById('question-counter');
-    counterDiv.textContent = `Question ${index + 1}/${questionOrder.length}`;
 }
 
 function checkAnswer(index, choiceLabel, selectedValue) {
@@ -111,17 +113,5 @@ function restartQuiz() {
 }
 
 window.onload = () => {
-    const header = document.querySelector('header');
-    const counterDiv = document.createElement('div');
-    counterDiv.id = 'question-counter';
-    counterDiv.style.position = 'absolute';
-    counterDiv.style.top = '70%';
-    counterDiv.style.transform = 'translateY(-50%)';
-    counterDiv.style.right = '20px';
-    counterDiv.style.color = '#ffffff';
-    counterDiv.style.fontSize = '1.2em';
-    counterDiv.style.fontWeight = 'bold';
-    header.appendChild(counterDiv);
-
     showQuestion(currentQuestionIndex);
 };
