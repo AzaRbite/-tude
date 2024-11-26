@@ -7,13 +7,15 @@ function generateCalendar() {
     const calendarTable = document.getElementById('calendar-table');
     const month = 'décembre';
     const examDates = {
-        5: { title: 'Enquête', time: '13h00', location: 'Local 301' },
-        11: { title: 'Drogue', time: '09h00', location: 'Gym' },
-        11.5: { title: 'Combat', time: '13h00', location: 'Gym' },
-        12: { title: 'Activités Policières', location: 'Gym' },
-        16: { title: 'Personne en état de crise', time: '13h00', location: 'Local 207' },
-        17: { title: 'CSR', time: '13h00', location: 'Gym' },
-        19: { title: 'Santé mentale', time: '13h00', location: 'Local 207' }
+        5: [{ title: 'Enquête', time: '13h00', location: 'Local 301' }],
+        11: [
+            { title: 'Drogue', time: '09h00', location: 'Gym' },
+            { title: 'Combat', time: '13h00', location: 'Gym' }
+        ],
+        12: [{ title: 'Activités Policières', location: 'Gym' }],
+        16: [{ title: 'Personne en état de crise', time: '13h00', location: 'Local 207' }],
+        17: [{ title: 'CSR', time: '13h00', location: 'Gym' }],
+        19: [{ title: 'Santé mentale', time: '13h00', location: 'Local 207' }]
     };
 
     const daysInMonth = 31;
@@ -37,12 +39,16 @@ function generateCalendar() {
                 weekRow.appendChild(cell);
             } else {
                 cell.textContent = currentDate;
-                if (examDates[currentDate] || examDates[currentDate + 0.5]) {
-                    const examInfo = examDates[currentDate] ? examDates[currentDate] : examDates[currentDate + 0.5];
+                if (examDates[currentDate]) {
                     cell.classList.add('exam-date');
+
+                    // Crée l'info-bulle pour chaque date d'examen
                     const infoDiv = document.createElement('div');
                     infoDiv.classList.add('exam-info');
-                    infoDiv.innerHTML = `<strong>Examen:</strong> ${examInfo.title}<br><strong>Heure:</strong> ${examInfo.time || ''}<br><strong>Lieu:</strong> ${examInfo.location}`;
+                    examDates[currentDate].forEach(exam => {
+                        const examDetails = `<strong>Examen:</strong> ${exam.title}<br><strong>Heure:</strong> ${exam.time || ''}<br><strong>Lieu:</strong> ${exam.location}<br><br>`;
+                        infoDiv.innerHTML += examDetails;
+                    });
                     cell.appendChild(infoDiv);
                 }
                 weekRow.appendChild(cell);
