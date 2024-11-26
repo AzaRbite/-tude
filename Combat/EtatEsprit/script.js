@@ -43,15 +43,24 @@ const questions = [
 let currentQuestionIndex = 0;
 let correctAnswers = 0;
 let incorrectAnswers = 0;
-let questionOrder = shuffleArray(questions); // Mélange les questions aléatoirement
-let isLocked = false;  // Variable pour éviter les appels multiples
+let questionOrder = getRandomQuestions(questions, 5); // Génère un ensemble de 5 questions aléatoires
+let isLocked = false;
+
+function getRandomQuestions(questionPool, num) {
+    if (questionPool.length < num) {
+        console.error("Pas assez de questions dans la banque pour générer le quiz.");
+        return [];
+    }
+    const shuffled = shuffleArray([...questionPool]); // Créer une copie mélangée du tableau des questions
+    return shuffled.slice(0, num); // Prendre les 5 premières questions après mélange
+}
 
 function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
 function showQuestion(index) {
-    isLocked = false;  // Réinitialiser le verrouillage
+    isLocked = false;
 
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
@@ -63,7 +72,7 @@ function showQuestion(index) {
     questionEl.innerHTML = `<p>${questionData.question}</p><div class="choice-container"></div>`;
 
     const choiceContainer = questionEl.querySelector('.choice-container');
-    const shuffledChoices = shuffleArray([...questionData.choices]); // Mélange les choix de réponses
+    const shuffledChoices = shuffleArray([...questionData.choices]);
 
     shuffledChoices.forEach(choice => {
         const choiceLabel = document.createElement('label');
@@ -80,9 +89,9 @@ function showQuestion(index) {
 }
 
 function checkAnswer(index, selectedValue) {
-    if (isLocked) return;  // Empêcher les clics multiples
+    if (isLocked) return;
 
-    isLocked = true;  // Verrouiller après la sélection
+    isLocked = true;
 
     const questionData = questionOrder[index];
     const isCorrect = selectedValue === questionData.correct;
@@ -96,7 +105,7 @@ function checkAnswer(index, selectedValue) {
             nextQuestion();
         }, 2000);
     } else {
-        incorrectAnswers++;  // Comptabiliser l'erreur ici
+        incorrectAnswers++;
         selectedLabel.classList.add("wrong");
         
         // Met en évidence la bonne réponse avec la couleur orange
@@ -136,7 +145,7 @@ function restartQuiz() {
     currentQuestionIndex = 0;
     correctAnswers = 0;
     incorrectAnswers = 0;
-    questionOrder = shuffleArray(questions); // Réinitialiser l'ordre des questions aléatoirement
+    questionOrder = getRandomQuestions(questions, 5); // Génère un nouvel ensemble de 5 questions
     showQuestion(currentQuestionIndex);
 }
 
@@ -144,8 +153,8 @@ window.onload = () => {
     const header = document.querySelector('header');
     const counterDiv = document.createElement('div');
     counterDiv.id = 'question-counter';
-    counterDiv.style.marginTop = '10px';  // Assurez-vous que le compteur est juste sous le header
-    header.after(counterDiv); // Place le compteur après le header
+    counterDiv.style.marginTop = '10px';
+    header.after(counterDiv);
 
     showQuestion(currentQuestionIndex);
 };
