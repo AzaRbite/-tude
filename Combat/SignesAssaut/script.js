@@ -141,6 +141,8 @@ const questions = [
 
 // Variables pour suivre le questionnaire
 let currentQuestionIndex = 0;
+let correctAnswers = 0;
+let incorrectAnswers = 0;
 let questionOrder = shuffleArray(questions).slice(0, 10);
 let isWaiting = false;
 
@@ -190,8 +192,10 @@ function checkAnswer(index, choiceLabel, selectedValue) {
 
     if (selectedValue === correctAnswer) {
         choiceLabel.classList.add('correct');
+        correctAnswers++;
     } else {
         choiceLabel.classList.add('wrong');
+        incorrectAnswers++;
         highlightCorrectAnswer(index, questionData.type);
     }
 
@@ -226,15 +230,18 @@ function nextQuestion() {
 
 function endQuiz() {
     const quizDiv = document.getElementById('quiz-container');
+    const totalQuestions = questionOrder.length;
     quizDiv.innerHTML = `
         <h2>Quiz Terminé</h2>
-        <p>Merci d'avoir participé au quiz.</p>
+        <p>Vous avez fait ${incorrectAnswers} erreurs sur ${totalQuestions} questions.</p>
         <button onclick="restartQuiz()" class="validate-button">Recommencer</button>
     `;
 }
 
 function restartQuiz() {
     currentQuestionIndex = 0;
+    correctAnswers = 0;
+    incorrectAnswers = 0;
     questionOrder = shuffleArray(questions).slice(0, 10);
     showQuestion(currentQuestionIndex);
 }
